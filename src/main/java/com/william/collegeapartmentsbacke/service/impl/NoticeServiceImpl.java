@@ -15,7 +15,7 @@ public class NoticeServiceImpl implements NoticeService {
     @Autowired
     private NoticeMapper noticeMapper;
     @Override
-    public List<Notice> list() {
-        return null;
+    public List<Notice> list(Boolean isActive) {
+        return noticeMapper.list(isActive);
     }
 }

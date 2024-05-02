@@ -13,6 +13,7 @@ public class Notice {
     private Integer id;
     private String title;
     private String content;
-    private String type;
-    private LocalDateTime creatTime;
+    private String type_name;
+    private LocalDateTime publish_time;
+    private Boolean is_active;
 }
