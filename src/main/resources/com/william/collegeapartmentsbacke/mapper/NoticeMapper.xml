@@ -3,30 +3,44 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.william.collegeapartmentsbacke.mapper.NoticeMapper">
-    <!--    批量删除员工 (1, 2, 3)-->
-<!--    <delete id="delete">-->
-<!--        delete-->
-<!--        from emp-->
-<!--        where id in-->
-<!--        <foreach collection="ids" item="id" separator="," open="("  close=")">-->
-<!--            #{id}-->
-<!--        </foreach>-->
-<!--    </delete>-->
+
+
+    <!--查询所有通知-->
     <select id="list" resultType="com.william.collegeapartmentsbacke.pojo.Notice">
         select a.id,
                a.title,
                a.content,
-               at.type_name,
                a.publish_time,
                a.is_active
         from
             Notification.announcements a
-        join
-            Notification.announcement_types at ON a.type_id = at.id
         <where>
-
                 a.is_active = #{isActive}
         </where>
         order by a.publish_time desc
     </select>
+
+
+    <insert id="insertNotice">
+        insert into Notification.announcements (id, title, content, type_name, publish_time, is_active)
+                                        values (#{id},#{title},#{content},#{type_name},#{publish_time},#{is_active})
+    </insert>
+
+
+
+<!--    &lt;!&ndash;    type表相关操作&ndash;&gt;-->
+<!--    <select id="findTyoeId" resultType="java.lang.Integer">-->
+<!--        select id-->
+<!--        from Notification.announcement_types-->
+<!--        where type_name = #{type_name}-->
+<!--    </select>-->
+<!--    <select id="getAllTyoeName" resultType="java.lang.String">-->
+<!--        select type_name-->
+<!--        from Notification.announcement_types-->
+<!--    </select>-->
+<!--    <insert id="insertType">-->
+<!--        insert into Notification.announcement_types (type_name)-->
+<!--        values (#{typename})-->
+<!--    </insert>-->
+
 </mapper>

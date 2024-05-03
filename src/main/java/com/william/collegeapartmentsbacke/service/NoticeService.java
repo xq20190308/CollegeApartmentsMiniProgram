@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface NoticeService {
     List<Notice> list(Boolean isActive);
+
+    void addNotice(Notice notice);
 }

@@ -7,6 +7,7 @@ import com.william.collegeapartmentsbacke.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -18,4 +19,15 @@ public class NoticeServiceImpl implements NoticeService {
     public List<Notice> list(Boolean isActive) {
         return noticeMapper.list(isActive);
     }
+
+    @Override
+    public void addNotice(Notice notice) {
+        notice.setPublish_time(LocalDateTime.now());
+        notice.setIs_active(true);
+
+        //检查是否有重复title
+
+        noticeMapper.insertNotice(notice);
+    }
+
 }
