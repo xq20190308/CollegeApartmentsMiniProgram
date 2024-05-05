@@ -7,17 +7,41 @@
 
     <!--查询所有通知-->
     <select id="list" resultType="com.william.collegeapartmentsbacke.pojo.Notice">
-        select a.id,
-               a.title,
-               a.content,
-               a.publish_time,
-               a.is_active
+        select id,
+               title,
+               content,
+               type_name,
+               publish_time,
+               is_active
         from
-            Notification.announcements a
+            Notification.announcements
         <where>
-                a.is_active = #{isActive}
+            <if test="title != null and title != ''">
+                title like concat('%',#{title},'%')
+            </if>
+            <if test="content != null and content != ''">
+                and content like concat('%',#{content},'%')
+            </if>
+            <if test="type_name != null and type_name != ''">
+                and type_name like concat('%',#{type_name},'%')
+            </if>
+            <if test="publish_time_st != null">
+                and publish_time between #{publish_time_st} and #{publish_time_ed}
+            </if>
+            <if test="publish_time_st == null">
+                and publish_time &lt;= #{publish_time_ed}
+            </if>
+            <if test="is_active != null  and is_active != ''">
+                and is_active = #{is_active}
+            </if>
         </where>
-        order by a.publish_time desc
+        order by publish_time desc
+    </select>
+    <select id="search" resultType="com.william.collegeapartmentsbacke.pojo.Notice">
+        select title,
+               content
+        from Notification.announcements
+        where title = #{title} or content = #{content}
     </select>
 
 
@@ -26,6 +50,21 @@
                                         values (#{id},#{title},#{content},#{type_name},#{publish_time},#{is_active})
     </insert>
 
+    <update id="disActiveNotice">
+            update Notification.announcements
+            set is_active = 0
+            where id = #{id};
+    </update>
+
+
+    <delete id="deleteNotice">
+        delete
+        from Notification.announcements
+        where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 
 <!--    &lt;!&ndash;    type表相关操作&ndash;&gt;-->
