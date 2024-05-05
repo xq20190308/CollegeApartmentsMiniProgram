@@ -1,9 +1,7 @@
-package com.example.demo.entity;
+package com.william.collegeapartmentsbacke.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor

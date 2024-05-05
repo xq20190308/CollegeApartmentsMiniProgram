@@ -1,14 +1,15 @@
-package com.example.demo.mapper;
+package com.william.collegeapartmentsbacke.mapper;
 
-import com.example.demo.entity.Suggestion;
+import com.william.collegeapartmentsbacke.pojo.Suggestion;
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
+@Mapper
 public interface SuggestionMapper {
    @Select("select * from Suggesitions.Advise")
    List<Suggestion> findall();

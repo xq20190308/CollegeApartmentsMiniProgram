@@ -1,7 +1,7 @@
-package com.example.demo.controller;
+package com.william.collegeapartmentsbacke.controller;
 
-import com.example.demo.entity.Suggestion;
-import com.example.demo.mapper.SuggestionMapper;
+import com.william.collegeapartmentsbacke.pojo.Suggestion;
+import com.william.collegeapartmentsbacke.mapper.SuggestionMapper;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
