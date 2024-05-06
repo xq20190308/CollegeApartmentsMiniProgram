@@ -17,10 +17,14 @@ public interface SuggestionMapper {
 
    @Update("insert into Suggesitions.Advise (id,describes,category,pushtime,contactobject) values(#{id},#{describes},#{category},#{pushtime},#{contactobject});")
    @Transactional
-   void save(Suggestion suggestion);
+   void submit(Suggestion suggestion);
+
+   @Update("insert into Suggesitions.AdviseDraft (id,describes,category,pushtime,contactobject) values(#{id},#{describes},#{category},#{pushtime},#{contactobject});")
+   @Transactional
+   void savedaft(Suggestion suggestion);
 
 
-   @Delete("delete from Suggesitions.Advise where id=#{id}")
+   @Delete("delete from Suggesitions.AdviseDraft where id=#{id}")
    void delete(long id);
 
    

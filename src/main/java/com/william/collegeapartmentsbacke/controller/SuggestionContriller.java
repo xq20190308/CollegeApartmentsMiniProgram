@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class TestContriller {
+public class SuggestionContriller {
     @Resource
     SuggestionMapper suggestionMapper;
     @GetMapping("/suggestions")
@@ -18,7 +18,7 @@ public class TestContriller {
     }
     @PostMapping("/suggestions")
     public String addSuggestion(@RequestBody Suggestion suggestion) {
-        suggestionMapper.save(suggestion);
+        suggestionMapper.submit(suggestion);
         return "success";
     }
 
