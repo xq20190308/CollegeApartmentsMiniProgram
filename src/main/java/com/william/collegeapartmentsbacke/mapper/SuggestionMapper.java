@@ -11,7 +11,7 @@ import java.util.List;
 
 @Mapper
 public interface SuggestionMapper {
-   @Select("select * from Suggesitions.Advise")
+   @Select("select * from Suggesitions.AdviseDraft")
    List<Suggestion> findall();
 
 
