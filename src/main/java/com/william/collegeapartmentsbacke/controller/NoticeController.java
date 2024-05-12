@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Slf4j
@@ -46,11 +47,10 @@ public class NoticeController {
             return Result.error("已存在相同标题或相同内容的通知");
     }
 
-    @DeleteMapping("/{ids}")
-    public Result disactive(@PathVariable List<Integer> ids)
-    {
-        log.info("通知无效操作, ids:{}",ids);
-        noticeService.disActicNotice(ids);
+    @PostMapping("/modify")
+    public Result modifyNotice(Notice notice){
+        log.info("更新数据 Notice:{}",notice.toString());
+        noticeService.modifyNotice(notice);
         return Result.success();
     }
 
@@ -61,6 +61,4 @@ public class NoticeController {
         noticeService.deleteNotice(ids);
         return Result.success();
     }
-
-
 }

@@ -47,12 +47,13 @@ public class NoticeServiceImpl implements NoticeService {
 
 
     }
+
     @Override
-    public void disActicNotice(List<Integer> ids) {
-        for(Integer id : ids){
-            noticeMapper.disActiveNotice(id);
-        }
+    public void modifyNotice(Notice notice) {
+        notice.setPublish_time(LocalDateTime.now());
+        noticeMapper.updateNotice(notice);
     }
+
     @Override
     public void deleteNotice(List<Integer> ids) {
         noticeMapper.deleteNotice(ids);

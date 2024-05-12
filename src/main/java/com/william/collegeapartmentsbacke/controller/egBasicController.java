@@ -56,7 +56,7 @@ public class egBasicController {
     // http://127.0.0.1:8080/html
     @RequestMapping("/html")
     public String html() {
-        return "index.html";
+        return "ndex.html";
     }
 
     @ModelAttribute

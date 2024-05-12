@@ -50,12 +50,29 @@
                                         values (#{id},#{title},#{content},#{type_name},#{publish_time},#{is_active})
     </insert>
 
-    <update id="disActiveNotice">
-            update Notification.announcements
-            set is_active = 0
-            where id = #{id};
-    </update>
 
+    <update id="updateNotice">
+        update Notification.announcements
+        <set>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="type_name != null and type_name != ''">
+                type_name = #{type_name},
+            </if>
+            <if test="publish_time != null">
+                publish_time = #{publish_time},
+            </if>
+            <if test="is_active != null">
+                is_active = #{is_active}
+            </if>
+        </set>
+        where id = #{id}
+
+    </update>
 
     <delete id="deleteNotice">
         delete

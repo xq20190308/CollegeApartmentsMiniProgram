@@ -13,5 +13,5 @@ public interface NoticeService {
 
     void deleteNotice(List<Integer> ids);
 
-    void disActicNotice(List<Integer> ids);
+    void modifyNotice(Notice notice);
 }

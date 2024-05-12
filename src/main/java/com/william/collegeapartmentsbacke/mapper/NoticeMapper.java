@@ -25,9 +25,9 @@ public interface NoticeMapper {
     List<Notice> search(@Param("title") String title,
                       @Param("content") String content);
 
-    void disActiveNotice(@Param("id")Integer id);
-
     void deleteNotice(@Param("ids") List<Integer> ids);
+
+    void updateNotice(Notice notice);
 
 //    //根据typename查询这类通知的id
 //    int findTyoeId(String type_name);
