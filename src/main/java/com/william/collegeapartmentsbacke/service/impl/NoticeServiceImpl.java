@@ -7,7 +7,6 @@ import com.william.collegeapartmentsbacke.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class NoticeServiceImpl implements NoticeService {
         //检查是否有重复title
 
         List<Notice> existNotices = noticeMapper.search(notice.getTitle(),notice.getContent());
-        Boolean alreadyExist = (existNotices != null && !existNotices.isEmpty());
+        boolean alreadyExist = (existNotices != null && !existNotices.isEmpty());
         if(alreadyExist)
         {
             return false;
@@ -53,6 +52,7 @@ public class NoticeServiceImpl implements NoticeService {
             noticeMapper.disActiveNotice(id);
         }
     }
+
     @Override
     public void deleteNotice(List<Integer> ids) {
         noticeMapper.deleteNotice(ids);

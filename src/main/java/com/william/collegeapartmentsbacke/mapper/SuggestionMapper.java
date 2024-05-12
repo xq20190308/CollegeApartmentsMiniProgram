@@ -27,5 +27,6 @@ public interface SuggestionMapper {
    @Delete("delete from Suggesitions.AdviseDraft where id=#{id}")
    void delete(long id);
 
-   
+   @Select("select count(*) from Suggesitions.AdviseDraft")
+   int Count();
 }
