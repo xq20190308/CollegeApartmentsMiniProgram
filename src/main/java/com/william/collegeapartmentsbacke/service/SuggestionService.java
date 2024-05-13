@@ -10,6 +10,9 @@ public interface SuggestionService {
 
     void SubmitSuggestion(Suggestion suggestion);
 
+    //查询草稿
+    List<Suggestion> SelectDraftfindall();
+
     List<Suggestion> Selectfindall();
 
     void Savedaft(Suggestion suggestion);

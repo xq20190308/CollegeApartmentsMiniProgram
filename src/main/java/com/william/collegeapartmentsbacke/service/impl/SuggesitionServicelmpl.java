@@ -17,27 +17,35 @@ public class SuggesitionServicelmpl implements SuggestionService {
     @Autowired
     private SuggestionMapper suggestionmapper;
 
-
+    //提交投诉
     @Override
     public void SubmitSuggestion(Suggestion suggestion) {
         suggestionmapper.submit(suggestion);
     }
 
-
+    //查询草稿
     @Override
-    public List<Suggestion> Selectfindall()
+    public List<Suggestion> SelectDraftfindall()
+    {
+        return suggestionmapper.Draftfindall();
+    }
+
+   //查询用户投诉
+    @Override
+    public
+    List<Suggestion> Selectfindall()
     {
         return suggestionmapper.findall();
     }
 
-
+    //保存草稿
     @Override
     public void Savedaft(Suggestion suggestion)
     {
         suggestionmapper.savedaft(suggestion);
     }
 
-
+    //删除草稿
     @Override
     public boolean deleteSuggestion(long id)
     {
@@ -51,6 +59,7 @@ public class SuggesitionServicelmpl implements SuggestionService {
         }
     }
 
+    //上传文件
     @Override
     public String uploadFile(@RequestParam("file") MultipartFile file)
     {
