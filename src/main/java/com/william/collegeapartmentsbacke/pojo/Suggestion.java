@@ -11,6 +11,6 @@ public class Suggestion {
              private Integer id;
              private String describes;
              private String category;
-             private LocalDateTime pushtime ;
              private String contactobject;
+             private LocalDateTime pushtime ;
 }

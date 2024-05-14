@@ -12,8 +12,10 @@ import java.util.List;
 @Mapper
 public interface SuggestionMapper {
    @Select("select * from Suggesitions.AdviseDraft")
-   List<Suggestion> findall();
+   List<Suggestion> Draftfindall();
 
+   @Select("select * from Suggesitions.Advise")
+   List<Suggestion> findall();
 
    @Update("insert into Suggesitions.Advise (id,describes,category,pushtime,contactobject) values(#{id},#{describes},#{category},#{pushtime},#{contactobject});")
    @Transactional
@@ -23,9 +25,9 @@ public interface SuggestionMapper {
    @Transactional
    void savedaft(Suggestion suggestion);
 
-
    @Delete("delete from Suggesitions.AdviseDraft where id=#{id}")
    void delete(long id);
 
-   
+   @Select("select count(*) from Suggesitions.AdviseDraft")
+   int Count();
 }
