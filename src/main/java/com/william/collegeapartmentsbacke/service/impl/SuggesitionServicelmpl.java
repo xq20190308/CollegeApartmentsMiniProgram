@@ -5,6 +5,7 @@ import com.william.collegeapartmentsbacke.pojo.Suggestion;
 import com.william.collegeapartmentsbacke.service.SuggestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +20,7 @@ public class SuggesitionServicelmpl implements SuggestionService {
 
     //提交投诉
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void SubmitSuggestion(Suggestion suggestion) {
         suggestionmapper.submit(suggestion);
     }
@@ -32,21 +34,23 @@ public class SuggesitionServicelmpl implements SuggestionService {
 
    //查询用户投诉
     @Override
-    public
-    List<Suggestion> Selectfindall()
+    public List<Suggestion> Selectfindall()
     {
         return suggestionmapper.findall();
     }
 
     //保存草稿
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void Savedaft(Suggestion suggestion)
     {
         suggestionmapper.savedaft(suggestion);
     }
 
+
     //删除草稿
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean deleteSuggestion(long id)
     {
         if(suggestionmapper.Count()>0) {
@@ -59,8 +63,10 @@ public class SuggesitionServicelmpl implements SuggestionService {
         }
     }
 
+
     //上传文件
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public String uploadFile(@RequestParam("file") MultipartFile file)
     {
         if (!file.isEmpty())
