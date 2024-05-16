@@ -6,6 +6,7 @@ import com.william.collegeapartmentsbacke.pojo.Notice;
 import com.william.collegeapartmentsbacke.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,6 +19,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     //查询通知
     @Override
+    @Transactional
     public List<Notice> list(String title, String content, String type_name, LocalDateTime publish_time_st,LocalDateTime publish_time_ed,Boolean is_active) {
         if (publish_time_ed == null){
             publish_time_ed = LocalDateTime.now();
@@ -26,6 +28,7 @@ public class NoticeServiceImpl implements NoticeService {
         return noticeMapper.list(title,content,type_name,publish_time_st,publish_time_ed,is_active);
     }
     //添加新通知
+    @Transactional
     @Override
     public Boolean addNotice(Notice notice) {
         notice.setPublish_time(LocalDateTime.now());
@@ -46,13 +49,14 @@ public class NoticeServiceImpl implements NoticeService {
 
 
     }
-
+    @Transactional
     @Override
     public void modifyNotice(Notice notice) {
         notice.setPublish_time(LocalDateTime.now());
         noticeMapper.updateNotice(notice);
     }
-
+    
+    @Transactional
     @Override
     public void deleteNotice(List<Integer> ids) {
         noticeMapper.deleteNotice(ids);
