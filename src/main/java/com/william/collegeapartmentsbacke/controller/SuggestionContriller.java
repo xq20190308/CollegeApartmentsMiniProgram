@@ -31,14 +31,14 @@ public class SuggestionContriller {
     }
 
     //用户编辑保存投诉
-    @PostMapping("/suggestionsdraft")
+    @PostMapping("/suggestionsDraft")
     public Result Savedaft(@RequestBody Suggestion suggestion) {
         suggestionService.Savedaft(suggestion);
         return Result.success();
     }
 
     //删除投诉
-    @DeleteMapping("/suggestions{id}")
+    @DeleteMapping("/suggestions/{id}")
     public Result deleteSuggestion(@PathVariable ("id") long id) {
         suggestionService.deleteSuggestion(id);
         if(suggestionService.deleteSuggestion(id)) {
