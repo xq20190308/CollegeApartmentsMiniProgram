@@ -1,7 +1,7 @@
 package com.william.collegeapartmentsbacke.controller;
 
 
-import com.william.collegeapartmentsbacke.pojo.Notice;
+import com.william.collegeapartmentsbacke.pojo.entity.Notice;
 import com.william.collegeapartmentsbacke.pojo.Result;
 import com.william.collegeapartmentsbacke.service.NoticeService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Slf4j

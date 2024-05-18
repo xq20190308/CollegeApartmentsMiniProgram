@@ -1,7 +1,7 @@
 package com.william.collegeapartmentsbacke.service;
 
 
-import com.william.collegeapartmentsbacke.pojo.Notice;
+import com.william.collegeapartmentsbacke.pojo.entity.Notice;
 
 import java.time.LocalDateTime;
 import java.util.List;

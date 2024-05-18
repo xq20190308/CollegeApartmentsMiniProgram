@@ -1,12 +1,10 @@
 package com.william.collegeapartmentsbacke.mapper;
 
 
-import com.william.collegeapartmentsbacke.pojo.Notice;
+import com.william.collegeapartmentsbacke.pojo.entity.Notice;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 

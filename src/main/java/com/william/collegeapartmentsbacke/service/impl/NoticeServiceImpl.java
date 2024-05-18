@@ -2,7 +2,7 @@ package com.william.collegeapartmentsbacke.service.impl;
 
 
 import com.william.collegeapartmentsbacke.mapper.NoticeMapper;
-import com.william.collegeapartmentsbacke.pojo.Notice;
+import com.william.collegeapartmentsbacke.pojo.entity.Notice;
 import com.william.collegeapartmentsbacke.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

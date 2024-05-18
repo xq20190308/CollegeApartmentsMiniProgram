@@ -14,30 +14,24 @@
  * limitations under the License.
  */
 
-package com.william.collegeapartmentsbacke.pojo;
+package com.william.collegeapartmentsbacke.pojo.entity;
 
-/**
- * @author <a href="mailto:chenxilzx1@gmail.com">theonefx</a>
- */
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
-
+    private Integer id;
+    private String openid;
     private String name;
-
-    private Integer age;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
+    private String username;
+    private String phone;
+    private String avatar;
+    private Boolean isauthenticated;
+    private String student_id;
 }

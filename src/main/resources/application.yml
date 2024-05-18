@@ -14,4 +14,11 @@ spring:
     password: CollegeApartments!@#123
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-
+zhrc:
+  jwt:
+    secret-key: 7bd78bq99bee54deec255986ba95d654
+    ttl: 604800000
+    token-name: authorization
+  wechat:
+    appid: wxbc76a57642a7333a
+    secret: 43cf3bbccc4d1e2a8c9847015bbb9975
