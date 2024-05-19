@@ -7,8 +7,8 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface UserMapper {
     @Select("select * from UserInfo.user where openid = #{openid}")
-    User getUserByOpend(String openid);
+    User getByOpenid(String openid);
 
-    void insertUser(User user);
+    void insert(User user);
 
 }

@@ -4,7 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.william.collegeapartmentsbacke.mapper.NoticeMapper">
 
-
     <!--查询所有通知-->
     <select id="list" resultType="com.william.collegeapartmentsbacke.pojo.entity.Notice">
         select id,
@@ -37,12 +36,21 @@
         </where>
         order by publish_time desc
     </select>
+
+
+
+
+
+
+
+
     <select id="search" resultType="com.william.collegeapartmentsbacke.pojo.entity.Notice">
         select title,
                content
         from Notification.announcements
         where title = #{title} or content = #{content}
     </select>
+
 
 
     <insert id="insertNotice">

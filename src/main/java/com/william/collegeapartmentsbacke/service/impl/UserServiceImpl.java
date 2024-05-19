@@ -1,5 +1,8 @@
 package com.william.collegeapartmentsbacke.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.william.collegeapartmentsbacke.common.utils.HttpClientUtil;
 import com.william.collegeapartmentsbacke.mapper.UserMapper;
 import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.User;
@@ -17,22 +20,48 @@ import java.util.Map;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
+    public static final String WX_LOGIN = "https://api.weixin.qq.com/sns/jscode2session";
+
     @Autowired
     private UserMapper userMapper;
-
     @Autowired
     private WeChatProperties weChatProperties;
 
+
+
+
     @Override
     public User findByOpenid(String openid) {
-        return userMapper.getUserByOpend(openid);
-
+        return userMapper.getByOpenid(openid);
     }
+
 
     @Override
     public User wxLogin(UserLoginDTO userLoginDTO) {
-        return null;
+        String openid = getOpenid(userLoginDTO.getCode());
+        if (openid == null) {
+            throw new RuntimeException("微信登录失败");
+        }
+        User user = userMapper.getByOpenid(openid);
+        if (user == null) {
+            if (userLoginDTO.isVerify()) {
+                return null;
+            } else {
+
+
+
+                user = User.builder().name(userLoginDTO.getName())
+                        .openid(openid)
+                        .build();
+                userMapper.insert(user);
+
+            }
+        }
+        log.info("微信登录");
+        return user;
     }
+
+
 
     private String getOpenid(String code) {
         Map<String, String> map = new HashMap<String, String>() {{
@@ -41,6 +70,7 @@ public class UserServiceImpl implements UserService {
             put("js_code", code);
             put("grant_type", "authorization_code");
         }};
+
         String json = HttpClientUtil.doGet(WX_LOGIN, map);
 
         JSONObject jsonObject = JSON.parseObject(json);
