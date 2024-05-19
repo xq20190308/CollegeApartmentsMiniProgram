@@ -1,5 +1,6 @@
 package com.william.collegeapartmentsbacke.mapper;
 
+import com.william.collegeapartmentsbacke.pojo.Uploadfile;
 import com.william.collegeapartmentsbacke.pojo.Suggestion;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
@@ -7,12 +8,13 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
 public interface SuggestionMapper {
-   @Select("select * from Suggesitions.AdviseDraft")
-   List<Suggestion> Draftfindall();
+   @Select("select * from Suggesitions.AdviseDraft where pushtime=#{pushtime}")
+   List<Suggestion> Draftfindall(String pushtime);
 
    @Select("select * from Suggesitions.Advise")
    List<Suggestion> findall();
@@ -30,4 +32,12 @@ public interface SuggestionMapper {
 
    @Select("select count(*) from Suggesitions.AdviseDraft")
    int Count();
+
+   @Update("insert into  Suggesitions.Filedata (id,name,Type,Path,data) values(#{id},#{name},#{Type},#{Path},#{data})")
+   @Transactional
+   void savefile(Uploadfile file);
+
+   @Select("select path from Suggesitions.Filedata where id=#{id}")
+   String selectfile(String id);
+
 }
