@@ -16,7 +16,7 @@ public class Question {
     private String id;
     private Integer type;
     private String name;
-    private String descr;
+    private String describe;
     private String content;
     private String questionnaire;
 

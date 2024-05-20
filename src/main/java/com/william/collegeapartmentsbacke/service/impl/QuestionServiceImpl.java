@@ -33,7 +33,7 @@ public class QuestionServiceImpl implements QuestionService {
             questionMapper.add(new Question(jsonObject.getStr("id"),
                     jsonObject.getInt("type"),
                     jsonObject.getStr("name"),
-                    jsonObject.getStr("descr"),
+                    jsonObject.getStr("describe"),
                     jsonObject.getStr("content"),
                     jsonObject.getStr("questionnaire")
             ));

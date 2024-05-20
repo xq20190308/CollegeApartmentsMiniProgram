@@ -15,7 +15,7 @@ public interface QuestionnaireMapper {
 
     List<QuestionnaireVO> countById(@Param("list") List<String> idList);
 
-    @Insert("insert into coap.questionnaire (id, type, name, descr, start_time, end_time, question_list) " +
+    @Insert("insert into coap.questionnaire (id, type, name, describe, start_time, end_time, question_list) " +
             "values (#{id}, #{type}, #{name}, #{descr}, #{startTime}, #{endTime}, #{questionList})")
     void add(Questionnaire questionnaire);
 

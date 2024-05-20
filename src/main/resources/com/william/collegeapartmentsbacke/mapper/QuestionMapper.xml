@@ -8,7 +8,7 @@
 
     <select id="selectById" resultType="com.william.collegeapartmentsbacke.pojo.entity.Question" parameterType="list">
         SELECT *
-        FROM question
+        FROM coap.question
         WHERE id
         IN
         <foreach collection="list" item="id" open="(" close=")" separator=",">
