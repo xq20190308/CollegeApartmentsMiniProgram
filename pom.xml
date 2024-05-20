@@ -90,6 +90,14 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+		<!-- MyBatisP1us依赖 -->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+			<version>3.5.5</version>
+		</dependency>
+
+
 		<!-- JWT的实现 -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
