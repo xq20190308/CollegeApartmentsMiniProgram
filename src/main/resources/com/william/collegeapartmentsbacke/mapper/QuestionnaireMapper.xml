@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.william.collegeapartmentsbacke.mapper.QuestionnaireMapper">
+
+    <select id="countById" resultType="com.william.collegeapartmentsbacke.pojo.vo.QuestionnaireVO" parameterType="list">
+        SELECT coap.questionnaire, count(*) as cnt
+        FROM user_paper
+        WHERE questionnaire
+        IN
+        <foreach collection="list" item="questionnaire" open="(" close=")" separator=",">
+            #{questionnaire,javaType=String}
+        </foreach>
+        GROUP BY questionnaire
+    </select>
+
+</mapper>

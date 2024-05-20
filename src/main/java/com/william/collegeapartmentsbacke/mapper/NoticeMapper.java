@@ -4,6 +4,7 @@ package com.william.collegeapartmentsbacke.mapper;
 import com.william.collegeapartmentsbacke.pojo.entity.Notice;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,12 +12,13 @@ import java.util.List;
 @Mapper
 public interface NoticeMapper {
 
+//    @Select("select * from Notification.announcements")
     List<Notice> list(@Param("title") String title,
                       @Param("content") String content,
-                      @Param("type_name") String type_name,
+                      @Param("type_name") String typeName,
                       @Param("publish_time_st") LocalDateTime publish_time_st,
                       @Param("publish_time_ed") LocalDateTime publish_time_ed,
-                      @Param("is_active") Boolean is_active);
+                      @Param("is_active") Boolean isActive);
 
     void insertNotice(Notice notice);
 

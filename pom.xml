@@ -91,11 +91,11 @@
         </dependency>
 
 		<!-- MyBatisP1us依赖 -->
-		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus-spring-boot3-starter</artifactId>
-			<version>3.5.5</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.baomidou</groupId>-->
+<!--			<artifactId>mybatis-plus-spring-boot3-starter</artifactId>-->
+<!--			<version>3.5.5</version>-->
+<!--		</dependency>-->
 
 
 		<!-- JWT的实现 -->
@@ -152,9 +152,14 @@
 			<artifactId>easyexcel</artifactId>
 			<version>3.3.3</version>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 
-    </dependencies>
+	</dependencies>
 
 	<build>
 		<plugins>

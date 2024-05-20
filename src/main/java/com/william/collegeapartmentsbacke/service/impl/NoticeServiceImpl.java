@@ -20,19 +20,19 @@ public class NoticeServiceImpl implements NoticeService {
     //查询通知
     @Override
     @Transactional
-    public List<Notice> list(String title, String content, String type_name, LocalDateTime publish_time_st,LocalDateTime publish_time_ed,Boolean is_active) {
+    public List<Notice> list(String title, String content, String typeName, LocalDateTime publish_time_st,LocalDateTime publish_time_ed,Boolean isActive) {
         if (publish_time_ed == null){
             publish_time_ed = LocalDateTime.now();
         }
-
-        return noticeMapper.list(title,content,type_name,publish_time_st,publish_time_ed,is_active);
+        List<Notice> test = noticeMapper.list(title,content,typeName,publish_time_st,publish_time_ed,isActive);
+        return noticeMapper.list(title,content,typeName,publish_time_st,publish_time_ed,isActive);
     }
     //添加新通知
     @Transactional
     @Override
     public Boolean addNotice(Notice notice) {
-        notice.setPublish_time(LocalDateTime.now());
-        notice.setIs_active(true);
+        notice.setPublishTime(LocalDateTime.now());
+        notice.setIsActive(true);
         //检查是否有重复title
 
         List<Notice> existNotices = noticeMapper.search(notice.getTitle(),notice.getContent());
@@ -52,7 +52,7 @@ public class NoticeServiceImpl implements NoticeService {
     @Transactional
     @Override
     public void modifyNotice(Notice notice) {
-        notice.setPublish_time(LocalDateTime.now());
+        notice.setPublishTime(LocalDateTime.now());
         noticeMapper.updateNotice(notice);
     }
     
