@@ -36,5 +36,4 @@ public class QuestionController {
         questionService.deletByQuestionnaire(questionnaire);
         return Result.success();
     }
-
 }
