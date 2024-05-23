@@ -2,14 +2,18 @@ package com.william.collegeapartmentsbacke.service.impl;
 
 import com.william.collegeapartmentsbacke.mapper.SuggestionMapper;
 import com.william.collegeapartmentsbacke.pojo.Suggestion;
+import com.william.collegeapartmentsbacke.pojo.Uploadfile;
 import com.william.collegeapartmentsbacke.service.SuggestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -19,34 +23,41 @@ public class SuggesitionServicelmpl implements SuggestionService {
 
     //提交投诉
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void SubmitSuggestion(Suggestion suggestion) {
         suggestionmapper.submit(suggestion);
     }
 
     //查询草稿
     @Override
-    public List<Suggestion> SelectDraftfindall()
+    public List<Suggestion> SelectDraftfindall(String pushtime)
     {
-        return suggestionmapper.Draftfindall();
+        return suggestionmapper.Draftfindall(pushtime);
     }
 
    //查询用户投诉
     @Override
-    public
-    List<Suggestion> Selectfindall()
+    public List<Suggestion> Selectfindall()
     {
         return suggestionmapper.findall();
     }
 
     //保存草稿
     @Override
-    public void Savedaft(Suggestion suggestion)
+    @Transactional(rollbackFor = Exception.class)
+    public String Savedaft(Suggestion suggestion)
     {
+        LocalDateTime pushtime=LocalDateTime.now();
+        suggestion.setPushtime(pushtime);
         suggestionmapper.savedaft(suggestion);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return pushtime.format(formatter);
     }
+
 
     //删除草稿
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean deleteSuggestion(long id)
     {
         if(suggestionmapper.Count()>0) {
@@ -59,25 +70,19 @@ public class SuggesitionServicelmpl implements SuggestionService {
         }
     }
 
+
     //上传文件
     @Override
-    public String uploadFile(@RequestParam("file") MultipartFile file)
-    {
-        if (!file.isEmpty())
-        {
-            String fileName = file.getOriginalFilename();
-            try {
-                String filePath = "D:/Desktop/Smart-MergeCode/src/main//resources/static/uploadpicture/" + fileName;
-                file.transferTo(new File(filePath));
-                return "success";
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "file upload fail";
-            }
-        }
-        else
-        {
-            return"file is empty";
-        }
+    @Transactional(rollbackFor = Exception.class)
+    public void Savefile(Uploadfile file) {
+        suggestionmapper.savefile(file);
     }
+
+
+    //获取文件
+    @Override
+    public String Selectfile(String id) {
+        return suggestionmapper.selectfile(id);
+    }
+
 }
