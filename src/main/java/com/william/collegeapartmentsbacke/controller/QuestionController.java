@@ -5,10 +5,7 @@ import com.william.collegeapartmentsbacke.pojo.entity.Question;
 import com.william.collegeapartmentsbacke.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @Slf4j
@@ -23,12 +20,13 @@ public class QuestionController {
     * 查询 题目
     * @Param 问题ID数组
     * */
-    @RequestMapping(value = "/selectById", method = RequestMethod.POST)
-    public Result selectById(@RequestParam List<String> idList) {
+    @RequestMapping(value = "/selectById", method = RequestMethod.GET)
+    public Result selectById(@RequestParam("idList") List<String> idList) {
         log.info("根据id查询问题");
         List<Question> questions = questionService.selectById(idList);
         return Result.success(questions);
     }
+
 
     @RequestMapping(value = "/deletByQuestionnaire", method = RequestMethod.POST)
     public Result

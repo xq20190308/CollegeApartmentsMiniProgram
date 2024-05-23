@@ -34,7 +34,6 @@ public class UserController {
 //    public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO) {
     public Result login(UserLoginDTO userLoginDTO) {
         log.info("微信用户登录：{}", userLoginDTO.getCode());
-
         User user = userService.wxLogin(userLoginDTO);
         if(user==null && userLoginDTO.isVerify()){
             return Result.error("no user");
