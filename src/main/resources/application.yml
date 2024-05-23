@@ -21,5 +21,5 @@ zhrc:
     ttl: 604800000
     token-name: authorization
   wechat:
-    appid: wxbc76a57642a7333a
-    secret: 43cf3bbccc4d1e2a8c9847015bbb9975
+    appid: wx3b5ec6e4e336f19e
+    secret: adb45243c65766fca8e5c94454a39ef0

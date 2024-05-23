@@ -32,7 +32,8 @@ public class UserController {
      */
     @PostMapping("/login")
 //    public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO) {
-    public Result login(UserLoginDTO userLoginDTO) {
+    public Result login(@RequestBody UserLoginDTO userLoginDTO) {
+        log.info(userLoginDTO.toString());
         log.info("微信用户登录：{}", userLoginDTO.getCode());
         User user = userService.wxLogin(userLoginDTO);
         if(user==null && userLoginDTO.isVerify()){
@@ -42,7 +43,7 @@ public class UserController {
             put(JwtClaimsConstant.ID, user.getId());
             put(JwtClaimsConstant.OPENID, user.getOpenid());
         }};
-
+        log.info("111");
         String token = JwtUtil.createJWT(jwtProperties.getSecretKey(), jwtProperties.getTtl(), claims);
 
         //返回给前端的数据
@@ -51,6 +52,7 @@ public class UserController {
                 .openid(user.getOpenid())
                 .token(token)
                 .build();
+        log.info("返回给前端："+userLoginVO.toString());
         return Result.success(userLoginVO);
     }
 
