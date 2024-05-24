@@ -6,6 +6,7 @@ import com.william.collegeapartmentsbacke.pojo.Suggestion;
 import com.william.collegeapartmentsbacke.pojo.Uploadfile;
 import com.william.collegeapartmentsbacke.service.SuggestionService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
+@Slf4j
 @RestController
 @RequestMapping("/api")
 public class SuggestionContriller {
@@ -25,8 +28,12 @@ public class SuggestionContriller {
     private SuggestionService suggestionService;
     //用户查询全部草稿
     @GetMapping("/suggestions/{pushtime}")
-    public List<Suggestion> SelectDraftfindall(String pushtime) {
-        return suggestionService.SelectDraftfindall(String.valueOf(Long.parseLong(pushtime)));
+    public Result SelectDraftfindall(String pushtime) {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd' 'HH:mm:ss");
+//        // 格式化 LocalDateTime 对象为字符串
+//        String formattedTime = dateTime.format(formatter);
+        List<Suggestion> suggestions = suggestionService.SelectDraftfindall(pushtime);
+        return Result.success(suggestions);
     }
 
     //用户提交投诉
@@ -39,8 +46,11 @@ public class SuggestionContriller {
     //用户编辑保存投诉
     @PostMapping("/suggestionsDraft")
     public Result Savedaft(@RequestBody Suggestion suggestion) {
-        suggestionService.Savedaft(suggestion);
-        return Result.success();
+        String savedaft = suggestionService.Savedaft(suggestion);
+        return Result.success(savedaft);
+//        log.info("suggestion saved");
+//        return suggestion.getPushtime();
+
     }
 
     //删除投诉

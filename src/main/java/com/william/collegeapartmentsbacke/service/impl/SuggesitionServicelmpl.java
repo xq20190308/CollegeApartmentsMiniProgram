@@ -4,6 +4,7 @@ import com.william.collegeapartmentsbacke.mapper.SuggestionMapper;
 import com.william.collegeapartmentsbacke.pojo.Suggestion;
 import com.william.collegeapartmentsbacke.pojo.Uploadfile;
 import com.william.collegeapartmentsbacke.service.SuggestionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Slf4j
 @Service
 public class SuggesitionServicelmpl implements SuggestionService {
     @Autowired
@@ -47,10 +49,11 @@ public class SuggesitionServicelmpl implements SuggestionService {
     @Transactional(rollbackFor = Exception.class)
     public String Savedaft(Suggestion suggestion)
     {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime pushtime=LocalDateTime.now();
         suggestion.setPushtime(pushtime);
         suggestionmapper.savedaft(suggestion);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        log.info(pushtime.format(formatter));
         return pushtime.format(formatter);
     }
 

@@ -23,10 +23,12 @@ public class QuestionController {
     * 查询 题目
     * @Param 问题ID数组
     * */
-    @RequestMapping(value = "/selectById", method = RequestMethod.POST)
+    @RequestMapping(value = "/selectById", method = RequestMethod.GET)
     public Result selectById(@RequestParam List<String> idList) {
-        log.info("根据id查询问题");
+     log.info("selectById{}",idList);
         List<Question> questions = questionService.selectById(idList);
+
+        log.info("根据id查询问题:{}",questions.toString());
         return Result.success(questions);
     }
 
