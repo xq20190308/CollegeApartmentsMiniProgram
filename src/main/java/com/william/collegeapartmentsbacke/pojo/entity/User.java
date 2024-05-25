@@ -32,6 +32,6 @@ public class User {
     private String username;
     private String phone;
     private String avatar;
-    private Boolean isauthenticated;
-    private String student_id;
+    private String userLevel;
+    private String studentid;
 }

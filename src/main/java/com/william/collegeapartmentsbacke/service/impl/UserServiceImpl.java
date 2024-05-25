@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.william.collegeapartmentsbacke.common.utils.HttpClientUtil;
 import com.william.collegeapartmentsbacke.mapper.UserMapper;
+import com.william.collegeapartmentsbacke.pojo.dto.UserDTO;
 import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.User;
 import com.william.collegeapartmentsbacke.service.UserService;
@@ -35,33 +36,56 @@ public class UserServiceImpl implements UserService {
         return userMapper.getByOpenid(openid);
     }
 
+    @Override
+    public String verifyByPwd(String username, String password) {
+        String truePwd = userMapper.findPwdByUsername(username);
+        log.info(username);
+        if(truePwd == null) {
+            return "登录失败，查无此用户,请注册或联系管理员";
+        }
+
+        if (truePwd.equals(password)) {
+            return "true";
+        }
+        return "登陆失败,账号或密码错误";
+    }
+
+    @Override
+    public void rigisterUser(UserLoginDTO userLoginDTO) {
+        return;
+    }
+
 
     @Override
     public User wxLogin(UserLoginDTO userLoginDTO) {
-        log.info(userLoginDTO.getCode());
+        //获取前端code
+        //根据code向微信服务端获取openid
+        log.info("serLoginDTO.getCode()：{}",userLoginDTO.getCode());
         String openid = getOpenid(userLoginDTO.getCode());
 
+        //获取openid失败
         if (openid == null) {
-            throw new RuntimeException("微信登录失败");
+            throw new RuntimeException("微信登录失败,无法获取openid");
         }
+
+        //根据微信唯一标识openid查询该微信是否注册过
         User user = userMapper.getByOpenid(openid);
+        //如果没有查询到该用户，说明该用户从未用微信登录过，直接当前微信绑定到该账号
         if (user == null) {
-            if (!userLoginDTO.isVerify()) {
-                return null;
-            } else {
-
-
-
-                user = User.builder().name(userLoginDTO.getName())
-                        .openid(openid)
-                        .build();
-                userMapper.insert(user);
-
-            }
+            userMapper.updateOpenid(userLoginDTO.getUsername(),openid);
+//        //注册新用户
+//            user = User.builder().name(userLoginDTO.getStudentid())
+//                    .openid(openid)
+//                    .build();
+//            userMapper.insert(user);
+//            log.info("已注册用户");
+//        }
         }
+        user = userMapper.getByOpenid(openid);
         log.info("微信登录");
         return user;
     }
+
 
 
 

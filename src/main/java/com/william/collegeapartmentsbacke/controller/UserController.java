@@ -3,6 +3,7 @@ package com.william.collegeapartmentsbacke.controller;
 import com.william.collegeapartmentsbacke.common.constant.JwtClaimsConstant;
 import com.william.collegeapartmentsbacke.common.properties.JwtProperties;
 import com.william.collegeapartmentsbacke.common.utils.JwtUtil;
+import com.william.collegeapartmentsbacke.mapper.UserMapper;
 import com.william.collegeapartmentsbacke.pojo.Result;
 import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.User;
@@ -23,6 +24,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private JwtProperties jwtProperties;
+    @Autowired
+    private UserMapper userMapper;
 
     /**
      * 登录
@@ -31,19 +34,30 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-//    public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO) {
     public Result login(@RequestBody UserLoginDTO userLoginDTO) {
-        log.info(userLoginDTO.toString());
-        log.info("微信用户登录：{}", userLoginDTO.getCode());
-        User user = userService.wxLogin(userLoginDTO);
-        if(user==null && userLoginDTO.isVerify()){
-            return Result.error("no user");
+//        1.验证用户名密码
+//        如果不正确，则说明登录失败，需要联系管理员
+//        如果根据username查询不到密码，说明用户不存在 默认username学号，pwd是123456
+        log.info("USER LOGIN DTO: {}", userLoginDTO);
+        String msg = userService.verifyByPwd(userLoginDTO.getUsername(),userLoginDTO.getPassword());
+
+//        2.如果用户名密码正确，则获取DTO中的该微信号的code，换取openid
+        if(msg != "true"){
+            return Result.error(msg);
         }
+        User user = userService.wxLogin(userLoginDTO);
+
+        //如果到此查询不到数据,则出现未知问题
+        if(user==null){
+            return Result.error("登录失败，请联系管理人员");
+        }
+
+        //生成token
         Map<String, Object> claims = new HashMap<String, Object>() {{
-            put(JwtClaimsConstant.ID, user.getId());
+            put(JwtClaimsConstant.ID,user.getId());
             put(JwtClaimsConstant.OPENID, user.getOpenid());
+            put(JwtClaimsConstant.USERLEVEL,user.getUserLevel());
         }};
-        log.info("111");
         String token = JwtUtil.createJWT(jwtProperties.getSecretKey(), jwtProperties.getTtl(), claims);
 
         //返回给前端的数据
@@ -52,9 +66,19 @@ public class UserController {
                 .openid(user.getOpenid())
                 .token(token)
                 .build();
+        //id,token
         log.info("返回给前端："+userLoginVO.toString());
         return Result.success(userLoginVO);
     }
+
+
+    public Result regist(@RequestBody UserLoginDTO userLoginDTO) {
+
+        User user = userService.wxLogin(userLoginDTO);
+
+        return Result.success("注册成功");
+    }
+
 
 //    @GetMapping("/findNeighborhood")
 //    public NeighborhoodInfo findNeighborhoodByUserId(@RequestParam("id") Integer id) {
@@ -73,7 +97,7 @@ public class UserController {
                 }
             }
         } catch (Exception e) {
-
+            log.info("获取openid时遇到问题");
         }
 
         return Result.error("请登录");

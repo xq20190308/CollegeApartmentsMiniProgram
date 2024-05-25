@@ -27,8 +27,8 @@ public class QuestionController {
         return Result.success(questions);
     }
 
-
-    @RequestMapping(value = "/deletByQuestionnaire", method = RequestMethod.POST)
+    
+     @RequestMapping(value = "/deletByQuestionnaire", method = RequestMethod.POST)
     public Result
     deletByQuestionnaire(String questionnaire) {
         questionService.deletByQuestionnaire(questionnaire);

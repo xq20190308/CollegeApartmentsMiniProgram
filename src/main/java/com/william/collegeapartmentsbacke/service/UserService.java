@@ -7,4 +7,8 @@ public interface UserService {
     User wxLogin(UserLoginDTO userLoginDTO);
 
     User findByOpenid(String openid);
+
+    String verifyByPwd(String username, String password);
+
+    void rigisterUser(UserLoginDTO userLoginDTO);
 }
