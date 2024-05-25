@@ -14,7 +14,7 @@ public interface SuggestionService {
 
     //查询草稿
 
-    List<Suggestion> SelectDraftfindall(Integer id);
+    List<Suggestion> SelectDraftfindall();
 
     List<Suggestion> Selectfindall();
 

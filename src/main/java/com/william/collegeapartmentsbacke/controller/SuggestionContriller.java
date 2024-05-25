@@ -32,9 +32,9 @@ public class SuggestionContriller {
     @Autowired
     private SuggestionService suggestionService;
     //用户查询全部草稿
-    @GetMapping("/suggestions{id}")
-    public Result SelectDraftfindall(@PathVariable ("id") Integer id) {
-        List<Suggestion> suggestions = suggestionService.SelectDraftfindall(id);
+    @GetMapping("/suggestions")
+    public Result SelectDraftfindall() {
+        List<Suggestion> suggestions = suggestionService.SelectDraftfindall();
         return Result.success(suggestions);
     }
 

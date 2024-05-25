@@ -33,9 +33,9 @@ public class SuggesitionServicelmpl implements SuggestionService {
 
     //查询草稿
     @Override
-    public List<Suggestion> SelectDraftfindall(Integer id)
+    public List<Suggestion> SelectDraftfindall()
     {
-        return suggestionmapper.Draftfindall(id);
+        return suggestionmapper.Draftfindall();
     }
 
    //查询用户投诉
