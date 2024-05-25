@@ -1,6 +1,6 @@
 package com.william.collegeapartmentsbacke.controller;
 
-import com.william.collegeapartmentsbacke.pojo.Faceback;
+import com.william.collegeapartmentsbacke.pojo.Uploadfile;
 import com.william.collegeapartmentsbacke.pojo.Result;
 import com.william.collegeapartmentsbacke.pojo.Suggestion;
 import com.william.collegeapartmentsbacke.pojo.Uploadfile;
@@ -8,6 +8,7 @@ import com.william.collegeapartmentsbacke.service.SuggestionService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.javassist.NotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +18,14 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-@Slf4j
+import java.util.Objects;
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api")
 public class SuggestionContriller {
@@ -29,10 +34,6 @@ public class SuggestionContriller {
     //用户查询全部草稿
     @GetMapping("/suggestions{id}")
     public Result SelectDraftfindall(@PathVariable ("id") Integer id) {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd' 'HH:mm:ss");
-//        // 格式化 LocalDateTime 对象为字符串
-//        String formattedTime = dateTime.format(formatter);
-        log.info("selectDraftfindall");
         List<Suggestion> suggestions = suggestionService.SelectDraftfindall(id);
         return Result.success(suggestions);
     }
