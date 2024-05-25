@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.List;
 
 @Slf4j
@@ -32,9 +33,9 @@ public class SuggesitionServicelmpl implements SuggestionService {
 
     //查询草稿
     @Override
-    public List<Suggestion> SelectDraftfindall(String pushtime)
+    public List<Suggestion> SelectDraftfindall(Integer id)
     {
-        return suggestionmapper.Draftfindall(pushtime);
+        return suggestionmapper.Draftfindall(id);
     }
 
    //查询用户投诉
@@ -47,14 +48,17 @@ public class SuggesitionServicelmpl implements SuggestionService {
     //保存草稿
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String Savedaft(Suggestion suggestion)
+    public Integer Savedaft(Suggestion suggestion)
     {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime pushtime=LocalDateTime.now();
-        suggestion.setPushtime(pushtime);
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        LocalDateTime pushtime=LocalDateTime.now();
+//        pushtime = pushtime.withNano(0);
+//        suggestion.setPushtime(pushtime);
         suggestionmapper.savedaft(suggestion);
-        log.info(pushtime.format(formatter));
-        return pushtime.format(formatter);
+        Integer id=suggestionmapper.selectLast();
+        return suggestionmapper.selectLast();
+//        log.info(pushtime.format(formatter));
+//        return pushtime.format(formatter);
     }
 
 

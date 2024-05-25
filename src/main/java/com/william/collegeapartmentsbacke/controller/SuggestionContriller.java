@@ -27,12 +27,13 @@ public class SuggestionContriller {
     @Autowired
     private SuggestionService suggestionService;
     //用户查询全部草稿
-    @GetMapping("/suggestions/{pushtime}")
-    public Result SelectDraftfindall(String pushtime) {
+    @GetMapping("/suggestions{id}")
+    public Result SelectDraftfindall(@PathVariable ("id") Integer id) {
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd' 'HH:mm:ss");
 //        // 格式化 LocalDateTime 对象为字符串
 //        String formattedTime = dateTime.format(formatter);
-        List<Suggestion> suggestions = suggestionService.SelectDraftfindall(pushtime);
+        log.info("selectDraftfindall");
+        List<Suggestion> suggestions = suggestionService.SelectDraftfindall(id);
         return Result.success(suggestions);
     }
 
@@ -46,15 +47,12 @@ public class SuggestionContriller {
     //用户编辑保存投诉
     @PostMapping("/suggestionsDraft")
     public Result Savedaft(@RequestBody Suggestion suggestion) {
-        String savedaft = suggestionService.Savedaft(suggestion);
+        Integer savedaft = suggestionService.Savedaft(suggestion);
         return Result.success(savedaft);
-//        log.info("suggestion saved");
-//        return suggestion.getPushtime();
-
     }
 
     //删除投诉
-    @DeleteMapping("/suggestions{id}")
+    @DeleteMapping("/deleteSuggestions{id}")
     public Result deleteSuggestion(@PathVariable ("id") long id) {
         suggestionService.deleteSuggestion(id);
         if(suggestionService.deleteSuggestion(id)) {
