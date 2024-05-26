@@ -13,7 +13,7 @@
                publish_time,
                is_active
         from
-            coap.announcements
+            coap.notice
         <where>
             <if test="title != null and title != ''">
                 title like concat('%',#{title},'%')
