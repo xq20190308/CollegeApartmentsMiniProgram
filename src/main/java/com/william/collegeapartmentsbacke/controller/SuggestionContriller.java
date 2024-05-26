@@ -83,7 +83,7 @@ public class SuggestionContriller {
             throw new RuntimeException(e);
         }
         suggestionService.Savefile(loadFile);
-        return Result.success();
+        return Result.success(Path);
     }
 
     //获取文件

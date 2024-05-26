@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -19,7 +18,7 @@ public interface SuggestionMapper {
    @Select("select * from coap.Advise")
    List<Suggestion> findall();
 
-   @Update("insert into coap.Advise (id,describes,category,pushtime,contactobject) values(#{id},#{describes},#{category},#{pushtime},#{contactobject});")
+   @Update("insert into coap.Advise (id,describes,category,pushtime,contactobject,path) values(#{id},#{describes},#{category},#{pushtime},#{contactobject},#{path});")
    @Transactional
    void submit(Suggestion suggestion);
 

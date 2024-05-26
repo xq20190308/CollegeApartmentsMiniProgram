@@ -28,6 +28,10 @@ public class SuggesitionServicelmpl implements SuggestionService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void SubmitSuggestion(Suggestion suggestion) {
+        LocalDateTime pushtime=LocalDateTime.now();
+        pushtime = pushtime.withNano(0);
+        suggestion.setPushtime(pushtime);
+        suggestionmapper.savedaft(suggestion);
         suggestionmapper.submit(suggestion);
     }
 
@@ -51,14 +55,12 @@ public class SuggesitionServicelmpl implements SuggestionService {
     public Integer Savedaft(Suggestion suggestion)
     {
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//        LocalDateTime pushtime=LocalDateTime.now();
-//        pushtime = pushtime.withNano(0);
-//        suggestion.setPushtime(pushtime);
+        LocalDateTime pushtime=LocalDateTime.now();
+        pushtime = pushtime.withNano(0);
+        suggestion.setPushtime(pushtime);
         suggestionmapper.savedaft(suggestion);
         Integer id=suggestionmapper.selectLast();
         return suggestionmapper.selectLast();
-//        log.info(pushtime.format(formatter));
-//        return pushtime.format(formatter);
     }
 
 
