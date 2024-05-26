@@ -14,11 +14,11 @@ public interface SuggestionService {
 
     //查询草稿
 
-    List<Suggestion> SelectDraftfindall(String pushtime);
+    List<Suggestion> SelectDraftfindall();
 
     List<Suggestion> Selectfindall();
 
-    String Savedaft(Suggestion suggestion);
+    Integer Savedaft(Suggestion suggestion);
 
     boolean deleteSuggestion(long id);
 

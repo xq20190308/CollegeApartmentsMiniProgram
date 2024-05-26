@@ -4,6 +4,7 @@ import com.william.collegeapartmentsbacke.mapper.SuggestionMapper;
 import com.william.collegeapartmentsbacke.pojo.Suggestion;
 import com.william.collegeapartmentsbacke.pojo.Uploadfile;
 import com.william.collegeapartmentsbacke.service.SuggestionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +15,10 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.List;
 
+@Slf4j
 @Service
 public class SuggesitionServicelmpl implements SuggestionService {
     @Autowired
@@ -25,14 +28,18 @@ public class SuggesitionServicelmpl implements SuggestionService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void SubmitSuggestion(Suggestion suggestion) {
+        LocalDateTime pushtime=LocalDateTime.now();
+        pushtime = pushtime.withNano(0);
+        suggestion.setPushtime(pushtime);
+        suggestionmapper.savedaft(suggestion);
         suggestionmapper.submit(suggestion);
     }
 
     //查询草稿
     @Override
-    public List<Suggestion> SelectDraftfindall(String pushtime)
+    public List<Suggestion> SelectDraftfindall()
     {
-        return suggestionmapper.Draftfindall(pushtime);
+        return suggestionmapper.Draftfindall();
     }
 
    //查询用户投诉
@@ -45,13 +52,15 @@ public class SuggesitionServicelmpl implements SuggestionService {
     //保存草稿
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String Savedaft(Suggestion suggestion)
+    public Integer Savedaft(Suggestion suggestion)
     {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime pushtime=LocalDateTime.now();
+        pushtime = pushtime.withNano(0);
         suggestion.setPushtime(pushtime);
         suggestionmapper.savedaft(suggestion);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return pushtime.format(formatter);
+        Integer id=suggestionmapper.selectLast();
+        return suggestionmapper.selectLast();
     }
 
 

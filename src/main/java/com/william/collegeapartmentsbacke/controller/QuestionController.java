@@ -5,7 +5,10 @@ import com.william.collegeapartmentsbacke.pojo.entity.Question;
 import com.william.collegeapartmentsbacke.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 @Slf4j
@@ -27,7 +30,7 @@ public class QuestionController {
         return Result.success(questions);
     }
 
-    
+
      @RequestMapping(value = "/deletByQuestionnaire", method = RequestMethod.POST)
     public Result
     deletByQuestionnaire(String questionnaire) {

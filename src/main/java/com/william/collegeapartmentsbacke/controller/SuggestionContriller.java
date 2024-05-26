@@ -3,7 +3,11 @@ package com.william.collegeapartmentsbacke.controller;
 import com.william.collegeapartmentsbacke.pojo.Uploadfile;
 import com.william.collegeapartmentsbacke.pojo.Result;
 import com.william.collegeapartmentsbacke.pojo.Suggestion;
+import com.william.collegeapartmentsbacke.pojo.Uploadfile;
 import com.william.collegeapartmentsbacke.service.SuggestionService;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.javassist.NotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,19 +16,28 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
+import java.util.Objects;
+import java.util.UUID;
+@Slf4j
 @RestController
 @RequestMapping("/api")
 public class SuggestionContriller {
     @Autowired
     private SuggestionService suggestionService;
-    //用户查询草稿
-    @GetMapping("/suggestions/{pushtime}")
-    public List<Suggestion> SelectDraftfindall(@PathVariable("pushtime") String pushtime) {
-        return suggestionService.SelectDraftfindall(pushtime);
+    //用户查询全部草稿
+    @GetMapping("/selectDraft")
+    public Result SelectDraftfindall() {
+        log.info("SelectDraftfindall");
+        List<Suggestion> suggestions = suggestionService.SelectDraftfindall();
+        log.info(suggestions.toString());
+        return Result.success(suggestions);
     }
 
     //用户提交投诉
@@ -37,12 +50,12 @@ public class SuggestionContriller {
     //用户编辑保存投诉
     @PostMapping("/suggestionsDraft")
     public Result Savedaft(@RequestBody Suggestion suggestion) {
-        suggestionService.Savedaft(suggestion);
-        return Result.success();
+        Integer savedaft = suggestionService.Savedaft(suggestion);
+        return Result.success(savedaft);
     }
 
     //删除投诉
-    @DeleteMapping("/suggestions/{id}")
+    @DeleteMapping("/deleteSuggestions{id}")
     public Result deleteSuggestion(@PathVariable ("id") long id) {
         suggestionService.deleteSuggestion(id);
         if(suggestionService.deleteSuggestion(id)) {
@@ -72,7 +85,7 @@ public class SuggestionContriller {
             throw new RuntimeException(e);
         }
         suggestionService.Savefile(loadFile);
-        return Result.success();
+        return Result.success(Path);
     }
 
     //获取文件

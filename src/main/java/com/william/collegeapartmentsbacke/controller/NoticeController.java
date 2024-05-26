@@ -28,9 +28,11 @@ public class NoticeController {
             String typeName,
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_st,
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_ed,
-            Boolean is_active){
-        List<Notice> noticeList = noticeService.list(title,content,typeName,publish_time_st,publish_time_ed,is_active);
+            Boolean isActive){
+        log.info("isAct{}", isActive);
+        List<Notice> noticeList = noticeService.list(title,content,typeName,publish_time_st,publish_time_ed,isActive);
         log.info("查询全部通知");
+        log.info(noticeList.toString());
         return Result.success(noticeList);
     }
 
