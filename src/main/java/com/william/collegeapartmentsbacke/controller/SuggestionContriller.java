@@ -3,28 +3,20 @@ package com.william.collegeapartmentsbacke.controller;
 import com.william.collegeapartmentsbacke.pojo.Uploadfile;
 import com.william.collegeapartmentsbacke.pojo.Result;
 import com.william.collegeapartmentsbacke.pojo.Suggestion;
-import com.william.collegeapartmentsbacke.pojo.Uploadfile;
 import com.william.collegeapartmentsbacke.service.SuggestionService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.javassist.NotFoundException;
-import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.Objects;
-import java.util.UUID;
+
 @Slf4j
 @RestController
 @RequestMapping("/api")
@@ -56,9 +48,9 @@ public class SuggestionContriller {
 
     //删除投诉
     @DeleteMapping("/deleteSuggestions{id}")
-    public Result deleteSuggestion(@PathVariable ("id") long id) {
+    public Result deleteSuggestion(@PathVariable("id") long id) {
         suggestionService.deleteSuggestion(id);
-        if(suggestionService.deleteSuggestion(id)) {
+        if (suggestionService.deleteSuggestion(id)) {
             return Result.success();
         }
         else
