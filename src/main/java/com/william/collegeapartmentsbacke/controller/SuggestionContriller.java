@@ -25,16 +25,18 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.Objects;
 import java.util.UUID;
-
+@Slf4j
 @RestController
 @RequestMapping("/api")
 public class SuggestionContriller {
     @Autowired
     private SuggestionService suggestionService;
     //用户查询全部草稿
-    @GetMapping("/suggestions")
+    @GetMapping("/selectDraft")
     public Result SelectDraftfindall() {
+        log.info("SelectDraftfindall");
         List<Suggestion> suggestions = suggestionService.SelectDraftfindall();
+        log.info(suggestions.toString());
         return Result.success(suggestions);
     }
 
