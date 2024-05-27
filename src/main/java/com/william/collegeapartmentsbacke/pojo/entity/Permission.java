@@ -8,7 +8,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @TableName("coap.user_permission")
 public class Permission {
     private String userLevel;
-    private String account_manage;
-    private String notice_manage;
-    private String questionnair_manage;;
+    private Boolean accountManage;
+    private Boolean noticeManage;
+    private Boolean questionnaireManage;;
 }

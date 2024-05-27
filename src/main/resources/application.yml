@@ -1,12 +1,16 @@
 server:
   port: 8080
 
-mybatis:
+mybatis-plus:
   mapper-locations: classpath:mappers/*.xml
   type-aliases-package: com.william.collegeapartmentsbacke.mybatis.entity
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  level:
+    com.zoctan.api.mapper : debug
 
 spring:
   datasource:
