@@ -8,11 +8,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@TableName("coap.question")
 @AllArgsConstructor
 @NoArgsConstructor
+@TableName("coap.question")
 public class Question {
-
     private String id;
     private Integer type;
     private String name;

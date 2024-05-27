@@ -2,7 +2,9 @@ package com.william.collegeapartmentsbacke.service.impl;
 
 
 import com.william.collegeapartmentsbacke.mapper.NoticeMapper;
+import com.william.collegeapartmentsbacke.mapper.UserMapper;
 import com.william.collegeapartmentsbacke.pojo.entity.Notice;
+import com.william.collegeapartmentsbacke.pojo.entity.Permission;
 import com.william.collegeapartmentsbacke.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Autowired
     private NoticeMapper noticeMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     //查询通知
     @Override
@@ -55,13 +59,12 @@ public class NoticeServiceImpl implements NoticeService {
         notice.setPublishTime(LocalDateTime.now());
         noticeMapper.updateNotice(notice);
     }
-    
+
     @Transactional
     @Override
     public void deleteNotice(List<Integer> ids) {
         noticeMapper.deleteNotice(ids);
     }
-
 
 
 }

@@ -1,5 +1,6 @@
 package com.william.collegeapartmentsbacke.pojo.vo;
 
+import com.william.collegeapartmentsbacke.pojo.entity.Permission;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,7 +11,12 @@ import java.io.Serializable;
 public class UserLoginVO implements Serializable {
     private Integer id;
     private String openid;
-    private String token;
     private String username;
-    private String studentId;
+    private String trueName;
+    private String userid;
+    private String phone;
+    private String avatar;
+    private Permission userPermission;
+    private String token;
+
 }

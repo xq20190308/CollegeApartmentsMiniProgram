@@ -1,5 +1,6 @@
 package com.william.collegeapartmentsbacke.mapper;
 
+import com.william.collegeapartmentsbacke.pojo.entity.Permission;
 import com.william.collegeapartmentsbacke.pojo.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -23,4 +24,8 @@ public interface UserMapper {
 
     @Update("update coap.user set openid = #{openid} where username = #{username}")
     void updateOpenid(String username,String openid);
+
+    //查询用户权限
+    @Select("select p.* from coap.user_permission p join coap.user u on p.user_level = u.user_level where u.openid = #{openid}")
+    Permission getPermissionByOpenid(String openid);
 }

@@ -6,6 +6,7 @@ import com.william.collegeapartmentsbacke.common.utils.HttpClientUtil;
 import com.william.collegeapartmentsbacke.mapper.UserMapper;
 import com.william.collegeapartmentsbacke.pojo.dto.UserDTO;
 import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.Permission;
 import com.william.collegeapartmentsbacke.pojo.entity.User;
 import com.william.collegeapartmentsbacke.service.UserService;
 import com.william.collegeapartmentsbacke.common.properties.WeChatProperties;
@@ -65,13 +66,18 @@ public class UserServiceImpl implements UserService {
 
         //获取openid失败
         if (openid == null) {
-            throw new RuntimeException("微信登录失败,无法获取openid");
+//            throw new RuntimeException("微信登录失败,无法获取openid");
+            log.info("微信登录失败,无法获取openid");
+            return null;
         }
 
         //根据微信唯一标识openid查询该微信是否注册过
         User user = userMapper.getByOpenid(openid);
+        log.info("user:{}",JSON.toJSONString(user));
         //如果没有查询到该用户，说明该用户从未用微信登录过，直接当前微信绑定到该账号
         if (user == null) {
+            log.info("登录用户名为{}",userLoginDTO.getUsername());
+            log.info("插入的openid为{}",openid);
             userMapper.updateOpenid(userLoginDTO.getUsername(),openid);
 //        //注册新用户
 //            user = User.builder().name(userLoginDTO.getStudentid())
@@ -81,10 +87,13 @@ public class UserServiceImpl implements UserService {
 //            log.info("已注册用户");
 //        }
         }
+        //如果该微信登录过,但是user
+
         user = userMapper.getByOpenid(openid);
         log.info("微信登录");
         return user;
     }
+
 
 
 
@@ -102,4 +111,12 @@ public class UserServiceImpl implements UserService {
         JSONObject jsonObject = JSON.parseObject(json);
         return jsonObject.getString("openid");
     }
+
+    @Override
+    public Permission getPermission(String openid) {
+        return userMapper.getPermissionByOpenid(openid);
+    }
+
+
+
 }

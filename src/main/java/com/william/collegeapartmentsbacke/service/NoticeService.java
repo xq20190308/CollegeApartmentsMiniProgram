@@ -2,6 +2,7 @@ package com.william.collegeapartmentsbacke.service;
 
 
 import com.william.collegeapartmentsbacke.pojo.entity.Notice;
+import com.william.collegeapartmentsbacke.pojo.entity.Permission;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,4 +15,6 @@ public interface NoticeService {
     void deleteNotice(List<Integer> ids);
 
     void modifyNotice(Notice notice);
+
+
 }
