@@ -68,7 +68,7 @@ public class NoticeController {
         return Result.success();
     }
 
-    @DeleteMapping("/delete/{ids}")
+    @DeleteMapping("/{ids}")
     public Result deleteNotice(@PathVariable List<Integer> ids)
     {
         log.info("彻底删除操作, ids:{}",ids);
