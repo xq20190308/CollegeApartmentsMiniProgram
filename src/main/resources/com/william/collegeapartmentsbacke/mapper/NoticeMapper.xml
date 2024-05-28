@@ -68,13 +68,13 @@
             <if test="content != null and content != ''">
                 content = #{content},
             </if>
-            <if test="type_name != null and type_name != ''">
+            <if test="typeName != null and typeName != ''">
                 type_name = #{typeName},
             </if>
-            <if test="publish_time != null">
+            <if test="publishTime != null">
                 publish_time = #{publishTime},
             </if>
-            <if test="is_active != null">
+            <if test="isActive != null">
                 is_active = #{isActive}
             </if>
         </set>
