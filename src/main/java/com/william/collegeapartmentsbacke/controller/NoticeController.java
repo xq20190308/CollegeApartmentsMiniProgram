@@ -24,6 +24,7 @@ public class NoticeController {
     //查询全部通知
     @GetMapping
     public Result list(
+            Integer id,
             String title,
             String content,
             String typeName,
@@ -31,7 +32,7 @@ public class NoticeController {
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_ed,
             Boolean isActive){
         log.info("isAct{}", isActive);
-        List<Notice> noticeList = noticeService.list(title,content,typeName,publish_time_st,publish_time_ed,isActive);
+        List<Notice> noticeList = noticeService.list(id,title,content,typeName,publish_time_st,publish_time_ed,isActive);
         log.info("查询全部通知");
         log.info(noticeList.toString());
         return Result.success(noticeList);

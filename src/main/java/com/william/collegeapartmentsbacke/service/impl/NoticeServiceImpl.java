@@ -25,12 +25,12 @@ public class NoticeServiceImpl implements NoticeService {
     //查询通知
     @Override
     @Transactional
-    public List<Notice> list(String title, String content, String typeName, LocalDateTime publish_time_st,LocalDateTime publish_time_ed,Boolean isActive) {
+    public List<Notice> list(Integer id, String title, String content, String typeName, LocalDateTime publish_time_st,LocalDateTime publish_time_ed,Boolean isActive) {
         if (publish_time_ed == null){
             publish_time_ed = LocalDateTime.now();
         }
-        List<Notice> test = noticeMapper.list(title,content,typeName,publish_time_st,publish_time_ed,isActive);
-        return noticeMapper.list(title,content,typeName,publish_time_st,publish_time_ed,isActive);
+//        List<Notice> test = noticeMapper.list(title,content,typeName,publish_time_st,publish_time_ed,isActive);
+        return noticeMapper.list(id, title,content,typeName,publish_time_st,publish_time_ed,isActive);
     }
 
 
