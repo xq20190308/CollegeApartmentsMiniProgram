@@ -3,6 +3,7 @@ package com.william.collegeapartmentsbacke.service.impl;
 
 import com.william.collegeapartmentsbacke.mapper.NoticeMapper;
 import com.william.collegeapartmentsbacke.mapper.UserMapper;
+import com.william.collegeapartmentsbacke.pojo.dto.NoticeDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Notice;
 import com.william.collegeapartmentsbacke.pojo.entity.Permission;
 import com.william.collegeapartmentsbacke.service.NoticeService;
@@ -31,14 +32,20 @@ public class NoticeServiceImpl implements NoticeService {
         List<Notice> test = noticeMapper.list(title,content,typeName,publish_time_st,publish_time_ed,isActive);
         return noticeMapper.list(title,content,typeName,publish_time_st,publish_time_ed,isActive);
     }
+
+
     //添加新通知
     @Transactional
     @Override
-    public Boolean addNotice(Notice notice) {
+    public Boolean addNotice(NoticeDTO noticeDTO) {
+
+        Notice notice = new Notice();
+        notice.setTitle(noticeDTO.getTitle());
+        notice.setContent(noticeDTO.getContent());
+        notice.setTypeName(noticeDTO.getTypeName());
         notice.setPublishTime(LocalDateTime.now());
         notice.setIsActive(true);
         //检查是否有重复title
-
         List<Notice> existNotices = noticeMapper.search(notice.getTitle(),notice.getContent());
         boolean alreadyExist = (existNotices != null && !existNotices.isEmpty());
         if(alreadyExist)

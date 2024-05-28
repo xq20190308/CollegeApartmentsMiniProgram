@@ -1,6 +1,7 @@
 package com.william.collegeapartmentsbacke.controller;
 
 
+import com.william.collegeapartmentsbacke.pojo.dto.NoticeDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Notice;
 import com.william.collegeapartmentsbacke.pojo.Result;
 import com.william.collegeapartmentsbacke.service.NoticeService;
@@ -37,15 +38,27 @@ public class NoticeController {
     }
 
     //发布通知
+//    @PostMapping
+//    public Result addNotice(Notice notice){
+//        log.info("新增Notice");
+//        Boolean addSuccess = noticeService.addNotice(notice);
+//
+//        if(addSuccess)
+//            return Result.success();
+//        else
+//            return Result.error("已存在相同标题或相同内容的通知");
+//    }
     @PostMapping
-    public Result addNotice(Notice notice){
+    public Result addNotice(@RequestBody NoticeDTO noticeDTO){
         log.info("新增Notice");
-        Boolean addSuccess = noticeService.addNotice(notice);
-
-        if(addSuccess)
+        Boolean addSuccess = noticeService.addNotice(noticeDTO);
+        if(addSuccess) {
+            log.info("添加成功");
             return Result.success();
-        else
+        }
+        else {
             return Result.error("已存在相同标题或相同内容的通知");
+        }
     }
 
     @PostMapping("/modify")

@@ -55,7 +55,7 @@
 
     <insert id="insertNotice">
         insert into coap.notice (id, title, content, type_name, publish_time, is_active)
-                                        values (#{id},#{title},#{content},#{type_name},#{publish_time},#{is_active})
+                                        values (#{id},#{title},#{content},#{typeName},#{publishTime},#{isActive})
     </insert>
 
 
@@ -69,13 +69,13 @@
                 content = #{content},
             </if>
             <if test="type_name != null and type_name != ''">
-                type_name = #{type_name},
+                type_name = #{typeName},
             </if>
             <if test="publish_time != null">
-                publish_time = #{publish_time},
+                publish_time = #{publishTime},
             </if>
             <if test="is_active != null">
-                is_active = #{is_active}
+                is_active = #{isActive}
             </if>
         </set>
         where id = #{id}
