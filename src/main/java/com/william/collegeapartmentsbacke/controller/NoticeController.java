@@ -62,7 +62,7 @@ public class NoticeController {
     }
 
     @PostMapping("/modify")
-    public Result modifyNotice(Notice notice){
+    public Result modifyNotice(@RequestBody Notice notice){
         log.info("更新数据 Notice:{}",notice.toString());
         noticeService.modifyNotice(notice);
         return Result.success();
