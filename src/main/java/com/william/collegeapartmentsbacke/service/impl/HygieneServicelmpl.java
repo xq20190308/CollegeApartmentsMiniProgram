@@ -27,4 +27,9 @@ public class HygieneServicelmpl implements HygieneService {
             hygieneMapper.insertHygiene(hygiene); // 插入单个Hygiene对象到数据库
         }
     }
+
+    @Override
+    public String SelectRank(String rank) {
+        return hygieneMapper.selectHygieneByDormitoryid(rank);
+    }
 }

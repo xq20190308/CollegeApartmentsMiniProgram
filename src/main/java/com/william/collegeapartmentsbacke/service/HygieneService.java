@@ -8,4 +8,5 @@ import java.util.List;
 public interface HygieneService {
     List<Hygiene> SaveRank(InputStream file);
     void upData(List<Hygiene> hygieneList);
+    String SelectRank(String rank);
 }

@@ -1,5 +1,6 @@
 package com.william.collegeapartmentsbacke.controller;
 
+import com.william.collegeapartmentsbacke.pojo.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.Hygiene;
 import com.william.collegeapartmentsbacke.service.HygieneService;
 import lombok.SneakyThrows;
@@ -21,6 +22,11 @@ public class HygieneController {
         List<Hygiene> p=hygieneService.SaveRank(file.getInputStream());
         hygieneService.upData(p);
         return p;
+    }
+    @GetMapping("/SelesctRank/{id}")
+    public Result SelesctRank(@PathVariable("id") String id) {
+        String Rank=hygieneService.SelectRank(id);
+        return Result.success(Rank);
     }
 
 }
