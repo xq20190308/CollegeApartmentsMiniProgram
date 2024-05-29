@@ -6,6 +6,7 @@ import com.william.collegeapartmentsbacke.pojo.Result;
 import com.william.collegeapartmentsbacke.service.NoticeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,4 +63,5 @@ public class NoticeController {
         noticeService.deleteNotice(ids);
         return Result.success();
     }
+
 }

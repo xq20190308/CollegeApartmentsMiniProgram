@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
@@ -20,9 +21,13 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequestMapping("/api")
-public class SuggestionContriller {
+public class SuggestionController {
     @Autowired
     private SuggestionService suggestionService;
+
+    @Value("${localFileUrl}")
+    private String localFileUrl;
+
     //用户查询全部草稿
     @GetMapping("/selectDraft")
     public Result SelectDraftfindall() {
@@ -47,7 +52,7 @@ public class SuggestionContriller {
     }
 
     //删除投诉
-    @DeleteMapping("/deleteSuggestions{id}")
+    @DeleteMapping("/deleteSuggestions/{id}")
     public Result deleteSuggestion(@PathVariable("id") long id) {
         suggestionService.deleteSuggestion(id);
         if (suggestionService.deleteSuggestion(id)) {
@@ -60,8 +65,9 @@ public class SuggestionContriller {
     //上传文件
     @PostMapping("/upload")
     public Result upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+
         String ID = String.valueOf(UUID.randomUUID());
-        String filename = ID + "." + Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().lastIndexOf("."));
+        String filename = ID + Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().lastIndexOf("."));
         String filetype = file.getContentType();
         String Path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/static/" + filename;
         byte[] b;
@@ -72,11 +78,12 @@ public class SuggestionContriller {
         }
         Uploadfile loadFile = new Uploadfile(ID,filename, filetype,Path,b);
         try {
-            file.transferTo(new File("E:/static/" + filename));
+            file.transferTo(new File(localFileUrl + filename));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         suggestionService.Savefile(loadFile);
+
         return Result.success(Path);
     }
 
