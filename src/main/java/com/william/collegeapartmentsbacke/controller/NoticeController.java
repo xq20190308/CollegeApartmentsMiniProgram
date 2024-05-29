@@ -33,7 +33,8 @@ public class NoticeController {
             Boolean isActive){
         log.info("isAct{}", isActive);
         List<Notice> noticeList = noticeService.list(id,title,content,typeName,publish_time_st,publish_time_ed,isActive);
-        log.info("查询全部通知");
+
+        log.info("查询全部通知{}",typeName,isActive);
         log.info(noticeList.toString());
         return Result.success(noticeList);
     }
