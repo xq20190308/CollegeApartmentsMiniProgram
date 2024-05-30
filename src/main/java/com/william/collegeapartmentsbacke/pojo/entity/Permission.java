@@ -10,5 +10,6 @@ public class Permission {
     private String userLevel;
     private Boolean accountManage;
     private Boolean noticeManage;
-    private Boolean questionnaireManage;;
+    private Boolean questionnaireManage;
+    private Boolean feedbackManage;
 }
