@@ -32,7 +32,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     }
 
     @Override
-    public void deleteById(String id) {
+    public void deleteById(Integer id) {
         questionnaireMapper.deleteById(id);
     }
 

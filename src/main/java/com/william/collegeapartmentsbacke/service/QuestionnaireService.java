@@ -13,7 +13,7 @@ public interface QuestionnaireService {
 
     void add(Questionnaire questionnaire);
 
-    void deleteById(String id);
+    void deleteById(Integer id);
 
     Questionnaire selectById(String id);
 

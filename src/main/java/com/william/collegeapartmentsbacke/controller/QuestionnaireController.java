@@ -31,25 +31,40 @@ public class QuestionnaireController {
         return Result.success(questionnaireList);
     }
     /*
-    * 统计 问卷 填写数量
-    * @Param 问卷ID数组
-    * */
+     * 统计 问卷 填写数量
+     * @Param 问卷ID数组
+     * */
     @RequestMapping(value = "/countByIdList", method = RequestMethod.POST)
     public Result countById(@RequestParam("idList") List<String> idList) {
         return Result.success(questionnaireService.countById(idList));
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Result add(@RequestBody QuestionnaireDTO questionnaire) {
+    public Result add(@RequestBody Questionnaire questionnaire) {
+
+
+//        lIST QUESIDs;
+//        FOR QUESTION  in questionlist()
+//        {
+//            int id =   QUESTIONSERVICE .add(quesion)
+//                    qusesids.push(id);
+//        }
+//
+//        questionnaire.idlist =qusesids
+
+
+        log.info(questionnaire.toString());
         questionnaireService.add(questionnaire);
-        questionService.add(questionnaire.getQuestion());
-        return Result.success();
+
+
+        /*        questionService.add(questionnaire.getQuestion());*/
+        return Result.success(questionnaire);
     }
 
-    @RequestMapping(value = "/deleteById", method = RequestMethod.POST)
-    public Result deleteById(@RequestParam("id") String id) {
+    @RequestMapping(value = "/deleteById/{id}", method = RequestMethod.DELETE)
+    public Result deleteById(@PathVariable("id") Integer id) {
         questionnaireService.deleteById(id);
-        questionService.deletByQuestionnaire(id);
+/*        questionService.deletByQuestionnaire(id);*/
         return Result.success();
     }
 
