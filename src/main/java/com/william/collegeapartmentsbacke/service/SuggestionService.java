@@ -1,7 +1,9 @@
 package com.william.collegeapartmentsbacke.service;
 
+import com.william.collegeapartmentsbacke.pojo.Result;
 import com.william.collegeapartmentsbacke.pojo.Uploadfile;
 import com.william.collegeapartmentsbacke.pojo.Suggestion;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,15 +16,16 @@ public interface SuggestionService {
 
     //查询草稿
 
-    List<Suggestion> SelectDraftfindall();
+    List<Suggestion> SelectDraftfindall(String stu_id);
+
 
     List<Suggestion> Selectfindall();
 
-    Integer Savedaft(Suggestion suggestion);
+    String Savedaft(Suggestion suggestion);
 
     boolean deleteSuggestion(long id);
 
-    void Savefile(Uploadfile file);
+    Result Savefile(List<MultipartFile>files, HttpServletRequest request);
 
     String Selectfile(String id);
 
