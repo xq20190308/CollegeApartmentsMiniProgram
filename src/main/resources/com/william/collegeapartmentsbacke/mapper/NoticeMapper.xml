@@ -15,15 +15,11 @@
         from
             coap.notice
         <where>
-            <if test="id != null and title != ''">
+            <if test="id != null and id != ''">
                 id = #{id}
             </if>
-
-            <if test="title != null and title != ''">
-                and title like concat('%',#{title},'%')
-            </if>
-            <if test="content != null and content != ''">
-                and content like concat('%',#{content},'%')
+            <if test="keyword != null and keyword != '' ">
+                and  (title like concat('%',#{keyword},'%') or content like concat('%',#{keyword},'%'))
             </if>
             <if test="type_name != null and type_name != ''">
                 and type_name like concat('%',#{type_name},'%')
