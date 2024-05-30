@@ -1,5 +1,6 @@
 package com.william.collegeapartmentsbacke.mapper;
 
+import com.william.collegeapartmentsbacke.pojo.entity.Question;
 import com.william.collegeapartmentsbacke.pojo.entity.Questionnaire;
 import com.william.collegeapartmentsbacke.pojo.vo.QuestionnaireVO;
 import org.apache.ibatis.annotations.*;
@@ -15,13 +16,18 @@ public interface QuestionnaireMapper {
 
     List<QuestionnaireVO> countById(@Param("list") List<String> idList);
 
-    @Insert("insert into coap.questionnaire (id, type, name, description, start_time, end_time, question_list) " +
-            "values (#{id}, #{type}, #{name}, #{description}, #{startTime}, #{endTime}, #{questionList})")
-    void add(Questionnaire questionnaire);
-
     @Select("select * from coap.questionnaire where id = #{id}")
-    Questionnaire selectById(String id);
+    Questionnaire selectById(Integer id);
 
     @Delete("delete from coap.questionnaire where id = #{id}")
     void deleteById(Integer id);
+
+    @Update("update coap.questionnaire set type = #{type}, name = #{name}, description = #{description}, start_time = #{startTime}, end_time = #{endTime}, question_id_list = #{questionIdList} where id = #{id}")
+    void updateQuestionnaire(Questionnaire questionnaire);
+
+    @Insert("insert into coap.questionnaire (type) values (1)")
+    void simpleadd();
+
+    @Select("select LAST_INSERT_id()")
+    Integer getNewestId();
 }

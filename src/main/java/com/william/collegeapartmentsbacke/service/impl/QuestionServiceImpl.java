@@ -8,8 +8,10 @@ import com.william.collegeapartmentsbacke.pojo.entity.Question;
 import com.william.collegeapartmentsbacke.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,25 +26,25 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public void add(String question) {
-        // JSON转换为数组
-        JSONArray jsonArray = JSONUtil.parseArray(question);
-        jsonArray.forEach(item -> {
-            // 获取 题目对象
-            JSONObject jsonObject = (JSONObject)item;
-            questionMapper.add(new Question(jsonObject.getStr("id"),
-                    jsonObject.getInt("type"),
-                    jsonObject.getStr("name"),
-                    jsonObject.getStr("describe"),
-                    jsonObject.getStr("content"),
-                    jsonObject.getStr("questionnaire")
-            ));
-        });
+    public void deletByQuestionnaire(Integer quesionnaireId) {
+        questionMapper.deleteByQuestionnaire(quesionnaireId);
     }
 
     @Override
-    public void deletByQuestionnaire(String quesionnaire) {
-        questionMapper.deleteByQuestionnaire(quesionnaire);
+    public List<Integer> addQuestions(List<Question> questionList,Integer questionnaireId) {
+        List<Integer> idList = new ArrayList<>();
+        for (Question question : questionList) {
+            question.setQuestionnaireId(questionnaireId);
+            Integer id = addQuestion(question);
+            idList.add(id);
+        }
+        return idList;
     }
 
+    @Transactional
+    Integer addQuestion(Question question) {
+        questionMapper.addQuestion(question);
+        Integer newid = questionMapper.getNewestId();
+        return newid;
+    }
 }

@@ -9,12 +9,11 @@ public interface QuestionnaireService {
 
     List<Questionnaire> selectAll();
 
-    List<QuestionnaireVO> countById(List<String> idList);
-
-    void add(Questionnaire questionnaire);
-
     void deleteById(Integer id);
 
-    Questionnaire selectById(String id);
+    Questionnaire selectById(Integer id);
 
+    Integer simpleAdd();
+
+    void totallyadd(Questionnaire questionnaire);
 }

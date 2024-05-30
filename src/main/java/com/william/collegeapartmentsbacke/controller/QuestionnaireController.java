@@ -2,6 +2,7 @@ package com.william.collegeapartmentsbacke.controller;
 
 import com.william.collegeapartmentsbacke.pojo.Result;
 import com.william.collegeapartmentsbacke.pojo.dto.QuestionnaireDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.Question;
 import com.william.collegeapartmentsbacke.pojo.entity.Questionnaire;
 import com.william.collegeapartmentsbacke.pojo.vo.QuestionnaireVO;
 import com.william.collegeapartmentsbacke.service.QuestionService;
@@ -34,31 +35,32 @@ public class QuestionnaireController {
      * 统计 问卷 填写数量
      * @Param 问卷ID数组
      * */
-    @RequestMapping(value = "/countByIdList", method = RequestMethod.POST)
-    public Result countById(@RequestParam("idList") List<String> idList) {
-        return Result.success(questionnaireService.countById(idList));
-    }
-
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Result add(@RequestBody Questionnaire questionnaire) {
+    public Result add(@RequestBody QuestionnaireDTO questionnaireDto) {
+
+        Integer questionnaireId = questionnaireService.simpleAdd();
+
+        log.info(questionnaireDto.toString());
+        List<Question> questionList = questionnaireDto.getQuestionList();
+
+        List<Integer> questionIdList = questionService.addQuestions(questionList,questionnaireId);
+
+        Questionnaire questionnaire = new Questionnaire();
+        questionnaire.setId(questionnaireId);
+        questionnaire.setType(questionnaireDto.getType());
+        questionnaire.setName(questionnaireDto.getName());
+        questionnaire.setDescription(questionnaireDto.getDescription());
+        questionnaire.setStartTime(questionnaireDto.getStartTime());
+        questionnaire.setEndTime(questionnaireDto.getEndTime());
+
+        String qidlistStr = questionIdList.toString();
+        qidlistStr = qidlistStr.replaceAll("(\\d+)", "\"$1\""); // 为每个数字添加引号
+        questionnaire.setQuestionIdList(qidlistStr);
 
 
-//        lIST QUESIDs;
-//        FOR QUESTION  in questionlist()
-//        {
-//            int id =   QUESTIONSERVICE .add(quesion)
-//                    qusesids.push(id);
-//        }
-//
-//        questionnaire.idlist =qusesids
-
-
+        questionnaireService.totallyadd(questionnaire);
         log.info(questionnaire.toString());
-        questionnaireService.add(questionnaire);
-
-
-        /*        questionService.add(questionnaire.getQuestion());*/
-        return Result.success(questionnaire);
+        return Result.success();
     }
 
     @RequestMapping(value = "/deleteById/{id}", method = RequestMethod.DELETE)

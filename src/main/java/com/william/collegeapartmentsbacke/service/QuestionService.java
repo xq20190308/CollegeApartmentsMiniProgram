@@ -1,6 +1,8 @@
 package com.william.collegeapartmentsbacke.service;
 
 import com.william.collegeapartmentsbacke.pojo.entity.Question;
+import com.william.collegeapartmentsbacke.pojo.entity.Questionnaire;
+
 import java.util.List;
 
 
@@ -9,8 +11,7 @@ public interface QuestionService {
 
     List<Question> selectById(List<String> idList);
 
-    void add(String question);
+    void deletByQuestionnaire(Integer questionnaire);
 
-    void deletByQuestionnaire(String questionnaire);
-
+    List<Integer> addQuestions(List<Question> questionList,Integer questionnaireId);
 }
