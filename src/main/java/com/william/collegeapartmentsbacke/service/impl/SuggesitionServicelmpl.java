@@ -31,7 +31,6 @@ public class SuggesitionServicelmpl implements SuggestionService {
         LocalDateTime pushtime=LocalDateTime.now();
         pushtime = pushtime.withNano(0);
         suggestion.setPushtime(pushtime);
-        suggestionmapper.savedaft(suggestion);
         suggestionmapper.submit(suggestion);
     }
 
@@ -62,7 +61,6 @@ public class SuggesitionServicelmpl implements SuggestionService {
         Integer id=suggestionmapper.selectLast();
         return suggestionmapper.selectLast();
     }
-
 
     //删除草稿
     @Override
