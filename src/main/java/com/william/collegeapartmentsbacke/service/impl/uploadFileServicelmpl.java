@@ -2,11 +2,9 @@ package com.william.collegeapartmentsbacke.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.william.collegeapartmentsbacke.common.properties.JwtProperties;
-import com.william.collegeapartmentsbacke.common.utils.JwtUtil;
 import com.william.collegeapartmentsbacke.mapper.SuggestionMapper;
-import com.william.collegeapartmentsbacke.pojo.Result;
-import com.william.collegeapartmentsbacke.pojo.Uploadfile;
-import com.william.collegeapartmentsbacke.pojo.entity.User;
+import com.william.collegeapartmentsbacke.pojo.entity.Result;
+import com.william.collegeapartmentsbacke.pojo.entity.Uploadfile;
 import com.william.collegeapartmentsbacke.service.UserService;
 import com.william.collegeapartmentsbacke.service.uploadFileService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,7 +41,8 @@ public class uploadFileServicelmpl implements uploadFileService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Result Savefile(@RequestHeader("Authorization")String token,List<MultipartFile>files, HttpServletRequest request) {
+    public Result Savefile(@RequestHeader("Authorization")String token, List<MultipartFile>files, HttpServletRequest request) {
+        String userid=userService.getUseridFromToken(token);
         List<String> uploadUrl = new ArrayList<>();
         for (MultipartFile file : files) {
             if (!ObjectUtils.isEmpty(file)) {
@@ -61,7 +60,7 @@ public class uploadFileServicelmpl implements uploadFileService {
                         // 读取文件字节
                         byte[] b = file.getBytes();
                         // 创建文件上传对象
-                        Uploadfile loadFile = new Uploadfile(ID,,filename, filetype, Path, b);
+                        Uploadfile loadFile = new Uploadfile(ID,userid,filename, filetype, Path, b);
                         // 将文件保存到服务器
                         file.transferTo(new File(localFileUrl + filename));
                         // 保存文件信息到数据库
