@@ -1,8 +1,7 @@
 package com.william.collegeapartmentsbacke.controller;
 
 
-import cn.hutool.core.date.DateTime;
-import com.william.collegeapartmentsbacke.pojo.Result;
+import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.QuestionnaireAnswer;
 import com.william.collegeapartmentsbacke.pojo.vo.QuestionnaireAwswerVO;
 import com.william.collegeapartmentsbacke.service.QuestionnaireAnswerService;

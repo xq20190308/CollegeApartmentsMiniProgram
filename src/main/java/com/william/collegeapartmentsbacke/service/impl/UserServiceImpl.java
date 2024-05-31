@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-        
+
         Claims claims = JwtUtil.parseJWT(jwtProperties.getSecretKey(),token);
         log.info(claims.toString());
         String userid = JwtUtil.parseJWT(jwtProperties.getSecretKey(),token).get("userid").toString();
