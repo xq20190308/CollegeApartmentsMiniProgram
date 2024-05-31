@@ -94,44 +94,6 @@ public class SuggesitionServicelmpl implements SuggestionService {
     }
 
 
-    //上传文件
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Result Savefile(List<MultipartFile>files, HttpServletRequest request) {
-        List<String> uploadUrl = new ArrayList<>();
-        for (MultipartFile file : files) {
-            if (!ObjectUtils.isEmpty(file)) {
-                try {
-                    // 为每个文件生成一个唯一的ID
-                    String ID = String.valueOf(UUID.randomUUID());
-                    // 确保文件名不为空，并且获取文件扩展名
-                    String originalFilename = file.getOriginalFilename();
-                    if (originalFilename != null && originalFilename.lastIndexOf(".") != -1) {
-                        String filename = ID + originalFilename.substring(originalFilename.lastIndexOf("."));
-                        // 获取文件的MIME类型
-                        String filetype = file.getContentType();
-                        // 构建文件的URL路径
-                        String Path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/static/" + filename;
-                        // 读取文件字节
-                        byte[] b = file.getBytes();
-                        // 创建文件上传对象
-                        Uploadfile loadFile = new Uploadfile(ID, filename, filetype, Path, b);
-                        // 将文件保存到服务器
-                        file.transferTo(new File(localFileUrl + filename));
-                        // 保存文件信息到数据库
-                        suggestionmapper.savefile(loadFile);
-                        // 将文件的URL路径添加到结果列表中
-                        uploadUrl.add(Path);
-                    }
-                } catch (IOException e) {
-                    // 处理异常情况
-                }
-            }
-        }
-        return Result.success(String.join(",",uploadUrl));
-    }
-
-
     //获取文件
     @Override
     public String Selectfile(String id) {

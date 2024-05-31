@@ -25,8 +25,6 @@ public interface SuggestionService {
 
     boolean deleteSuggestion(long id);
 
-    Result Savefile(List<MultipartFile>files, HttpServletRequest request);
-
     String Selectfile(String id);
 
 }
