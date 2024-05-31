@@ -13,7 +13,6 @@ import com.william.collegeapartmentsbacke.service.UserService;
 import com.william.collegeapartmentsbacke.common.properties.WeChatProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.metrics.data.DefaultRepositoryTagsProvider;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -33,8 +32,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private JwtProperties jwtProperties;
-    @Autowired
-    private DefaultRepositoryTagsProvider repositoryTagsProvider;
 
 
     @Override
@@ -86,15 +83,11 @@ public class UserServiceImpl implements UserService {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+        
         Claims claims = JwtUtil.parseJWT(jwtProperties.getSecretKey(),token);
         log.info(claims.toString());
-//        String userid = JwtUtil.parseJWT(jwtProperties.getSecretKey(), token).getClaim("userid").toString();
         String userid = JwtUtil.parseJWT(jwtProperties.getSecretKey(),token).get("userid").toString();
-            if (userid != null) {
-                return userid;
-            }
-
-        return null;
+        return userid;
     }
 
 
@@ -163,7 +156,7 @@ public class UserServiceImpl implements UserService {
         }
         catch (Exception e) {
             e.printStackTrace();
-        };
+        }
 
         return null;
     }
