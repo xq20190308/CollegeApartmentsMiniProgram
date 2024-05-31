@@ -21,7 +21,7 @@ public interface UserService {
     //查询用户标识
     Permission getPermission(String openid);
 
-    String getUseridByToken(String token);
+    String getUseridFromToken(String token);
 
 
 

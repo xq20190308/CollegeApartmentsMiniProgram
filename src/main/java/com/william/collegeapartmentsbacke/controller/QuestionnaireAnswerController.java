@@ -26,7 +26,7 @@ public class QuestionnaireAnswerController {
     public Result addQuestionnaireAnswer(@RequestHeader("Authorization") String token ,
                                          @RequestBody QuestionnaireAnswer questionnaireAnswer) {
         log.info("token: {}",token);
-        String userid = userService.getUseridByToken(token);
+        String userid = userService.getUseridFromToken(token);
         log.info("问卷回答 userid:{}",userid);
         log.info("新增了一份问卷回答：questionnaireAnswer : {}", questionnaireAnswer);
         questionnaireAnswer.setUserid("11");
@@ -36,5 +36,7 @@ public class QuestionnaireAnswerController {
         return Result.success();
     }
 
+
+    
 
 }

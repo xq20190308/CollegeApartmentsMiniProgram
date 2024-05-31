@@ -1,13 +1,11 @@
 package com.william.collegeapartmentsbacke.service.impl;
-
+import io.jsonwebtoken.Claims;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.william.collegeapartmentsbacke.common.properties.JwtProperties;
 import com.william.collegeapartmentsbacke.common.utils.HttpClientUtil;
 import com.william.collegeapartmentsbacke.common.utils.JwtUtil;
 import com.william.collegeapartmentsbacke.mapper.UserMapper;
-import com.william.collegeapartmentsbacke.pojo.Result;
-import com.william.collegeapartmentsbacke.pojo.dto.UserDTO;
 import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Permission;
 import com.william.collegeapartmentsbacke.pojo.entity.User;
@@ -79,15 +77,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getUseridByToken(String token) {
-        try {
-            String userid = JwtUtil.parseJWT(jwtProperties.getSecretKey(), token).getClaim("userid").toString();
+    public String getUseridFromToken(String token) {
+//        try {
+//            String userid = JwtUtil.parseJWT(jwtProperties.getSecretKey(), token).getClaim("userid").toString();
+//            if (userid != null) {
+//                return userid;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getSecretKey(),token);
+        log.info(claims.toString());
+//        String userid = JwtUtil.parseJWT(jwtProperties.getSecretKey(), token).getClaim("userid").toString();
+        String userid = JwtUtil.parseJWT(jwtProperties.getSecretKey(),token).get("userid").toString();
             if (userid != null) {
                 return userid;
             }
-        } catch (Exception e) {
-            log.info("获取openid时遇到问题");
-        }
+
         return null;
     }
 

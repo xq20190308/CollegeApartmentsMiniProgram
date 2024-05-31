@@ -98,7 +98,7 @@ public class UserController {
     }
 
     public Result getPermission(@RequestHeader("Authorization") String token) {
-        String openid = JwtUtil.parseJWT(jwtProperties.getSecretKey(),token).getClaim("openid").toString();
+        String openid = JwtUtil.parseJWT(jwtProperties.getSecretKey(),token).get("openid").toString();
         Permission permission = userService.getPermission(openid);
         return Result.success(permission);
     }
@@ -110,7 +110,7 @@ public class UserController {
     @GetMapping("/findByOpenid")
     public Result findByOpenid(@RequestHeader("Authorization") String token) {
         try {
-            String openid = JwtUtil.parseJWT(jwtProperties.getSecretKey(), token).getClaim("openid").toString();
+            String openid = JwtUtil.parseJWT(jwtProperties.getSecretKey(), token).get("openid").toString();
             if (openid != null) {
                 User resultUser = userService.findByOpenid(openid);
                 if (resultUser != null) {
