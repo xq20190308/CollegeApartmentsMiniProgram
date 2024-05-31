@@ -62,6 +62,7 @@ public class UserController {
         Map<String, Object> claims = new HashMap<String, Object>() {{
             put(JwtClaimsConstant.ID,user.getId());
             put(JwtClaimsConstant.OPENID, user.getOpenid());
+            put(JwtClaimsConstant.USERID,user.getUserid());
             put(JwtClaimsConstant.USERLEVEL,user.getUserLevel());
         }};
         String token = JwtUtil.createJWT(jwtProperties.getSecretKey(), jwtProperties.getTtl(), claims);
@@ -83,6 +84,12 @@ public class UserController {
         return Result.success(userLoginVO);
     }
 
+
+
+
+
+
+
     public Result regist(@RequestBody UserLoginDTO userLoginDTO) {
 
         User user = userService.wxLogin(userLoginDTO);
@@ -101,7 +108,6 @@ public class UserController {
 //    }
 
     @GetMapping("/findByOpenid")
-//    public Result<User> findByOpenid(@RequestHeader("Authorization") String token) {
     public Result findByOpenid(@RequestHeader("Authorization") String token) {
         try {
             String openid = JwtUtil.parseJWT(jwtProperties.getSecretKey(), token).getClaim("openid").toString();
@@ -111,6 +117,7 @@ public class UserController {
                     return Result.success(userService.findByOpenid(openid));
                 }
             }
+
         } catch (Exception e) {
             log.info("获取openid时遇到问题");
         }
