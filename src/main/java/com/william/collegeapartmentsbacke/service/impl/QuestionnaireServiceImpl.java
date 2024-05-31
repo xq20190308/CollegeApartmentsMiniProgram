@@ -6,6 +6,7 @@ import com.william.collegeapartmentsbacke.pojo.vo.QuestionnaireVO;
 import com.william.collegeapartmentsbacke.service.QuestionnaireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -22,23 +23,26 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     }
 
     @Override
-    public List<QuestionnaireVO> countById(List<String> idList) {
-        return questionnaireMapper.countById(idList);
-    }
-
-    @Override
-    public void add(Questionnaire questionnaire) {
-        questionnaireMapper.add(questionnaire);
-    }
-
-    @Override
-    public void deleteById(String id) {
+    public void deleteById(Integer id) {
         questionnaireMapper.deleteById(id);
     }
 
     @Override
-    public Questionnaire selectById(String id) {
+    public Questionnaire selectById(Integer id) {
         return questionnaireMapper.selectById(id);
+    }
+
+    @Transactional
+    @Override
+    public Integer simpleAdd() {
+        questionnaireMapper.simpleadd();
+        Integer naireId = questionnaireMapper.getNewestId();
+        return naireId;
+    }
+
+    @Override
+    public void totallyadd(Questionnaire questionnaire) {
+        questionnaireMapper.updateQuestionnaire(questionnaire);
     }
 
 }

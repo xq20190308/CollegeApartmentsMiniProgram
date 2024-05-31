@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @TableName("coap.question")
 public class Question {
-    private String id;
+    private Integer id;
     private Integer type;
     private String name;
-    private String describe;
+    private String description;
     private String content;
-    private String questionnaire;
+    private Integer questionnaireId;
 
 }
