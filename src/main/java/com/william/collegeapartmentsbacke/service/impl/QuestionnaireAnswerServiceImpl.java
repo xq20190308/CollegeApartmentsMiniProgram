@@ -1,6 +1,7 @@
 package com.william.collegeapartmentsbacke.service.impl;
 
 import com.william.collegeapartmentsbacke.mapper.QuestionnaireAnswerMapper;
+import com.william.collegeapartmentsbacke.pojo.entity.Question;
 import com.william.collegeapartmentsbacke.pojo.entity.QuestionnaireAnswer;
 import com.william.collegeapartmentsbacke.service.QuestionnaireAnswerService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,5 +23,11 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         Integer ansId = questionnaireAnswerMapper.getNewestId();
 
         return ansId;
+    }
+
+    @Override
+    public QuestionnaireAnswer getAnswerByUseridAndNaireId(String userid, Integer naireId) {
+        QuestionnaireAnswer questionnaireAnswer = questionnaireAnswerMapper.getNaireByUseridAndNaireId(userid,naireId);
+        return questionnaireAnswer;
     }
 }
