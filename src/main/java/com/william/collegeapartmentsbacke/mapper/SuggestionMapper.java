@@ -1,7 +1,7 @@
 package com.william.collegeapartmentsbacke.mapper;
 
-import com.william.collegeapartmentsbacke.pojo.Uploadfile;
-import com.william.collegeapartmentsbacke.pojo.Suggestion;
+import com.william.collegeapartmentsbacke.pojo.entity.Uploadfile;
+import com.william.collegeapartmentsbacke.pojo.entity.Suggestion;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

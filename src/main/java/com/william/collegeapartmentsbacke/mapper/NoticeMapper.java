@@ -13,8 +13,8 @@ import java.util.List;
 public interface NoticeMapper {
 
 //    @Select("select * from Notification.announcements")
-    List<Notice> list(@Param("title") String title,
-                      @Param("content") String content,
+    List<Notice> list(@Param("id") Integer id,
+                      @Param("keyword") String keyword,
                       @Param("type_name") String typeName,
                       @Param("publish_time_st") LocalDateTime publish_time_st,
                       @Param("publish_time_ed") LocalDateTime publish_time_ed,

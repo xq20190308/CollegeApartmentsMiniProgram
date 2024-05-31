@@ -6,7 +6,7 @@
 
 
     <insert id="insert">
-        insert into UserInfo.user (openid, name, username, phone, avatar, isauthentic,student_id)
-        values (#{openid}, #{name}, #{username}, #{phone}, #{avatar}, #{isauthenticated},#{student_id})
+        insert into coap.user (openid, username, password, name, userid ,phone, avatar, user_level)
+        values (#{openid}, #{username}, #{password}, #{name}, #{userid}, #{phone},#{avatar},#{userLevel})
     </insert>
 </mapper>

@@ -13,13 +13,13 @@
                publish_time,
                is_active
         from
-            Notification.announcements
+            coap.notice
         <where>
-            <if test="title != null and title != ''">
-                title like concat('%',#{title},'%')
+            <if test="id != null and id != ''">
+                id = #{id}
             </if>
-            <if test="content != null and content != ''">
-                and content like concat('%',#{content},'%')
+            <if test="keyword != null and keyword != '' ">
+                and  (title like concat('%',#{keyword},'%') or content like concat('%',#{keyword},'%'))
             </if>
             <if test="type_name != null and type_name != ''">
                 and type_name like concat('%',#{type_name},'%')
@@ -47,20 +47,20 @@
     <select id="search" resultType="com.william.collegeapartmentsbacke.pojo.entity.Notice">
         select title,
                content
-        from Notification.announcements
+        from coap.notice
         where title = #{title} or content = #{content}
     </select>
 
 
 
     <insert id="insertNotice">
-        insert into Notification.announcements (id, title, content, type_name, publish_time, is_active)
-                                        values (#{id},#{title},#{content},#{type_name},#{publish_time},#{is_active})
+        insert into coap.notice (id, title, content, type_name, publish_time, is_active)
+                                        values (#{id},#{title},#{content},#{typeName},#{publishTime},#{isActive})
     </insert>
 
 
     <update id="updateNotice">
-        update Notification.announcements
+        update coap.notice
         <set>
             <if test="title != null and title != ''">
                 title = #{title},
@@ -68,14 +68,14 @@
             <if test="content != null and content != ''">
                 content = #{content},
             </if>
-            <if test="type_name != null and type_name != ''">
-                type_name = #{type_name},
+            <if test="typeName != null and typeName != ''">
+                type_name = #{typeName},
             </if>
-            <if test="publish_time != null">
-                publish_time = #{publish_time},
+            <if test="publishTime != null">
+                publish_time = #{publishTime},
             </if>
-            <if test="is_active != null">
-                is_active = #{is_active}
+            <if test="isActive != null">
+                is_active = #{isActive}
             </if>
         </set>
         where id = #{id}
@@ -84,7 +84,7 @@
 
     <delete id="deleteNotice">
         delete
-        from Notification.announcements
+        from coap.notice
         where id in
         <foreach collection="ids" item="id" separator="," open="(" close=")">
             #{id}

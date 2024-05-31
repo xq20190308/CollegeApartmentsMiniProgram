@@ -1,12 +1,12 @@
 package com.william.collegeapartmentsbacke.controller;
 
 
+import com.william.collegeapartmentsbacke.pojo.dto.NoticeDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Notice;
-import com.william.collegeapartmentsbacke.pojo.Result;
+import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.service.NoticeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,39 +24,52 @@ public class NoticeController {
     //查询全部通知
     @GetMapping
     public Result list(
-            String title,
-            String content,
+            Integer id,
+            String keyword,
             String typeName,
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_st,
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_ed,
             Boolean isActive){
-        log.info("isAct{}", isActive);
-        List<Notice> noticeList = noticeService.list(title,content,typeName,publish_time_st,publish_time_ed,isActive);
-        log.info("查询全部通知");
+        log.info("isActive{}", isActive);
+        List<Notice> noticeList = noticeService.list(id,keyword,typeName,publish_time_st,publish_time_ed,isActive);
+
+        log.info("查询全部通知{}",typeName,isActive);
         log.info(noticeList.toString());
         return Result.success(noticeList);
     }
 
     //发布通知
+//    @PostMapping
+//    public Result addNotice(Notice notice){
+//        log.info("新增Notice");
+//        Boolean addSuccess = noticeService.addNotice(notice);
+//
+//        if(addSuccess)
+//            return Result.success();
+//        else
+//            return Result.error("已存在相同标题或相同内容的通知");
+//    }
     @PostMapping
-    public Result addNotice(Notice notice){
+    public Result addNotice(@RequestBody NoticeDTO noticeDTO){
         log.info("新增Notice");
-        Boolean addSuccess = noticeService.addNotice(notice);
-
-        if(addSuccess)
+        Boolean addSuccess = noticeService.addNotice(noticeDTO);
+        if(addSuccess) {
+            log.info("添加成功");
             return Result.success();
-        else
+        }
+        else {
             return Result.error("已存在相同标题或相同内容的通知");
+        }
     }
 
     @PostMapping("/modify")
-    public Result modifyNotice(Notice notice){
+    public Result modifyNotice(@RequestBody Notice notice){
         log.info("更新数据 Notice:{}",notice.toString());
         noticeService.modifyNotice(notice);
         return Result.success();
     }
 
-    @DeleteMapping("/delete/{ids}")
+    @DeleteMapping("/{ids}")
     public Result deleteNotice(@PathVariable List<Integer> ids)
     {
         log.info("彻底删除操作, ids:{}",ids);

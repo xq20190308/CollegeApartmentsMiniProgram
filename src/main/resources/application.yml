@@ -1,12 +1,16 @@
 server:
   port: 8080
 
-mybatis:
+mybatis-plus:
   mapper-locations: classpath:mappers/*.xml
   type-aliases-package: com.william.collegeapartmentsbacke.mybatis.entity
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  level:
+    com.zoctan.api.mapper : debug
 
 spring:
   datasource:
@@ -21,7 +25,7 @@ zhrc:
     ttl: 604800000
     token-name: authorization
   wechat:
-    appid: wxbc76a57642a7333a
-    secret: 43cf3bbccc4d1e2a8c9847015bbb9975
+    appid: wx3b5ec6e4e336f19e
+    secret: adb45243c65766fca8e5c94454a39ef0
 localFileUrl : E:/static/
 mapFileUrl : /static/

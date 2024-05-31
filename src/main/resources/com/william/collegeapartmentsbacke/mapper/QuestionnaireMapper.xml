@@ -4,6 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.william.collegeapartmentsbacke.mapper.QuestionnaireMapper">
+    <insert id="addQuestion">
+        insert into coap.question (id, type, name, description, content, questionnaire_id) VALUES
+    </insert>
+
+
 
     <select id="countById" resultType="com.william.collegeapartmentsbacke.pojo.vo.QuestionnaireVO" parameterType="list">
         SELECT coap.questionnaire, count(*) as cnt
