@@ -37,13 +37,10 @@ public class QuestionnaireController {
      * */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Result add(@RequestBody QuestionnaireDTO questionnaireDto) {
-
+        log.info("添加问卷");
         Integer questionnaireId = questionnaireService.simpleAdd();
-
-        log.info(questionnaireDto.toString());
         List<Question> questionList = questionnaireDto.getQuestionList();
-
-        List<Integer> questionIdList = questionService.addQuestions(questionList,questionnaireId);
+        questionService.addQuestions(questionList,questionnaireId);
 
         Questionnaire questionnaire = new Questionnaire();
         questionnaire.setId(questionnaireId);
@@ -53,10 +50,6 @@ public class QuestionnaireController {
         questionnaire.setStartTime(questionnaireDto.getStartTime());
         questionnaire.setEndTime(questionnaireDto.getEndTime());
 
-        String qidlistStr = questionIdList.toString();
-        qidlistStr = qidlistStr.replaceAll("(\\d+)", "\"$1\""); // 为每个数字添加引号
-        questionnaire.setQuestionIdList(qidlistStr);
-
 
         questionnaireService.totallyadd(questionnaire);
         log.info(questionnaire.toString());
@@ -65,9 +58,12 @@ public class QuestionnaireController {
 
     @RequestMapping(value = "/deleteById/{id}", method = RequestMethod.DELETE)
     public Result deleteById(@PathVariable("id") Integer id) {
+        log.info("根据问卷id删除对应问卷及其所有问题");
         questionnaireService.deleteById(id);
-/*        questionService.deletByQuestionnaire(id);*/
+        questionService.deleteByQuestionnaireId(id);
         return Result.success();
     }
+
+
 
 }

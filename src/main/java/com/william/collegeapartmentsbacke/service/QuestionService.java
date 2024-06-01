@@ -9,9 +9,15 @@ import java.util.List;
 
 public interface QuestionService {
 
-    List<Question> selectById(List<String> idList);
+    Question selectQuestionById(Integer questionId);
 
-    void deletByQuestionnaire(Integer questionnaire);
+    List<Question> selectByQuestionnaireId(Integer questionnaireId);
+
+    void deleteByQuestionnaireId(Integer questionnaireId);
+
+    void deleteByQuestionId(Integer questionId);
+
+
 
     List<Integer> addQuestions(List<Question> questionList,Integer questionnaireId);
 }
