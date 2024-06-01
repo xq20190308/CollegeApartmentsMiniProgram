@@ -9,10 +9,13 @@ import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Permission;
 import com.william.collegeapartmentsbacke.pojo.entity.User;
 import com.william.collegeapartmentsbacke.pojo.vo.UserLoginVO;
+import com.william.collegeapartmentsbacke.service.SuggestionService;
 import com.william.collegeapartmentsbacke.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,12 +31,16 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private SuggestionService suggestionService;
+
     /**
      * 登录
      *
      * @param userLoginDTO
      * @return
      */
+    //传入账号密码，返回登录状态，用户基本信息
     @PostMapping("/login")
     public Result login(@RequestBody UserLoginDTO userLoginDTO) {
 //        1.验证用户名密码
@@ -48,6 +55,9 @@ public class UserController {
             //情况2：登陆失败,账号或密码错误
             return Result.error(msg);
         }
+        //测试时用,可不校验opid
+//        User  user = userService.findByUsername(userLoginDTO.getUsername());
+
         User user = userService.wxLogin(userLoginDTO);
         //情况3：如果到此查询不到数据,则出现未知问题
         //情况4：也有可能是获取不到openid;
@@ -102,10 +112,6 @@ public class UserController {
         Permission permission = userService.getPermission(openid);
         return Result.success(permission);
     }
-//    @GetMapping("/findNeighborhood")
-//    public NeighborhoodInfo findNeighborhoodByUserId(@RequestParam("id") Integer id) {
-//        return userService.findNeighborhoodByUserId(id);
-//    }
 
     @GetMapping("/findByOpenid")
     public Result findByOpenid(@RequestHeader("Authorization") String token) {
@@ -123,5 +129,16 @@ public class UserController {
         }
         return Result.error("请登录");
     }
+
+
+   @RequestMapping("/uploadavatar")
+   public Result upLoadAvatar(@RequestHeader("Authorization") String token, MultipartFile file, HttpServletRequest httpServletRequest) {
+
+
+
+        return Result.success();
+   }
+
+
 }
 
