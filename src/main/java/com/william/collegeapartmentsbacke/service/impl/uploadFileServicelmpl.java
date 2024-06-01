@@ -41,7 +41,7 @@ public class uploadFileServicelmpl implements uploadFileService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Result Savefile(@RequestHeader("Authorization")String token, List<MultipartFile>files, HttpServletRequest request) {
+    public Result Savefile(String token, List<MultipartFile>files, HttpServletRequest request) {
         String userid=userService.getUseridFromToken(token);
         List<String> uploadUrl = new ArrayList<>();
         for (MultipartFile file : files) {
