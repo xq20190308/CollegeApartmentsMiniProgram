@@ -33,47 +33,59 @@ public class FileServiceImpl implements FileService {
     @Value("${mapFileUrl}")
     private String mapFileUrl;
 
+    @Override
+    public Uploadfile SaveSingleFile(String userid, MultipartFile file, HttpServletRequest request) {
+            try {
+                // 为每个文件生成一个唯一的ID
+                String ID = String.valueOf(UUID.randomUUID());
+                // 确保文件名不为空，并且获取文件扩展名
+                String originalFilename = file.getOriginalFilename();
+                if (originalFilename != null && originalFilename.lastIndexOf(".") != -1) {
+                    String filename = ID + originalFilename.substring(originalFilename.lastIndexOf("."));
+                    // 获取文件的MIME类型
+                    String filetype = file.getContentType();
+                    // 构建文件的URL路径
+                    String Path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + mapFileUrl + filename;
+                    // 读取文件字节
+                    byte[] b = file.getBytes();
+                    // 创建文件上传对象
+                    Uploadfile loadFile = new Uploadfile(ID,userid,filename, filetype, Path, b);
+                    // 将文件保存到服务器
+                    file.transferTo(new File(localFileUrl + filename));
+                    // 保存文件信息到数据库
+                    fileMapper.savefile(loadFile);
+                    // 将文件的URL路径添加到结果列表中
+
+                    return loadFile;
+                }
+            } catch (IOException e) {
+                // 处理异常情况
+                return null;
+            }
+            return null;
+    }
 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String Savefile(String userid, List<MultipartFile>files, HttpServletRequest request, String usedType) {
+    public String Savefile(String userid, List<MultipartFile>files, HttpServletRequest request) {
         List<String> uploadUrl = new ArrayList<>();
         for (MultipartFile file : files) {
             if (!ObjectUtils.isEmpty(file)) {
-                try {
-                    // 为每个文件生成一个唯一的ID
-                    String ID = String.valueOf(UUID.randomUUID());
-                    // 确保文件名不为空，并且获取文件扩展名
-                    String originalFilename = file.getOriginalFilename();
-                    if (originalFilename != null && originalFilename.lastIndexOf(".") != -1) {
-                        String filename = ID + originalFilename.substring(originalFilename.lastIndexOf("."));
-                        // 获取文件的MIME类型
-                        String filetype = file.getContentType();
-                        // 构建文件的URL路径
-                        String Path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + mapFileUrl + filename;
-                        // 读取文件字节
-                        byte[] b = file.getBytes();
-                        // 创建文件上传对象
-                        Uploadfile loadFile = new Uploadfile(ID,userid,filename, filetype, Path, b, usedType);
-                        // 将文件保存到服务器
-                        file.transferTo(new File(localFileUrl + filename));
-                        // 保存文件信息到数据库
-                        fileMapper.savefile(loadFile);
-                        // 将文件的URL路径添加到结果列表中
-                        uploadUrl.add(Path);
-                    }
-                } catch (IOException e) {
-                    // 处理异常情况
-                }
+                String savedPath = SaveSingleFile(userid, file, request).getPath();
+                uploadUrl.add(savedPath);
             }
         }
         return String.join(",",uploadUrl);
     }
 
-    //获取文件
+    //获取文件路径
     @Override
-    public String Selectfile(String id, String usedType) {
-        return fileMapper.selectfile(id, usedType);
+    public String SelectfileById(String id) {
+        return fileMapper.selectfile(id);
     }
+
+
+
+
 }

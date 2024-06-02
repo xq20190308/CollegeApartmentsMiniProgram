@@ -15,6 +15,5 @@ public class FileEntity {
         private String Type;
         private String Path;
         private byte[] data;
-        private String usedType;
     }
 }

@@ -4,10 +4,8 @@ import com.william.collegeapartmentsbacke.common.constant.JwtClaimsConstant;
 import com.william.collegeapartmentsbacke.common.properties.JwtProperties;
 import com.william.collegeapartmentsbacke.common.utils.JwtUtil;
 import com.william.collegeapartmentsbacke.mapper.UserMapper;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
+import com.william.collegeapartmentsbacke.pojo.entity.*;
 import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
-import com.william.collegeapartmentsbacke.pojo.entity.Permission;
-import com.william.collegeapartmentsbacke.pojo.entity.User;
 import com.william.collegeapartmentsbacke.pojo.vo.UserLoginVO;
 import com.william.collegeapartmentsbacke.service.FileService;
 import com.william.collegeapartmentsbacke.service.SuggestionService;
@@ -85,7 +83,6 @@ public class UserController {
                 .trueName(user.getName())
                 .userid(user.getUserid())
                 .phone(user.getPhone())
-                .avatar(user.getAvatar())
                 .userPermission(permission)
                 .token(token)
                 .build();
@@ -132,12 +129,13 @@ public class UserController {
 
 
    @RequestMapping(value = "/uploadavatar",method = RequestMethod.POST)
-   public Result upLoadAvatar(@RequestHeader("Authorization") String token, MultipartFile avatar, HttpServletRequest httpServletRequest) {
+   public Result upLoadAvatar(@RequestHeader("Authorization") String token, MultipartFile avatar, HttpServletRequest request) {
         String userid = userService.getUseridFromToken(token);
-        List<MultipartFile> files = new ArrayList<>();
-        files.add(avatar);
-        log.info("avatar : ",avatar);
-        String fileUrl = fileService.Savefile(userid, files,httpServletRequest,"avatar");
+        Uploadfile savaedFile = fileService.SaveSingleFile(userid,avatar,request);
+        String avatarFileId = savaedFile.getId();
+        userService.updateAvatar(userid,avatarFileId);
+
+        String fileUrl = savaedFile.getPath();
         log.info("fileUrl : {}",fileUrl);
 
         return Result.success(fileUrl);
@@ -146,13 +144,19 @@ public class UserController {
    @RequestMapping(value = "/getavatar",method = RequestMethod.GET)
    public Result getAvatar(@RequestHeader("Authorization") String token) {
         String userid = userService.getUseridFromToken(token);
-        String fileUrl =  fileService.Selectfile(userid,"avatar");
-        log.info("fileUrl : {}",fileUrl);
-        if(fileUrl == null){
+        User user = userService.findByUserid(userid);
+        String avatarFileId = user.getAvatar();
+        //暂时返回网络头像,其实应该在User表的avatar存一个默认File的id
+       if(avatarFileId == null){
 //            返回默认头像
-            return Result.success("https://gd-hbimg.huaban.com/36aae6389fcb32a8894cb24b0d5b09cd8bfe9858348f-Y2n2r3_fw658");
-        }
-        return Result.success(fileUrl);
+           return Result.success("https://gd-hbimg.huaban.com/36aae6389fcb32a8894cb24b0d5b09cd8bfe9858348f-Y2n2r3_fw658");
+       }else
+       {
+           String avatarUrl = fileService.SelectfileById(avatarFileId);
+           log.info("avatar : {}",avatarUrl);
+           return Result.success(avatarUrl);
+       }
+
 
    }
 

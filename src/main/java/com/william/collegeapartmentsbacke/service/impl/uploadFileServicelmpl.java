@@ -56,7 +56,7 @@ public class uploadFileServicelmpl implements uploadFileService {
                         // 读取文件字节
                         byte[] b = file.getBytes();
                         // 创建文件上传对象
-                        Uploadfile loadFile = new Uploadfile(ID,userid,filename, filetype, Path, b,null);
+                        Uploadfile loadFile = new Uploadfile(ID,userid,filename, filetype, Path, b);
                         // 将文件保存到服务器
                         file.transferTo(new File(localFileUrl + filename));
                         // 保存文件信息到数据库
