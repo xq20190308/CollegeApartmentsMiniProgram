@@ -18,14 +18,14 @@ public class HygieneController {
 
     @SneakyThrows
     @PostMapping("/updateData")
-    public List<Hygiene> updateData(@RequestParam("file") MultipartFile file) {
+    public List<Hygiene> updateData(@RequestParam("file") MultipartFile file,String weeks) {
         List<Hygiene> p=hygieneService.SaveRank(file.getInputStream());
-        hygieneService.upData(p);
+        hygieneService.upData(p,weeks);
         return p;
     }
-    @GetMapping("/SelesctRank/{id}")
-    public Result SelesctRank(@PathVariable("id") String id) {
-        String Rank=hygieneService.SelectRank(id);
+    @GetMapping("/SelesctRank/{week}/{id}")
+    public Result SelesctRank(@PathVariable("week") String week,@PathVariable("id") String id) {
+        String Rank=hygieneService.SelectRank(week,id);
         return Result.success(Rank);
     }
 

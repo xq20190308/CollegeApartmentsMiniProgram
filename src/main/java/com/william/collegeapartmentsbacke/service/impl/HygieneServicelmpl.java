@@ -21,16 +21,24 @@ public class HygieneServicelmpl implements HygieneService {
         List <Hygiene> hygiene= EasyExcel.read(file).sheet().head(Hygiene.class).doReadSync();
         return hygiene;
     }
+    @Override
+    public String getDynamicUpdateSql(Hygiene hygiene, String dromaticSql) {
+        return "UPDATE coap.Hygiene SET " + dromaticSql+"Rank = #{hygiene.Rank}" + " WHERE Dormitoryid = #{hygiene.Dormitoryid}";
+    }
 
     @Override
-    public void upData(List<Hygiene> hygieneList) {
+    public String selectHygieneByDormitoryid(String week,String Dormitoryid) {
+       return "select "+week+" from coap.Hygiene where "+"Dormitoryid = #{Dormitoryid}";
+    }
+    @Override
+    public void upData(List<Hygiene> hygieneList,String weeks) {
         for (Hygiene hygiene : hygieneList) {
-            hygieneMapper.insertHygiene(hygiene); // 插入单个Hygiene对象到数据库
+            hygieneMapper.insertHygiene(hygiene,weeks);
         }
     }
 
     @Override
-    public String SelectRank(String rank) {
-        return hygieneMapper.selectHygieneByDormitoryid(rank);
+    public String SelectRank(String week,String rank) {
+        return hygieneMapper.selectHygieneByDormitoryid(week,rank);
     }
 }
