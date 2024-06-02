@@ -148,6 +148,10 @@ public class UserController {
         String userid = userService.getUseridFromToken(token);
         String fileUrl =  fileService.Selectfile(userid,"avatar");
         log.info("fileUrl : {}",fileUrl);
+        if(fileUrl == null){
+//            返回默认头像
+            return Result.success("https://gd-hbimg.huaban.com/36aae6389fcb32a8894cb24b0d5b09cd8bfe9858348f-Y2n2r3_fw658");
+        }
         return Result.success(fileUrl);
 
    }
