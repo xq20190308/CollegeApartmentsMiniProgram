@@ -7,9 +7,10 @@ import lombok.Data;
 @AllArgsConstructor
 public class Uploadfile {
     private String id;
-    private String user_id;
+    private String userid;
     private String name;
     private String Type;
     private String Path;
     private byte[] data;
+    private String usedType;
 }

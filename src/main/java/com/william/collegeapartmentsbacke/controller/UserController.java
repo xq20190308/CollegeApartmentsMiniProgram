@@ -9,6 +9,7 @@ import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Permission;
 import com.william.collegeapartmentsbacke.pojo.entity.User;
 import com.william.collegeapartmentsbacke.pojo.vo.UserLoginVO;
+import com.william.collegeapartmentsbacke.service.FileService;
 import com.william.collegeapartmentsbacke.service.SuggestionService;
 import com.william.collegeapartmentsbacke.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -29,10 +32,7 @@ public class UserController {
     @Autowired
     private JwtProperties jwtProperties;
     @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private SuggestionService suggestionService;
+    private FileService fileService;
 
     /**
      * 登录
@@ -131,13 +131,32 @@ public class UserController {
     }
 
 
-   @RequestMapping("/uploadavatar")
-   public Result upLoadAvatar(@RequestHeader("Authorization") String token, MultipartFile file, HttpServletRequest httpServletRequest) {
+   @RequestMapping(value = "/uploadavatar",method = RequestMethod.POST)
+   public Result upLoadAvatar(@RequestHeader("Authorization") String token, MultipartFile avatar, HttpServletRequest httpServletRequest) {
+        String userid = userService.getUseridFromToken(token);
+        List<MultipartFile> files = new ArrayList<>();
+        files.add(avatar);
+        log.info("avatar : ",avatar);
+        String fileUrl = fileService.Savefile(userid, files,httpServletRequest,"avatar");
+        log.info("fileUrl : {}",fileUrl);
 
-
-
-        return Result.success();
+        return Result.success(fileUrl);
    }
+
+   @RequestMapping(value = "/getavatar",method = RequestMethod.GET)
+   public Result getAvatar(@RequestHeader("Authorization") String token) {
+        String userid = userService.getUseridFromToken(token);
+        String fileUrl =  fileService.Selectfile(userid,"avatar");
+        log.info("fileUrl : {}",fileUrl);
+        return Result.success(fileUrl);
+
+   }
+
+
+
+
+
+
 
 
 }

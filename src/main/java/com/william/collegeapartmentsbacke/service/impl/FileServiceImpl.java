@@ -1,18 +1,16 @@
 package com.william.collegeapartmentsbacke.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
-import com.william.collegeapartmentsbacke.common.properties.JwtProperties;
-import com.william.collegeapartmentsbacke.mapper.SuggestionMapper;
+import com.william.collegeapartmentsbacke.mapper.FileMapper;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.Uploadfile;
+import com.william.collegeapartmentsbacke.service.FileService;
 import com.william.collegeapartmentsbacke.service.UserService;
-import com.william.collegeapartmentsbacke.service.uploadFileService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -22,10 +20,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class uploadFileServicelmpl implements uploadFileService {
+public class FileServiceImpl implements FileService {
+    public static final String AVATAR = "avatar";
     @Autowired
-    private SuggestionMapper suggestionmapper;
-
+    private FileMapper fileMapper;
     @Autowired
     private UserService userService;
 
@@ -36,9 +34,10 @@ public class uploadFileServicelmpl implements uploadFileService {
     private String mapFileUrl;
 
 
+
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Result Savefile(String userid, List<MultipartFile>files, HttpServletRequest request) {
+    public String Savefile(String userid, List<MultipartFile>files, HttpServletRequest request, String usedType) {
         List<String> uploadUrl = new ArrayList<>();
         for (MultipartFile file : files) {
             if (!ObjectUtils.isEmpty(file)) {
@@ -56,11 +55,11 @@ public class uploadFileServicelmpl implements uploadFileService {
                         // 读取文件字节
                         byte[] b = file.getBytes();
                         // 创建文件上传对象
-                        Uploadfile loadFile = new Uploadfile(ID,userid,filename, filetype, Path, b,null);
+                        Uploadfile loadFile = new Uploadfile(ID,userid,filename, filetype, Path, b, usedType);
                         // 将文件保存到服务器
                         file.transferTo(new File(localFileUrl + filename));
                         // 保存文件信息到数据库
-                        suggestionmapper.savefile(loadFile);
+                        fileMapper.savefile(loadFile);
                         // 将文件的URL路径添加到结果列表中
                         uploadUrl.add(Path);
                     }
@@ -69,7 +68,12 @@ public class uploadFileServicelmpl implements uploadFileService {
                 }
             }
         }
-        return Result.success(String.join(",",uploadUrl));
+        return String.join(",",uploadUrl);
     }
 
+    //获取文件
+    @Override
+    public String Selectfile(String id, String usedType) {
+        return fileMapper.selectfile(id, usedType);
+    }
 }
