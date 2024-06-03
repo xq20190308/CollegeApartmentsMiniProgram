@@ -147,13 +147,13 @@ public class UserController {
         User user = userService.findByUserid(userid);
         String avatarFileId = user.getAvatar();
         //暂时返回网络头像,其实应该在User表的avatar存一个默认File的id
-       if(avatarFileId.isEmpty() || "".equals(avatarFileId)){
+       if(avatarFileId == null || "".equals(avatarFileId)){
 //            返回默认头像
            return Result.success("https://gd-hbimg.huaban.com/36aae6389fcb32a8894cb24b0d5b09cd8bfe9858348f-Y2n2r3_fw658");
        }else
        {
            String avatarUrl = fileService.SelectfileById(avatarFileId);
-           if(avatarUrl.isEmpty()){
+           if(avatarUrl == null || "".equals(avatarUrl)){
                return Result.error("头像不存在");
            }
            log.info("avatar : {}",avatarUrl);
