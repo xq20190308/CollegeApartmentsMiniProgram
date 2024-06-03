@@ -29,9 +29,6 @@ public class uploadFileServicelmpl implements uploadFileService {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private JwtProperties jwtProperties;
-
     @Value("${localFileUrl}")
     private String localFileUrl;
 
@@ -41,8 +38,7 @@ public class uploadFileServicelmpl implements uploadFileService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Result Savefile(@RequestHeader("Authorization")String token, List<MultipartFile>files, HttpServletRequest request) {
-        String userid=userService.getUseridFromToken(token);
+    public Result Savefile(String userid, List<MultipartFile>files, HttpServletRequest request) {
         List<String> uploadUrl = new ArrayList<>();
         for (MultipartFile file : files) {
             if (!ObjectUtils.isEmpty(file)) {

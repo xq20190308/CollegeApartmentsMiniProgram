@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Slf4j
 @Service
 public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerService {
@@ -19,6 +21,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     //插入的同时返回插入的id
     @Override
     public Integer addQuestionnaireAnswer(QuestionnaireAnswer questionnaireAnswer) {
+        questionnaireAnswer.setSubmitTime(LocalDateTime.now().now());
         questionnaireAnswerMapper.insertSelective(questionnaireAnswer);
         Integer ansId = questionnaireAnswerMapper.getNewestId();
 

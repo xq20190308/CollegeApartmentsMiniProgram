@@ -40,10 +40,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUsername(String username) {
+    public User findByUserid(String userid) {
         User user = new User();
         try{
-            user = userMapper.getUserByUserName(username);
+            user = userMapper.getUserByUserid(userid);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -88,6 +88,11 @@ public class UserServiceImpl implements UserService {
         log.info(claims.toString());
         String userid = JwtUtil.parseJWT(jwtProperties.getSecretKey(),token).get("userid").toString();
         return userid;
+    }
+
+    @Override
+    public void updateAvatar(String userid, String avatar) {
+        userMapper.updateAvatarFileid(userid, avatar);
     }
 
 

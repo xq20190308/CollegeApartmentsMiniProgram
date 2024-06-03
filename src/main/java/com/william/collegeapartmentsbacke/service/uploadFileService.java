@@ -8,5 +8,5 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface uploadFileService {
-    Result Savefile(@RequestHeader("Authorization")String token, List<MultipartFile> files, HttpServletRequest request);
+    Result Savefile(String userid, List<MultipartFile> files, HttpServletRequest request);
 }

@@ -5,8 +5,11 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.william.collegeapartmentsbacke.mapper.QuestionMapper;
 import com.william.collegeapartmentsbacke.pojo.entity.Question;
+import com.william.collegeapartmentsbacke.pojo.entity.Questionnaire;
 import com.william.collegeapartmentsbacke.service.QuestionService;
+import io.micrometer.core.instrument.Meter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,14 +24,25 @@ public class QuestionServiceImpl implements QuestionService {
     public QuestionMapper questionMapper;
 
     @Override
-    public List<Question> selectById(List<String> idList) {
-        return questionMapper.selectById(idList);
+    public Question selectQuestionById(Integer questionId) {
+        return questionMapper.selectByQuestionId(questionId);
     }
 
     @Override
-    public void deletByQuestionnaire(Integer quesionnaireId) {
+    public List<Question> selectByQuestionnaireId(Integer questionnaireId) {
+        return questionMapper.selectByQuestionnaireId(questionnaireId);
+    }
+
+    @Override
+    public void deleteByQuestionnaireId(Integer quesionnaireId) {
         questionMapper.deleteByQuestionnaire(quesionnaireId);
     }
+
+    @Override
+    public void deleteByQuestionId(Integer questionId){
+        questionMapper.deleteByQuestionId(questionId);
+    }
+
 
     @Override
     public List<Integer> addQuestions(List<Question> questionList,Integer questionnaireId) {
