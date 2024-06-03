@@ -149,7 +149,7 @@ public class UserController {
         //暂时返回网络头像,其实应该在User表的avatar存一个默认File的id
        if(avatarFileId == null || "".equals(avatarFileId)){
 //            返回默认头像
-           return Result.success("https://gd-hbimg.huaban.com/36aae6389fcb32a8894cb24b0d5b09cd8bfe9858348f-Y2n2r3_fw658");
+           return Result.success("https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg");
        }else
        {
            String avatarUrl = fileService.SelectfileById(avatarFileId);
