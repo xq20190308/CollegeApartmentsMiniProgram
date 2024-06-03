@@ -11,6 +11,8 @@ public interface QuestionnaireService {
 
     void deleteById(Integer id);
 
+    void updateQuestionnaireById(long id, Questionnaire questionnaire);
+
     Integer simpleAdd();
 
     void totallyadd(Questionnaire questionnaire);

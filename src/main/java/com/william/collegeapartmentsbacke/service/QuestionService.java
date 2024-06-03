@@ -18,6 +18,5 @@ public interface QuestionService {
     void deleteByQuestionId(Integer questionId);
 
 
-
     List<Integer> addQuestions(List<Question> questionList,Integer questionnaireId);
 }

@@ -27,6 +27,11 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         questionnaireMapper.deleteById(id);
     }
 
+    @Override
+    public void updateQuestionnaireById(long id,Questionnaire questionnaire) {
+        questionnaireMapper.updateQuestionnaireById(id, questionnaire);
+    }
+
     @Transactional
     @Override
     public Integer simpleAdd() {

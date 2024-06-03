@@ -64,6 +64,9 @@ public class QuestionnaireController {
         return Result.success();
     }
 
-
+    @RequestMapping(value = "/updateQuestionnaireById/{id}", method = RequestMethod.POST)
+    public Result updateQuestionnaireById(@PathVariable("id") long id, Questionnaire questionnaire) {
+        return Result.success();
+    }
 
 }
