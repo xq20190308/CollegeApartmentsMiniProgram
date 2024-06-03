@@ -48,7 +48,6 @@ public class QuestionnaireController {
         questionnaire.setStartTime(questionnaireDto.getStartTime());
         questionnaire.setEndTime(questionnaireDto.getEndTime());
 
-
         questionnaireService.totallyadd(questionnaire);
         log.info(questionnaire.toString());
         return Result.success();
@@ -63,8 +62,24 @@ public class QuestionnaireController {
     }
 
     @RequestMapping(value = "/updateQuestionnaireById/{id}", method = RequestMethod.POST)
-    public Result updateQuestionnaireById(@PathVariable("id") long id, Questionnaire questionnaire) {
-        return Result.success();
+    public Result updateQuestionnaireById(@PathVariable("id") Integer id,@RequestBody QuestionnaireDTO questionnaireDto) {
+        log.info("根据id修改问卷");
+        List<Question> newquestionList = questionnaireDto.getQuestionList();
+        Questionnaire questionnaire = new Questionnaire();
+
+        questionnaire.setId(id);
+        questionnaire.setType(questionnaireDto.getType());
+        questionnaire.setName(questionnaireDto.getName());
+        questionnaire.setDescription(questionnaireDto.getDescription());
+        questionnaire.setStartTime(questionnaireDto.getStartTime());
+        questionnaire.setEndTime(questionnaireDto.getEndTime());
+
+        log.info(questionnaire.toString());
+        questionService.deleteByQuestionnaireId(id);
+        questionService.addQuestions(newquestionList,id);
+        questionnaireService.totallyadd(questionnaire);
+
+        return Result.success(questionnaire);
     }
 
 }
