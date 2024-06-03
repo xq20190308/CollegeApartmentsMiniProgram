@@ -1,6 +1,6 @@
 package com.william.collegeapartmentsbacke.controller;
 
-import com.william.collegeapartmentsbacke.pojo.Result;
+import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.Hygiene;
 import com.william.collegeapartmentsbacke.service.HygieneService;
 import lombok.SneakyThrows;

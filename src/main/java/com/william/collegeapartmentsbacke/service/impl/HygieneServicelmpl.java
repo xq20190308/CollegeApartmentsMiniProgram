@@ -14,6 +14,7 @@ import java.util.List;
 public class HygieneServicelmpl implements HygieneService {
     @Autowired
     HygieneMapper hygieneMapper;
+
     @Override
     public List<Hygiene> SaveRank(InputStream file)
     {

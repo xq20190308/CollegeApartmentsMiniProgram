@@ -1,8 +1,8 @@
 package com.william.collegeapartmentsbacke.controller;
 
-import com.william.collegeapartmentsbacke.pojo.Result;
+
 import com.william.collegeapartmentsbacke.pojo.entity.Question;
-import com.william.collegeapartmentsbacke.pojo.entity.Questionnaire;
+import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

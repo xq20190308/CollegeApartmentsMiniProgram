@@ -1,11 +1,10 @@
 package com.william.collegeapartmentsbacke.service;
 
-import com.william.collegeapartmentsbacke.pojo.Uploadfile;
-import com.william.collegeapartmentsbacke.pojo.Suggestion;
-import org.springframework.web.bind.annotation.RequestParam;
+import com.william.collegeapartmentsbacke.pojo.entity.Result;
+import com.william.collegeapartmentsbacke.pojo.entity.Suggestion;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface SuggestionService {
@@ -14,15 +13,14 @@ public interface SuggestionService {
 
     //查询草稿
 
-    List<Suggestion> SelectDraftfindall();
+    List<Suggestion> SelectDraftfindall(String stu_id);
+
 
     List<Suggestion> Selectfindall();
 
-    Integer Savedaft(Suggestion suggestion);
+    String Savedaft(Suggestion suggestion);
 
     boolean deleteSuggestion(long id);
-
-    void Savefile(Uploadfile file);
 
     String Selectfile(String id);
 

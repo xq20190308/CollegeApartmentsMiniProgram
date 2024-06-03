@@ -1,22 +1,18 @@
 package com.william.collegeapartmentsbacke.controller;
 
-import com.william.collegeapartmentsbacke.pojo.Uploadfile;
-import com.william.collegeapartmentsbacke.pojo.Result;
-import com.william.collegeapartmentsbacke.pojo.Suggestion;
+import com.william.collegeapartmentsbacke.pojo.entity.Result;
+import com.william.collegeapartmentsbacke.pojo.entity.Suggestion;
 import com.william.collegeapartmentsbacke.service.SuggestionService;
+import com.william.collegeapartmentsbacke.service.uploadFileService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.File;
-import java.io.IOException;
+
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -25,14 +21,14 @@ public class SuggestionController {
     @Autowired
     private SuggestionService suggestionService;
 
-    @Value("${localFileUrl}")
-    private String localFileUrl;
+    @Autowired
+    private uploadFileService uploadFileservice;
 
     //用户查询全部草稿
-    @GetMapping("/selectDraft")
-    public Result SelectDraftfindall() {
+    @GetMapping("/selectDraft/{stu_id}")
+    public Result SelectDraftfindall(@PathVariable("stu_id") String stu_id) {
         log.info("SelectDraftfindall");
-        List<Suggestion> suggestions = suggestionService.SelectDraftfindall();
+        List<Suggestion> suggestions = suggestionService.SelectDraftfindall(stu_id);
         log.info(suggestions.toString());
         return Result.success(suggestions);
     }
@@ -41,14 +37,15 @@ public class SuggestionController {
     @PostMapping("/suggestions")
     public Result SubmitSuggestion(@RequestBody Suggestion suggestion) {
         suggestionService.SubmitSuggestion(suggestion);
+        log.info("SubmitSuggestion");
         return Result.success();
     }
 
     //用户编辑保存投诉
     @PostMapping("/suggestionsDraft")
     public Result Savedaft(@RequestBody Suggestion suggestion) {
-        Integer savedaft = suggestionService.Savedaft(suggestion);
-        return Result.success(savedaft);
+        String msg=suggestionService.Savedaft(suggestion);
+        return Result.success(msg);
     }
 
     //删除投诉
@@ -64,27 +61,8 @@ public class SuggestionController {
 
     //上传文件
     @PostMapping("/upload")
-    public Result upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
-
-        String ID = String.valueOf(UUID.randomUUID());
-        String filename = ID + Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().lastIndexOf("."));
-        String filetype = file.getContentType();
-        String Path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/static/" + filename;
-        byte[] b;
-        try {
-            b = file.getBytes();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        Uploadfile loadFile = new Uploadfile(ID,filename, filetype,Path,b);
-        try {
-            file.transferTo(new File(localFileUrl + filename));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        suggestionService.Savefile(loadFile);
-
-        return Result.success(Path);
+    public Result upload(@RequestHeader("Authorization")String token,@RequestParam("files")List<MultipartFile>files, HttpServletRequest request) {
+       return uploadFileservice.Savefile(token,files,request);
     }
 
     //获取文件

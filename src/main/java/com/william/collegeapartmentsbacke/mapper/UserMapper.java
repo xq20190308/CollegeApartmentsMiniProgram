@@ -28,4 +28,7 @@ public interface UserMapper {
     //查询用户权限
     @Select("select p.* from coap.user_permission p join coap.user u on p.user_level = u.user_level where u.openid = #{openid}")
     Permission getPermissionByOpenid(String openid);
+
+    @Select("select * from coap.user where username = #{username}")
+    User getUserByUserName(String username);
 }

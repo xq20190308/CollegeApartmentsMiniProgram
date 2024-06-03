@@ -1,10 +1,11 @@
 package com.william.collegeapartmentsbacke.service.impl;
-
+import io.jsonwebtoken.Claims;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.william.collegeapartmentsbacke.common.properties.JwtProperties;
 import com.william.collegeapartmentsbacke.common.utils.HttpClientUtil;
+import com.william.collegeapartmentsbacke.common.utils.JwtUtil;
 import com.william.collegeapartmentsbacke.mapper.UserMapper;
-import com.william.collegeapartmentsbacke.pojo.dto.UserDTO;
 import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Permission;
 import com.william.collegeapartmentsbacke.pojo.entity.User;
@@ -29,12 +30,28 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private WeChatProperties weChatProperties;
 
-
+    @Autowired
+    private JwtProperties jwtProperties;
 
 
     @Override
     public User findByOpenid(String openid) {
         return userMapper.getByOpenid(openid);
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        User user = new User();
+        try{
+            user = userMapper.getUserByUserName(username);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+
+        }
+
+        return user;
+
     }
 
     @Override
@@ -56,13 +73,30 @@ public class UserServiceImpl implements UserService {
         return;
     }
 
+    @Override
+    public String getUseridFromToken(String token) {
+//        try {
+//            String userid = JwtUtil.parseJWT(jwtProperties.getSecretKey(), token).getClaim("userid").toString();
+//            if (userid != null) {
+//                return userid;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getSecretKey(),token);
+        log.info(claims.toString());
+        String userid = JwtUtil.parseJWT(jwtProperties.getSecretKey(),token).get("userid").toString();
+        return userid;
+    }
+
 
     @Override
     public User wxLogin(UserLoginDTO userLoginDTO) {
         //获取前端code
         //根据code向微信服务端获取openid
         log.info("serLoginDTO.getCode()：{}",userLoginDTO.getCode());
-        String openid = getOpenid(userLoginDTO.getCode());
+        String openid = getOpenidByCode(userLoginDTO.getCode());
 
         //获取openid失败
         if (openid == null) {
@@ -98,7 +132,7 @@ public class UserServiceImpl implements UserService {
 
 
 
-    private String getOpenid(String code) {
+    private String getOpenidByCode(String code) {
         Map<String, String> map = new HashMap<String, String>() {{
             put("appid", weChatProperties.getAppid());
             put("secret", weChatProperties.getSecret());
@@ -122,7 +156,7 @@ public class UserServiceImpl implements UserService {
         }
         catch (Exception e) {
             e.printStackTrace();
-        };
+        }
 
         return null;
     }

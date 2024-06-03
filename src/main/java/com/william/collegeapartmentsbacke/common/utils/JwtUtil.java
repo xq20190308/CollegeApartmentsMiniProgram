@@ -1,6 +1,6 @@
 package com.william.collegeapartmentsbacke.common.utils;
 
-import cn.hutool.jwt.Claims;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -42,9 +42,11 @@ public class JwtUtil {
     public static Claims parseJWT(String secretKey, String token) {
         Claims claims = (Claims) Jwts.parser()
                 .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
         return claims;
     }
+
+
 }
 
