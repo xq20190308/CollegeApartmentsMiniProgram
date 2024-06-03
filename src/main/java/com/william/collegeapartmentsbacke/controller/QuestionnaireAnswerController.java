@@ -31,8 +31,7 @@ public class QuestionnaireAnswerController {
         String userid = userService.getUseridFromToken(token);
         log.info("问卷回答 userid:{}",userid);
         log.info("新增了一份问卷回答：questionnaireAnswer : {}", questionnaireAnswer);
-        questionnaireAnswer.setUserid("11");
-        questionnaireAnswer.setSubmitTime(LocalDateTime.now().now());
+        questionnaireAnswer.setUserid(userid);
         Integer id =  questionnaireAnswerService.addQuestionnaireAnswer(questionnaireAnswer);
         log.info(id.toString());
         return Result.success();

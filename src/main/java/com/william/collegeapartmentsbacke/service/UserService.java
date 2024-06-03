@@ -13,7 +13,7 @@ public interface UserService {
     //查询用户
     User findByOpenid(String openid);
 
-    User findByUsername(String username);
+    User findByUserid(String username);
 
 
 
@@ -23,7 +23,7 @@ public interface UserService {
 
     String getUseridFromToken(String token);
 
-
+    void updateAvatar(String userid, String avatar);
 
     void rigisterUser(UserLoginDTO userLoginDTO);
 

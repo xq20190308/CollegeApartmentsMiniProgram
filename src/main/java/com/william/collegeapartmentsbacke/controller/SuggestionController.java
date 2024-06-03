@@ -3,6 +3,7 @@ package com.william.collegeapartmentsbacke.controller;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.Suggestion;
 import com.william.collegeapartmentsbacke.service.SuggestionService;
+import com.william.collegeapartmentsbacke.service.UserService;
 import com.william.collegeapartmentsbacke.service.uploadFileService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,9 @@ public class SuggestionController {
 
     @Autowired
     private uploadFileService uploadFileservice;
+
+    @Autowired
+    private UserService userService;
 
     //用户查询全部草稿
     @GetMapping("/selectDraft/{stu_id}")
@@ -62,7 +66,8 @@ public class SuggestionController {
     //上传文件
     @PostMapping("/upload")
     public Result upload(@RequestHeader("Authorization")String token,@RequestParam("files")List<MultipartFile>files, HttpServletRequest request) {
-       return uploadFileservice.Savefile(token,files,request);
+       String userid = userService.getUseridFromToken(token);
+       return uploadFileservice.Savefile(userid,files,request);
     }
 
     //获取文件
