@@ -30,6 +30,7 @@ public class HygieneServicelmpl implements HygieneService {
     public String selectHygieneByDormitoryid(String week,String Dormitoryid) {
        return "select "+week+" from coap.Hygiene where "+"Dormitoryid = #{Dormitoryid}";
     }
+
     @Override
     public void upData(List<Hygiene> hygieneList,String weeks) {
         for (Hygiene hygiene : hygieneList) {
