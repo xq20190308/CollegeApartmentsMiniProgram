@@ -36,10 +36,10 @@ public class LostpropertyController {
             return Result.success();
     }
 
-    @GetMapping("/Getdata")
-    public Result SelectData()
+    @GetMapping("/Getdata/{category}")
+    public Result SelectData(@PathVariable("category") String category)
     {
-        List<Itemdata> itemdata= lostpropertyService.getItemdata();
+        List<Itemdata> itemdata= lostpropertyService.getItemdata(category);
         return Result.success(itemdata);
     }
 }

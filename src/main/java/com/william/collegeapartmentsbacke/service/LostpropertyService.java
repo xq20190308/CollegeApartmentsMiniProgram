@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface LostpropertyService {
     void saveSubmit(Itemdata itemdata);
-    List<Itemdata> getItemdata();
+
+    List<Itemdata> getItemdata(String category);
 
 }

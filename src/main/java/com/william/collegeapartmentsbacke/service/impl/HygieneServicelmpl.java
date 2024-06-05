@@ -21,6 +21,7 @@ public class HygieneServicelmpl implements HygieneService {
         List <Hygiene> hygiene= EasyExcel.read(file).sheet().head(Hygiene.class).doReadSync();
         return hygiene;
     }
+
     @Override
     public String getDynamicUpdateSql(Hygiene hygiene, String dromaticSql) {
         return "UPDATE coap.Hygiene SET " + dromaticSql+"Rank = #{hygiene.Rank}" + " WHERE Dormitoryid = #{hygiene.Dormitoryid}";
