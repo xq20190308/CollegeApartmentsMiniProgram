@@ -25,7 +25,7 @@ public interface SuggestionMapper {
    List<Suggestion> findall();
 
    //提交
-   @Update("insert into coap.Advise (id,describes,category,pushtime,contactobject,path) values(#{id},#{describes},#{category},#{pushtime},#{contactobject},#{Urlpath});")
+   @Update("insert into coap.Advise (id,describes,category,pushtime,contactobject,path) values(#{id},#{describes},#{category},#{pushtime},#{contactobject},#{path});")
    @Transactional
    void submit(Suggestion suggestion);
 
@@ -33,12 +33,12 @@ public interface SuggestionMapper {
    Integer selectLast();
 
    //保存草稿
-   @Update("insert into coap.AdviseDraft (id,stu_id,describes,category,pushtime,contactobject,path) values(#{id},#{stu_id},#{describes},#{category},#{pushtime},#{contactobject},#{Urlpath});")
+   @Update("insert into coap.AdviseDraft (id,stu_id,describes,category,pushtime,contactobject,path) values(#{id},#{stu_id},#{describes},#{category},#{pushtime},#{contactobject},#{path});")
    @Transactional
    void savedaft(Suggestion suggestion);
 
    //编辑草稿
-   @Update("update coap.AdviseDraft set describes=#{describes},category=#{category},pushtime=#{pushtime},contactobject=#{contactobject} where id=#{id}")
+   @Update("update coap.AdviseDraft set describes=#{describes},category=#{category},pushtime=#{pushtime},contactobject=#{contactobject},path#{path}, where id=#{id}")
    @Transactional
    void updatedaft(Suggestion suggestion);
 
