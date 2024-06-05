@@ -22,7 +22,12 @@ public interface QuestionnaireMapper {
     @Delete("delete from coap.questionnaire where id = #{id}")
     void deleteById(Integer id);
 
-    @Update("update coap.questionnaire set type = #{type}, name = #{name}, description = #{description}, start_time = #{startTime}, end_time = #{endTime} where id = #{id}")
+    @Update("update coap.questionnaire set type = #{type}, " +
+            "name = #{name}, " +
+            "description = #{description}, " +
+            "start_time = #{startTime}, " +
+            "end_time = #{endTime} " +
+            "where id = #{id}")
     void updateQuestionnaire(Questionnaire questionnaire);
 
     @Insert("insert into coap.questionnaire (type) values (1)")

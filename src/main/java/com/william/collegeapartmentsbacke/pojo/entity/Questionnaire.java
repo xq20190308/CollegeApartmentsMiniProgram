@@ -14,6 +14,5 @@ public class Questionnaire {
     private String description;
     private String startTime;
     private String endTime;
-    private String questionIdList;
 
 }
