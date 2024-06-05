@@ -19,4 +19,3 @@ public class WebMvcConfig implements WebMvcConfigurer {
        registry.addResourceHandler(mapFileUrl+"**").addResourceLocations("file:"+localFileUrl);
     }
 }
-

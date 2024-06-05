@@ -49,7 +49,7 @@ public interface SuggestionMapper {
    @Select("select count(*) from coap.AdviseDraft")
    int Count();
 
-   @Update("insert into  coap.Filedata (id,user_id,name,Type,Path,data) values(#{id},#{userid},#{name},#{Type},#{Path},#{data})")
+   @Update("insert into  coap.Filedata (id,user_id,name,type,path,data) values(#{id},#{userid},#{name},#{type},#{path},#{data})")
    @Transactional
    void savefile(Uploadfile file);
 

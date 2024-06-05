@@ -2,9 +2,8 @@ package com.william.collegeapartmentsbacke.controller;
 
 import com.william.collegeapartmentsbacke.pojo.entity.Itemdata;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
-import com.william.collegeapartmentsbacke.pojo.entity.Uploadfile;
+import com.william.collegeapartmentsbacke.service.FileService;
 import com.william.collegeapartmentsbacke.service.LostpropertyService;
-import com.william.collegeapartmentsbacke.service.uploadFileService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +18,12 @@ public class LostpropertyController {
     LostpropertyService lostpropertyService;
 
     @Autowired
-    uploadFileService uploadfileService;
-
+    private FileService fileService;
 
     @PostMapping("/uploadItem")
     public Result saveFile(@RequestHeader("Authorization")String token, @RequestParam("file") List<MultipartFile> file, HttpServletRequest request)
     {
-        return uploadfileService.Savefile(token,file,request);
+        return Result.success(fileService.Savefile(token,file,request));
 
     }
 

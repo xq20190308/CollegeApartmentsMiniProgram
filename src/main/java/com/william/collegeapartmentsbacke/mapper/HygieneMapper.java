@@ -11,4 +11,7 @@ public interface HygieneMapper {
     void insertHygiene(Hygiene hygiene,String dromaticSql);
     @SelectProvider(type=HygieneServicelmpl.class,method="selectHygieneByDormitoryid")
     String selectHygieneByDormitoryid(String week,String Dormitoryid);
+
+    String updateHygiene(Hygiene hygiene);
+
 }
