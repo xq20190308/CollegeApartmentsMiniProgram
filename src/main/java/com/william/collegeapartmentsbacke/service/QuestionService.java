@@ -17,7 +17,7 @@ public interface QuestionService {
 
     void deleteByQuestionId(Integer questionId);
 
-
+    void updateQuestion(Question question);
 
     List<Integer> addQuestions(List<Question> questionList,Integer questionnaireId);
 }
