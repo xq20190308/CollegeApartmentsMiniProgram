@@ -3,12 +3,10 @@ package com.william.collegeapartmentsbacke.controller;
 import com.william.collegeapartmentsbacke.common.constant.JwtClaimsConstant;
 import com.william.collegeapartmentsbacke.common.properties.JwtProperties;
 import com.william.collegeapartmentsbacke.common.utils.JwtUtil;
-import com.william.collegeapartmentsbacke.mapper.UserMapper;
 import com.william.collegeapartmentsbacke.pojo.entity.*;
 import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
 import com.william.collegeapartmentsbacke.pojo.vo.UserLoginVO;
 import com.william.collegeapartmentsbacke.service.FileService;
-import com.william.collegeapartmentsbacke.service.SuggestionService;
 import com.william.collegeapartmentsbacke.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
