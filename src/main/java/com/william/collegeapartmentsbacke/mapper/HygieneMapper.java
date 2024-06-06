@@ -1,14 +1,17 @@
 package com.william.collegeapartmentsbacke.mapper;
 
 import com.william.collegeapartmentsbacke.pojo.entity.Hygiene;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import com.william.collegeapartmentsbacke.service.HygieneService;
+import com.william.collegeapartmentsbacke.service.impl.HygieneServicelmpl;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface HygieneMapper {
-    @Update("update coap.Hygiene set FirstRank=#{ Rank} where Dormitoryid=#{Dormitoryid}")
-    void insertHygiene(Hygiene hygiene);
-    @Select("select FirstRank from coap.Hygiene where Dormitoryid=#{Dormitoryid}")
-    String selectHygieneByDormitoryid(String Dormitoryid);
+    @UpdateProvider(type = HygieneServicelmpl.class, method = "getDynamicUpdateSql")
+    void insertHygiene(Hygiene hygiene,String dromaticSql);
+    @SelectProvider(type=HygieneServicelmpl.class,method="selectHygieneByDormitoryid")
+    String selectHygieneByDormitoryid(String week,String Dormitoryid);
+
+    String updateHygiene(Hygiene hygiene);
+
 }

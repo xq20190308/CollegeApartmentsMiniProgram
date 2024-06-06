@@ -9,7 +9,7 @@ public class Uploadfile {
     private String id;
     private String userid;
     private String name;
-    private String Type;
-    private String Path;
+    private String type;
+    private String path;
     private byte[] data;
 }

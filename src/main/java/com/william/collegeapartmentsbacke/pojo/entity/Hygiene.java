@@ -8,6 +8,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class Hygiene {
     public Hygiene(){}
+    private String weeks;
     @ExcelProperty("宿舍号")
     private String Dormitoryid;
     @ExcelProperty("成绩")

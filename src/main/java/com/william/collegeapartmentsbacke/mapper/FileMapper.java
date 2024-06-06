@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Mapper
 public interface FileMapper {
 
-    @Update("insert into  coap.Filedata (id,user_id,name,Type,Path,data) values(#{id},#{userid},#{name},#{Type},#{Path},#{data})")
+    @Update("insert into  coap.Filedata (id,user_id,name,type,path,data) values(#{id},#{userid},#{name},#{type},#{path},#{data})")
     void savefile(Uploadfile file);
 
     @Select("select path from coap.Filedata where id=#{id}")
@@ -18,5 +18,4 @@ public interface FileMapper {
 
     @Select("select LAST_INSERT_ID()")
     String getLatestId();
-
 }

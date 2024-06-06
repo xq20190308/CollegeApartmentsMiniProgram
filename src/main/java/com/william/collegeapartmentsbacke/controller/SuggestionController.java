@@ -2,9 +2,9 @@ package com.william.collegeapartmentsbacke.controller;
 
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.Suggestion;
+import com.william.collegeapartmentsbacke.service.FileService;
 import com.william.collegeapartmentsbacke.service.SuggestionService;
 import com.william.collegeapartmentsbacke.service.UserService;
-import com.william.collegeapartmentsbacke.service.uploadFileService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,10 +23,10 @@ public class SuggestionController {
     private SuggestionService suggestionService;
 
     @Autowired
-    private uploadFileService uploadFileservice;
+    private UserService userService;
 
     @Autowired
-    private UserService userService;
+    private FileService fileService;;
 
     //用户查询全部草稿
     @GetMapping("/selectDraft/{stu_id}")
@@ -67,15 +67,15 @@ public class SuggestionController {
     @PostMapping("/upload")
     public Result upload(@RequestHeader("Authorization")String token,@RequestParam("files")List<MultipartFile>files, HttpServletRequest request) {
        String userid = userService.getUseridFromToken(token);
-       return uploadFileservice.Savefile(userid,files,request);
+       return Result.success(fileService.Savefile(userid,files,request));
     }
 
-    //获取文件
-    @GetMapping("/getFile/{id}")
-    public String Selectfile(@PathVariable ("id") String id) {
-
-        return suggestionService.Selectfile(id);
-    }
+//    //获取文件
+//    @GetMapping("/getFile/{id}")
+//    public String Selectfile(@PathVariable ("id") String id) {
+//
+//        return suggestionService.Selectfile(id);
+//    }
     //管理员获取投诉列表
     @GetMapping("/manageSuggestions")
     public List<Suggestion> Selectfindall() {

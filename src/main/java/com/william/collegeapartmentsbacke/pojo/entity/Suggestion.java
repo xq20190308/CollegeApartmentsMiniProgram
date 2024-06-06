@@ -14,5 +14,5 @@ public class Suggestion {
              private String category;
              private String contactobject;
              private LocalDateTime pushtime ;
-             private String  Urlpath;
+             private String  path;
 }

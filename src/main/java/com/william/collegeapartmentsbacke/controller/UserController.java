@@ -3,12 +3,10 @@ package com.william.collegeapartmentsbacke.controller;
 import com.william.collegeapartmentsbacke.common.constant.JwtClaimsConstant;
 import com.william.collegeapartmentsbacke.common.properties.JwtProperties;
 import com.william.collegeapartmentsbacke.common.utils.JwtUtil;
-import com.william.collegeapartmentsbacke.mapper.UserMapper;
 import com.william.collegeapartmentsbacke.pojo.entity.*;
 import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
 import com.william.collegeapartmentsbacke.pojo.vo.UserLoginVO;
 import com.william.collegeapartmentsbacke.service.FileService;
-import com.william.collegeapartmentsbacke.service.SuggestionService;
 import com.william.collegeapartmentsbacke.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -149,7 +145,7 @@ public class UserController {
         //暂时返回网络头像,其实应该在User表的avatar存一个默认File的id
        if(avatarFileId == null || "".equals(avatarFileId)){
 //            返回默认头像
-           return Result.success("https://gd-hbimg.huaban.com/36aae6389fcb32a8894cb24b0d5b09cd8bfe9858348f-Y2n2r3_fw658");
+           return Result.success("https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg");
        }else
        {
            String avatarUrl = fileService.SelectfileById(avatarFileId);
