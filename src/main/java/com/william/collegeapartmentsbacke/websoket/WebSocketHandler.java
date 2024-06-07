@@ -65,9 +65,8 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
         if(session.isOpen()){
             session.close();
         }
-        log.info(sessionBeanMap.get(session.getId()).getClientId()+":"+"因传输错误，关闭了连接");
-
         sessionBeanMap.remove(session.getId());
+//        log.info(sessionBeanMap.get(session.getId()).getClientId()+":"+"因传输错误，关闭了连接");
     }
 
 
@@ -80,7 +79,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         super.afterConnectionClosed(session, status);
         int clientId = sessionBeanMap.get(session.getId()).getClientId();
-        sessionBeanMap.remove(session);
+        sessionBeanMap.remove(session.getId());
         log.info(clientId+"关闭了连接");
         stringBuffer.append(clientId+"退出了群聊<br/>");
         sendMessage(sessionBeanMap);
@@ -101,10 +100,15 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
     public void sendMsg() {
         log.info("第二个心跳跳动");
         for(String key:sessionBeanMap.keySet()){
-            try {
-                sessionBeanMap.get(key).getWebSocketSession().sendMessage(new TextMessage("my心跳"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            WebSocketSession session = sessionBeanMap.get(key).getWebSocketSession();
+            if(session != null && session.isOpen() ){
+                try {
+                    session.sendMessage(new TextMessage("my心跳"));
+                } catch (IOException e) {
+                    log.error("发送消息时遇到了错误");
+                    throw new RuntimeException(e);
+
+                }
             }
         }
     }
