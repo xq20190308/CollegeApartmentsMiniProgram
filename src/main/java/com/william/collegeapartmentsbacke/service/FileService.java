@@ -15,5 +15,6 @@ public interface FileService {
     //返回文件路径
     String SelectfileById(String id);
 
+    String DeletefileByUrl(String U);
 
 }

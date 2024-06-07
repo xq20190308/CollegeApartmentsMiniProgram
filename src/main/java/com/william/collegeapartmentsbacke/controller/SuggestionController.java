@@ -2,6 +2,7 @@ package com.william.collegeapartmentsbacke.controller;
 
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.Suggestion;
+import com.william.collegeapartmentsbacke.pojo.entity.Uploadfile;
 import com.william.collegeapartmentsbacke.service.FileService;
 import com.william.collegeapartmentsbacke.service.SuggestionService;
 import com.william.collegeapartmentsbacke.service.UserService;
@@ -80,6 +81,12 @@ public class SuggestionController {
     @GetMapping("/manageSuggestions")
     public List<Suggestion> Selectfindall() {
         return suggestionService.Selectfindall();
+    }
+
+    //删除文件
+    @DeleteMapping("/deleteFiles/{Filename}")
+    public Result deleteSuggestion(@PathVariable String Filename) {
+        return Result.success(fileService.DeletefileByUrl(Filename));
     }
 
 //    @PostMapping ("/faceback{id}")
