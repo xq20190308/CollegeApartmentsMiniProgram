@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.util.Map;
@@ -19,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @Slf4j
 @EnableScheduling
-public class WsServerEndpoint {
+public class WebSocketServerEndpoint {
     static Map<String, Session> sessionMap = new ConcurrentHashMap<>();
     //连接建立时执行的操作
     @OnOpen
@@ -42,9 +41,9 @@ public class WsServerEndpoint {
     //每2s发送给客户端心跳消息
     @Scheduled(fixedRate = 2000)
     public void sendMsg() throws IOException {
-        log.info("正在尝试发送心跳");
+        log.info("后端正在尝试发送心跳");
         for(String key:sessionMap.keySet()){
-            sessionMap.get(key).getBasicRemote().sendText("心跳");
+            sessionMap.get(key).getBasicRemote().sendText(" 心跳");
         }
     }
 }
