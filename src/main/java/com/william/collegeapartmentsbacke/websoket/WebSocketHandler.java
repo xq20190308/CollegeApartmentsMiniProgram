@@ -103,7 +103,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
             WebSocketSession session = sessionBeanMap.get(key).getWebSocketSession();
             if(session != null && session.isOpen() ){
                 try {
-                    session.sendMessage(new TextMessage("my心跳"));
+                    session.sendMessage(new TextMessage("biu~biu~"));
                 } catch (IOException e) {
                     log.error("发送消息时遇到了错误");
                     throw new RuntimeException(e);

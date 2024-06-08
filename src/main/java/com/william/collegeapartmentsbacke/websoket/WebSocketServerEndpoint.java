@@ -43,7 +43,7 @@ public class WebSocketServerEndpoint {
     public void sendMsg() throws IOException {
         log.info("后端正在尝试发送心跳");
         for(String key:sessionMap.keySet()){
-            sessionMap.get(key).getBasicRemote().sendText(" 心跳");
+            sessionMap.get(key).getBasicRemote().sendText(" biu~biu~");
         }
     }
 }
