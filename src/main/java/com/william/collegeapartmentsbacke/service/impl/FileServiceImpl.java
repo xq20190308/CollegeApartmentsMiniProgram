@@ -15,6 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -80,11 +83,35 @@ public class FileServiceImpl implements FileService {
         return String.join(",",uploadUrl);
     }
 
+    //删除文件
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public String DeletefileByUrl(String Url)
+    {
+        String filename = Url.substring(Url.lastIndexOf("/")+1);
+        String filepath=localFileUrl+filename;
+        Path path= Paths.get(filepath);
+        try{
+            if(Files.exists(path)) {
+                Files.delete(path);
+                return "success";
+            }
+            else
+                return "fail";
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return filename;
+    }
+
+
     //获取文件路径
     @Override
     public String SelectfileById(String id) {
         return fileMapper.selectfile(id);
     }
+
 
 
 
