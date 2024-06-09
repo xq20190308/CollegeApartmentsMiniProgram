@@ -9,7 +9,7 @@ public class Itemdata {
     private String category;
     private String pickLocation;
     private String pickTime;
-    private String desicribles;
+    private String describes;
     private String contactobject;
     private String filepath;
 }
