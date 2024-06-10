@@ -30,7 +30,7 @@ public class HygieneServicelmpl implements HygieneService {
 
     @Override
     public String selectHygieneByDormitoryid(String id) {
-        return "select * from coap.Hygiene where " + "Dormitoryid = #{Dormitoryid}";
+        return "select * from coap.Hygiene where " + "Dormitoryid = #{Dormitoryid}  LIMIT 1";
     }
 
     @Override
