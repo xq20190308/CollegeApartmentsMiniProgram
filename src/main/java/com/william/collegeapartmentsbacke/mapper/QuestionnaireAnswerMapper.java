@@ -28,6 +28,6 @@ public interface QuestionnaireAnswerMapper {
 
 
 
-    @Select("select answer from coap.questionnaire_answer where questionnaire_id = {naireId}")
+    @Select("select answer from coap.questionnaire_answer where questionnaire_id = #{naireId} ")
     List<AnswerDTO> getAnswerByNaireId(Integer naireId);
 }
