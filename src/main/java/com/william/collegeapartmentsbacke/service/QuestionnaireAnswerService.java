@@ -6,4 +6,6 @@ public interface QuestionnaireAnswerService {
     Integer addQuestionnaireAnswer(QuestionnaireAnswer questionnaireAnswer);
 
     QuestionnaireAnswer getAnswerByUseridAndNaireId(String userid, Integer naireid);
+
+    void answerSummery(Integer naireid);
 }
