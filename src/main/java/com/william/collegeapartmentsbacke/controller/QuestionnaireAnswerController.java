@@ -61,6 +61,12 @@ public class QuestionnaireAnswerController {
         return Result.success(questionnaireAwswerVO);
     }
 
+    @RequestMapping(value = "/anssum",method = RequestMethod.GET)
+    public Result AnsSum(@RequestHeader("Authorization") String token) {
+        questionnaireAnswerService.answerSummery(108);
+        return Result.success();
+    }
+
 
 
 }
