@@ -43,11 +43,6 @@ public class QuestionServiceImpl implements QuestionService {
         questionMapper.deleteByQuestionId(questionId);
     }
 
-    @Override
-    public void updateQuestion(Question question) {
-        questionMapper.updateQuestion(question);
-    }
-
 
     @Override
     public List<Integer> addQuestions(List<Question> questionList,Integer questionnaireId) {

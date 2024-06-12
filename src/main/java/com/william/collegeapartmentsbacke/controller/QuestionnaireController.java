@@ -42,6 +42,7 @@ public class QuestionnaireController {
 
         Questionnaire questionnaire = new Questionnaire();
         questionnaire.setId(questionnaireId);
+        questionnaire.setAnonymous(questionnaireDto.getAnonymous());
         questionnaire.setType(questionnaireDto.getType());
         questionnaire.setName(questionnaireDto.getName());
         questionnaire.setDescription(questionnaireDto.getDescription());
@@ -68,6 +69,7 @@ public class QuestionnaireController {
         Questionnaire questionnaire = new Questionnaire();
 
         questionnaire.setId(id);
+        questionnaire.setAnonymous(questionnaireDto.getAnonymous());
         questionnaire.setType(questionnaireDto.getType());
         questionnaire.setName(questionnaireDto.getName());
         questionnaire.setDescription(questionnaireDto.getDescription());
