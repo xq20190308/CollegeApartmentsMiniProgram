@@ -2,6 +2,7 @@ package com.william.collegeapartmentsbacke.service.impl;
 
 import com.alibaba.excel.EasyExcel;
 import com.william.collegeapartmentsbacke.mapper.HygieneMapper;
+import com.william.collegeapartmentsbacke.pojo.dto.HygieneDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Hygiene;
 import com.william.collegeapartmentsbacke.service.HygieneService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ public class HygieneServicelmpl implements HygieneService {
     }
 
     @Override
-    public String selectHygieneByDormitoryid(String week,String Dormitoryid) {
-       return "select "+week+" from coap.Hygiene where "+"Dormitoryid = #{Dormitoryid}";
+    public String selectHygieneByDormitoryid(String id) {
+        return "select * from coap.Hygiene where " + "Dormitoryid = #{Dormitoryid}  LIMIT 1";
     }
 
     @Override
@@ -40,7 +41,7 @@ public class HygieneServicelmpl implements HygieneService {
     }
 
     @Override
-    public String SelectRank(String week,String rank) {
-        return hygieneMapper.selectHygieneByDormitoryid(week,rank);
+    public HygieneDTO SelectRank(String id) {
+        return hygieneMapper.selectHygieneByDormitoryid(id);
     }
 }

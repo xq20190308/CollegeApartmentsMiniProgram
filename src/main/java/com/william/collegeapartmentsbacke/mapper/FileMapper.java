@@ -1,6 +1,7 @@
 package com.william.collegeapartmentsbacke.mapper;
 
 import com.william.collegeapartmentsbacke.pojo.entity.Uploadfile;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -18,4 +19,7 @@ public interface FileMapper {
 
     @Select("select LAST_INSERT_ID()")
     String getLatestId();
+
+    @Delete("Delete *from coap.Filedata where path=#{Url}")
+    String deletefile(String Url);
 }

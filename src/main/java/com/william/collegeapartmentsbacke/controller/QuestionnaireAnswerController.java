@@ -8,6 +8,7 @@ import com.william.collegeapartmentsbacke.service.QuestionnaireAnswerService;
 import com.william.collegeapartmentsbacke.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -28,8 +29,16 @@ public class QuestionnaireAnswerController {
                                          @RequestBody QuestionnaireAnswer questionnaireAnswer) {
         log.info("token: {}",token);
         String userid = userService.getUseridFromToken(token);
+        Integer naireId = questionnaireAnswer.getQuestionnaireId();
         log.info("问卷回答 userid:{}",userid);
         log.info("新增了一份问卷回答：questionnaireAnswer : {}", questionnaireAnswer);
+
+        QuestionnaireAnswer testAnswer = questionnaireAnswerService.getAnswerByUseridAndNaireId(userid,naireId);
+        if(testAnswer != null) {
+            return Result.error("您已填写过该问卷");
+        }
+
+
         questionnaireAnswer.setUserid(userid);
         Integer id =  questionnaireAnswerService.addQuestionnaireAnswer(questionnaireAnswer);
         log.info(id.toString());
@@ -52,6 +61,6 @@ public class QuestionnaireAnswerController {
         return Result.success(questionnaireAwswerVO);
     }
 
-    
+
 
 }

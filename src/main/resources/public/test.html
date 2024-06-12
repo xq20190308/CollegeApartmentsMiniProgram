@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ws client</title>
+</head>
+<body>
+<p style="border:1px solid black;width: 600px;height: 500px" id="talkMsg"></p>
+<input id="message" /><button id="sendBtn" onclick="sendMsg()">发送</button>
+</body>
+<script>
+    let ws = new WebSocket("ws://localhost:8080/websocket1")
+    let allmessage = ""
+    // ws.onopen=function () {
+    // }
+    ws.onopen = function (){
+        ws.send("hello")
+    }
+
+    // ws.onmessage = function (message){
+    //     console.log(message.data)
+    // }
+
+
+    ws.onmessage=function (message) {
+        allmessage += message.data
+        document.getElementById("talkMsg").innerHTML = allmessage
+    }
+    function sendMsg() {
+        ws.send(document.getElementById("message").value)
+        document.getElementById("message").value=""
+    }
+</script>
+</html>
