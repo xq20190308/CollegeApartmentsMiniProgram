@@ -20,14 +20,6 @@ public interface QuestionMapper {
             "values (#{type}, #{name}, #{description}, #{content}, #{questionnaireId})")
     void addQuestion(Question question);
 
-    @Update("update coap.questionnaire set type = #{type}, " +
-            "name = #{name}, " +
-            "description = #{description}, " +
-            "start_time = #{startTime}, " +
-            "end_time = #{endTime} " +
-            "where questionnaire_id = #{id}")
-    void updateQuestion(Question question);
-
     @Select("select * from coap.question where id = #{questionId}")
     Question selectByQuestionId(Integer questionId);
 
