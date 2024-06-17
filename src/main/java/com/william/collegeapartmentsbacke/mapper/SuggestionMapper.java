@@ -25,7 +25,7 @@ public interface SuggestionMapper {
    List<Suggestion> findall();
 
    //提交
-   @Update("insert into coap.Advise (id,describes,category,pushtime,contactobject,path) values(#{id},#{describes},#{category},#{pushtime},#{contactobject},#{path});")
+   @Update("insert into coap.Advise (id,describes,category,pushtime,contactobject,path,status) values(#{id},#{describes},#{category},#{pushtime},#{contactobject},#{path},#{status});")
    @Transactional
    void submit(Suggestion suggestion);
 
@@ -56,4 +56,6 @@ public interface SuggestionMapper {
    @Select("select path from coap.Filedata where id=#{id}")
    String selectfile(String id);
 
+   @Update("update coap.Advise set status=#{status} where id=#{id}")
+   void updataStatus(Suggestion suggestion);
 }

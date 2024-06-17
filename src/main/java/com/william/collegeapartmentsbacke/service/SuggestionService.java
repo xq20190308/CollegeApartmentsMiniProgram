@@ -23,5 +23,5 @@ public interface SuggestionService {
     boolean deleteSuggestion(long id);
 
     String Selectfile(String id);
-
+    void updataStatus(Suggestion suggestion);
 }

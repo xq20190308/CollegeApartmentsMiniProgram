@@ -40,4 +40,11 @@ public class LostpropertyController {
         List<Itemdata> itemdata= lostpropertyService.getItemdata(category);
         return Result.success(itemdata);
     }
+
+    @PostMapping("/updateStatus")
+    public Result updateStatus(@RequestBody Itemdata itemdata)
+    {
+        lostpropertyService.updateItemdata(itemdata);
+        return Result.success();
+    }
 }

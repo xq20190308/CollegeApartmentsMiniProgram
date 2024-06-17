@@ -41,6 +41,7 @@ public class SuggesitionServicelmpl implements SuggestionService {
 //            suggestion.setUrlpath(Path);
 //        }
         suggestion.setPushtime(pushtime);
+        suggestion.setStatus(0);
         suggestionmapper.submit(suggestion);
         }
 
@@ -94,9 +95,15 @@ public class SuggesitionServicelmpl implements SuggestionService {
     }
 
 
+    @Override
+    public void updataStatus(Suggestion suggestion)
+    {
+         suggestionmapper.updataStatus(suggestion);
+    }
     //获取文件
     @Override
     public String Selectfile(String id) {
         return suggestionmapper.selectfile(id);
     }
+
 }
