@@ -1,6 +1,8 @@
 package com.william.collegeapartmentsbacke.controller;
 
 
+import com.william.collegeapartmentsbacke.pojo.dto.AnswerCountDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.AnswerCount;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.QuestionnaireAnswer;
 import com.william.collegeapartmentsbacke.pojo.vo.QuestionnaireAwswerVO;
@@ -10,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.relational.core.sql.In;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Slf4j
@@ -62,9 +66,9 @@ public class QuestionnaireAnswerController {
     }
 
     @RequestMapping(value = "/anssum",method = RequestMethod.GET)
-    public Result AnsSum(@RequestHeader("Authorization") String token) {
-        questionnaireAnswerService.answerSummery(108);
-        return Result.success();
+        public Result AnsSum(@RequestHeader("Authorization") String token, @RequestParam Integer questionnaireId) {
+        AnswerCountDTO answerCountList = questionnaireAnswerService.answerSummery(questionnaireId);
+        return Result.success(answerCountList);
     }
 
 
