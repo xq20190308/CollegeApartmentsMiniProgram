@@ -166,6 +166,18 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
+    public void updatePasswordByUserid(String userid,String password){
+        userMapper.updatePasswordByUserid(userid,password);
+    }
 
+    @Override
+    public void updateLevelByUserid(String userid,String level){
+        userMapper.updateLevelByUserid(userid,level);
+    }
 
+    @Override
+    public void initOpenidByUserid(String userid){
+        userMapper.initOpenidByUserid(userid);
+    }
 }

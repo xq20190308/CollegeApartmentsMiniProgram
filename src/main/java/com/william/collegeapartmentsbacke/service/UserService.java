@@ -27,4 +27,12 @@ public interface UserService {
 
     void rigisterUser(UserLoginDTO userLoginDTO);
 
+
+    //管理用户
+    void updatePasswordByUserid(String userid, String password);
+
+    void updateLevelByUserid(String userid, String level);
+
+    void initOpenidByUserid(String userid);
+
 }
