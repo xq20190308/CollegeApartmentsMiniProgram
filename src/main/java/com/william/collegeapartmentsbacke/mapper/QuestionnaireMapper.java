@@ -1,6 +1,5 @@
 package com.william.collegeapartmentsbacke.mapper;
 
-import com.william.collegeapartmentsbacke.pojo.entity.Question;
 import com.william.collegeapartmentsbacke.pojo.entity.Questionnaire;
 import com.william.collegeapartmentsbacke.pojo.vo.QuestionnaireVO;
 import org.apache.ibatis.annotations.*;

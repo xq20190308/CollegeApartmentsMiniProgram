@@ -10,4 +10,6 @@ public interface LostpropertyService {
     void saveSubmit(Itemdata itemdata);
 
     List<Itemdata> getItemdata(String category);
+
+    void updateItemdata(Itemdata itemdata);
 }

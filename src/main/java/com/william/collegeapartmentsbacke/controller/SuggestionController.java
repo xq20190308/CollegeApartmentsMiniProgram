@@ -8,7 +8,6 @@ import com.william.collegeapartmentsbacke.service.SuggestionService;
 import com.william.collegeapartmentsbacke.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
@@ -87,6 +86,13 @@ public class SuggestionController {
     @DeleteMapping("/deleteFiles/{Filename}")
     public Result deleteSuggestion(@PathVariable String Filename) {
         return Result.success(fileService.DeletefileByUrl(Filename));
+    }
+
+    @PostMapping("/updateState")
+    public Result updateStatus(@RequestBody Suggestion suggestion)
+    {
+        suggestionService.updataStatus(suggestion);
+        return Result.success();
     }
 
 //    @PostMapping ("/faceback{id}")
