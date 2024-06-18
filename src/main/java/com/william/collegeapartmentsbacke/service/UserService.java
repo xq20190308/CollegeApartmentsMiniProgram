@@ -4,6 +4,8 @@ import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Permission;
 import com.william.collegeapartmentsbacke.pojo.entity.User;
 
+import java.util.List;
+
 public interface UserService {
     //登录并返回用户
     User wxLogin(UserLoginDTO userLoginDTO);
@@ -14,6 +16,8 @@ public interface UserService {
     User findByOpenid(String openid);
 
     User findByUserid(String username);
+
+    List<User> findByUserLevel(String userLevel);
 
 
 

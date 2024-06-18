@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -52,6 +53,16 @@ public class UserServiceImpl implements UserService {
 
         return user;
 
+    }
+
+    /**
+     * @param userLevel
+     * @return
+     */
+    @Override
+    public List<User> findByUserLevel(String userLevel) {
+        List<User> users = userMapper.getByUserLevel(userLevel);
+        return users;
     }
 
     @Override

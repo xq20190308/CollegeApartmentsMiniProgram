@@ -34,6 +34,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         super.afterConnectionEstablished(session);
+        log.info("websocketToken:"+session.getHandshakeHeaders());
         SessionBean sessionBean = new SessionBean(session,clientIdMaker.getAndIncrement());
         sessionBeanMap.put(session.getId(),sessionBean);
         log.info(sessionBeanMap.get(session.getId()).getClientId()+"建立了连接");
@@ -88,6 +89,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
     public void sendMessage(Map<String,SessionBean> sessionBeanMap){
         for(String key:sessionBeanMap.keySet()){
             try {
+                log.info(key+":"+sessionBeanMap.get(key).getClientId());
                 sessionBeanMap.get(key).getWebSocketSession().sendMessage(new TextMessage(stringBuffer.toString()));
             } catch (IOException e) {
                 e.printStackTrace();

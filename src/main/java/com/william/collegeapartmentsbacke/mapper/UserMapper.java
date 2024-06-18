@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
     //根据openid查询用户
@@ -14,6 +16,11 @@ public interface UserMapper {
     //查询最新的一条数据
     @Select("select LAST_VALUE() over () from coap.user")
     User getLastestUser();
+
+    //通过权限获取用户，主要是获取老师信息
+    @Select("select * from coap.user where user_level = #{userLevel}")
+    List<User> getByUserLevel(String userLevel);
+
 
     @Select("select password from coap.user where username = #{username}")
     String findPwdByUsername(String username);

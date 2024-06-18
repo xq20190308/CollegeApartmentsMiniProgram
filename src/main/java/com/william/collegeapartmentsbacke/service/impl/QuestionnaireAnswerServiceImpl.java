@@ -77,6 +77,22 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
         }
 
+        for(int i = 0; i < answerCountList.size(); i++)
+        {
+            //取出每个人第i个问题的回答，统计
+            for(AnswerDTO answerDTO : answerDTOList){
+                JSONArray answerArray = new JSONArray(answerDTO.getAnswer());
+                Object questionIAnswer = answerArray.get(i);
+                if(questionIAnswer instanceof JSONArray)
+                {
+                    //将JsonArray转换成Link<Integer>
+//                    for(Object choice : questionIAnswer){
+//
+//                    }
+                }
+            }
+        }
+
 
         log.info("用户回答如下");
         for(AnswerDTO answer : answerDTOList) {
@@ -93,4 +109,5 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         answerCountDTO.setAnswerCountList(answerCountList);
         return answerCountDTO;
     }
+
 }

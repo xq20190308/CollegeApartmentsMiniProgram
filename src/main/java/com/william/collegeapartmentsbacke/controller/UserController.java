@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -122,6 +123,13 @@ public class UserController {
         }
         return Result.error("请登录");
     }
+
+    @RequestMapping(value = "/findByUserLevel",method = RequestMethod.GET)
+    public Result findByUserLevel(String userLevel) {
+        List<User> users = userService.findByUserLevel(userLevel);
+        return Result.success(users);
+    }
+
 
 
    @RequestMapping(value = "/uploadavatar",method = RequestMethod.POST)
