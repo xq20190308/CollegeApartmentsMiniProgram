@@ -52,43 +52,76 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         List<AnswerDTO> answerDTOList = questionnaireAnswerMapper.getAnswerByNaireId(naireid);
         //存储问题列表
         List<Question> questionList = questionService.selectByQuestionnaireId(naireid);
-        Collections.sort(questionList);
         //存储问题回答情况统计
         List<AnswerCount> answerCountList = new ArrayList<>();
         //初始化问题回答情况，将每个单选题，多选题每个选项的回答人数初始化为0
         for(Question question : questionList) {
-            if(question.getType() >= 3)//只统计单选题，多选题
-                break;
-
-            //添加每个问题的选项数，默认每个选项0个人选
-            //先将问题的content转换为数组
-            JSONArray jsonArray = new JSONArray(question.getContent());
-            List<Integer> choiceList = new ArrayList<>();
-            for(int i = 0; i < jsonArray.size();i++){
-                choiceList.add(0);
-            }
+            log.info(question.toString());
             AnswerCount answerCount = new AnswerCount();
+            //问答题处理办法
+            answerCount.setAnswerType(question.getType());
+            if(question.getType() == 3)
+            {
+                ;
+            }
+            //选择题处理办法
+            else {
+                //添加每个问题的选项数，默认每个选项0个人选
+                //先将问题的content转换为数组
+                JSONArray jsonArray = new JSONArray(question.getContent());
+                List<Integer> choiceList = new ArrayList<>();
+                for(int i = 0; i < jsonArray.size();i++){
+                    choiceList.add(0);
+                }
+                answerCount.setChoiceSumList(choiceList);
+            }
             answerCount.setQuestionId(question.getId());
-            answerCount.setChoiceSum(choiceList);
             answerCountList.add(answerCount);
         }
-        //接下来统计每个问题的回答情况
-        for (AnswerCount answerCount : answerCountList){
 
-        }
+        //输出查看初始化情况
+        log.info(answerCountList.toString());
+        //接下来统计每个问题的回答情况
 
         for(int i = 0; i < answerCountList.size(); i++)
         {
             //取出每个人第i个问题的回答，统计
-            for(AnswerDTO answerDTO : answerDTOList){
-                JSONArray answerArray = new JSONArray(answerDTO.getAnswer());
-                Object questionIAnswer = answerArray.get(i);
-                if(questionIAnswer instanceof JSONArray)
-                {
-                    //将JsonArray转换成Link<Integer>
-//                    for(Object choice : questionIAnswer){
-//
-//                    }
+            AnswerCount currAnswerCount = answerCountList.get(i);
+            if(currAnswerCount.getAnswerType() == 3)
+                continue;
+            else if(currAnswerCount.getAnswerType() == 2)
+            {
+                for (AnswerDTO answerDTO : answerDTOList) {
+                    JSONArray choiceArray = new JSONArray(answerDTO.getAnswer());
+                    Object mulQuestionIAnswer = choiceArray.get(i);
+
+
+                    if (mulQuestionIAnswer instanceof JSONArray) {
+                        for (Object obj : (JSONArray) mulQuestionIAnswer) {
+                            if (obj instanceof String) {
+                                String choiceStr = (String) obj;
+                                Integer  choiceInt= Integer.parseInt(choiceStr);
+                                currAnswerCount.incrementChoiceAtIndex(choiceInt);
+                            }
+                        }
+
+
+                    }
+                }
+            }
+            else if(currAnswerCount.getAnswerType() == 1)//单选题处理
+            {
+
+                for (AnswerDTO answerDTO : answerDTOList) {
+                    JSONArray choiceArray = new JSONArray(answerDTO.getAnswer());
+                    Object questionIAnswer = choiceArray.get(i);
+
+
+                    if (questionIAnswer instanceof String) {
+                        String choiceStr = (String) questionIAnswer;
+                        Integer  choiceInt= Integer.parseInt(choiceStr);
+                        currAnswerCount.incrementChoiceAtIndex(choiceInt);
+                    }
                 }
             }
         }
