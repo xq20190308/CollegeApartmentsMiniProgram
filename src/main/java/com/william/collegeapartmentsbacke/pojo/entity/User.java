@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User implements Comparable<User>{
     private Integer id;
     private String openid;
     private String username;
@@ -35,4 +35,13 @@ public class User {
     private String phone;
     private String avatar;
     private String userLevel;
+
+    /**
+     * @param o the object to be compared.
+     * @return
+     */
+    @Override
+    public int compareTo(User o) {
+        return 1;
+    }
 }
