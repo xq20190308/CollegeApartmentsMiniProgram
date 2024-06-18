@@ -152,8 +152,9 @@ public class UserController {
 
    @RequestMapping(value = "/getavatar",method = RequestMethod.GET)
    public Result getAvatar(@RequestHeader("Authorization") String token, String otherUserid) {
-
+        log.info("token : {}",token);
         String userid = userService.getUseridFromToken(token);
+
        if (otherUserid != null) {
             userid = otherUserid;
        }

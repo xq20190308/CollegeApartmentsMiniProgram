@@ -26,4 +26,8 @@ public class PinyinUtil {
 
         return sb.toString();
     }
+    public static boolean isEnglish(String str) {
+        return str.matches("^[A-Za-z0-9\\s]*$");
+    }
+
 }

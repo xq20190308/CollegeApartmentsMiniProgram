@@ -15,9 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
@@ -62,6 +60,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findByUserLevel(String userLevel) {
         List<User> users = userMapper.getByUserLevel(userLevel);
+        log.info("排序前");
+        log.info(users.toString());
+        Collections.sort(users);
+        log.info("排序后");
+        log.info(users.toString());
         return users;
     }
 
