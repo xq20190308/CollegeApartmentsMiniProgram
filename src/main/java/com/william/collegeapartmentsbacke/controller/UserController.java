@@ -130,6 +130,11 @@ public class UserController {
         return Result.success(users);
     }
 
+    @RequestMapping(value = "findByUserid",method = RequestMethod.GET)
+    public Result findByUserid(String userid){
+        User user = userService.findByUserid(userid);
+        return Result.success(user);
+    }
 
 
    @RequestMapping(value = "/uploadavatar",method = RequestMethod.POST)
@@ -146,8 +151,12 @@ public class UserController {
    }
 
    @RequestMapping(value = "/getavatar",method = RequestMethod.GET)
-   public Result getAvatar(@RequestHeader("Authorization") String token) {
+   public Result getAvatar(@RequestHeader("Authorization") String token, String otherUserid) {
+
         String userid = userService.getUseridFromToken(token);
+       if (otherUserid != null) {
+            userid = otherUserid;
+       }
         User user = userService.findByUserid(userid);
         String avatarFileId = user.getAvatar();
         //暂时返回网络头像,其实应该在User表的avatar存一个默认File的id
