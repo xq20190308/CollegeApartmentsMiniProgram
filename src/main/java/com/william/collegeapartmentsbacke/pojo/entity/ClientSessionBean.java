@@ -6,7 +6,7 @@ import org.springframework.web.socket.WebSocketSession;
 
 @AllArgsConstructor
 @Data
-public class SessionBean {
+public class ClientSessionBean {
     private WebSocketSession webSocketSession;
     private Integer clientId;
 }

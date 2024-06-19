@@ -3,12 +3,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class WebSocketMessage {
+public class ClientMessage {
     private String type;
     private String data;
-    private String receiver;
+    private List<String> receiver;
 }

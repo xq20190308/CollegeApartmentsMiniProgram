@@ -1,6 +1,5 @@
 package com.william.collegeapartmentsbacke.service;
 
-import com.william.collegeapartmentsbacke.pojo.entity.SessionBean;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -13,7 +12,7 @@ public interface WebsocketService {
      *
      * @param session 会话
      */
-    void handleOpen(WebSocketSession session);
+    void handleOpen(String userId,WebSocketSession session);
 
     /**
      * 会话结束回调
@@ -28,7 +27,7 @@ public interface WebsocketService {
      * @param session 会话
      * @param message 接收的消息
      */
-    void handleMessage(WebSocketSession session, String message);
+    void handleMessage(WebSocketSession session, TextMessage message) throws IOException;
 
     /**
      * 发送消息
@@ -88,11 +87,11 @@ public interface WebsocketService {
      * @param session 会话
      * @param error   异常
      */
-    void handleError(WebSocketSession session, Throwable error);
+    void handleError(WebSocketSession session, Throwable error) throws IOException;
 
 
 
-//    public void sendMessage(SessionBean session, String message) throws IOException;
+//    public void sendMessage(ClientSessionBean session, String message) throws IOException;
 //
 //    public void broadcastMessage(String message) throws IOException;
 
