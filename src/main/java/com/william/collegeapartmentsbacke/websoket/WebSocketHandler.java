@@ -2,6 +2,7 @@ package com.william.collegeapartmentsbacke.websoket;
 
 import com.william.collegeapartmentsbacke.pojo.entity.SessionBean;
 import com.william.collegeapartmentsbacke.service.UserService;
+import com.william.collegeapartmentsbacke.service.WebsocketService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -33,6 +34,9 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private WebsocketService websocketService;
+
 
 
     /**
@@ -42,7 +46,11 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         super.afterConnectionEstablished(session);
-        log.info("websocketToken:"+session.getHandshakeHeaders());
+        log.info("websocketToken:"+session.getHandshakeHeaders().get("Authorization"));
+        //
+//        websocketService.handleOpen(session);
+
+
         SessionBean sessionBean = new SessionBean(session,clientIdMaker.getAndIncrement());
         sessionBeanMap.put(session.getId(),sessionBean);
         log.info(sessionBeanMap.get(session.getId()).getClientId()+"建立了连接");

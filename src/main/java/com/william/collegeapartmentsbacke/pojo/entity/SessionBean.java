@@ -9,5 +9,4 @@ import org.springframework.web.socket.WebSocketSession;
 public class SessionBean {
     private WebSocketSession webSocketSession;
     private Integer clientId;
-
 }
