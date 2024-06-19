@@ -1,5 +1,7 @@
-package com.william.collegeapartmentsbacke.websoket;
+package com.william.collegeapartmentsbacke.Config;
 
+import com.william.collegeapartmentsbacke.websoket.WebSocketHandler;
+import com.william.collegeapartmentsbacke.websoket.WebSocketInterceptor;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;

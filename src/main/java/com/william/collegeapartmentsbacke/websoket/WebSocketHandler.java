@@ -1,6 +1,9 @@
 package com.william.collegeapartmentsbacke.websoket;
 
+import com.william.collegeapartmentsbacke.pojo.entity.SessionBean;
+import com.william.collegeapartmentsbacke.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -18,7 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 @EnableScheduling
 public class WebSocketHandler extends AbstractWebSocketHandler {
-    private static Map<String,SessionBean> sessionBeanMap ;
+    private static Map<String, SessionBean> sessionBeanMap ;
     private static AtomicInteger clientIdMaker;
     private static StringBuffer stringBuffer;
     static {
@@ -26,6 +29,11 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
         clientIdMaker = new AtomicInteger(0);
         stringBuffer = new StringBuffer();
     }
+
+    @Autowired
+    private UserService userService;
+
+
 
     /**
      * @param session

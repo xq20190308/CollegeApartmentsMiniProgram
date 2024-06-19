@@ -18,6 +18,7 @@ public class WebSocketInterceptor extends HttpSessionHandshakeInterceptor {
         return super.beforeHandshake(request, response, wsHandler, attributes);
     }
 
+
     @Override
     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception ex) {
         log.info(request.getRemoteAddress().toString()+"完成握手");
