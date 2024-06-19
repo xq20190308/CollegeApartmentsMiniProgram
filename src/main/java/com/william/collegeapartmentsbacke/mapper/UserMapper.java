@@ -50,4 +50,17 @@ public interface UserMapper {
     @Update("update coap.user set avatar = #{avatarFileId} where userid = #{userid}")
     void updateAvatarFileid(String userid, String avatarFileId);
 
+
+
+    //通过userid修改password
+    @Update("update coap.user set password = #{password} where userid = #{userid}")
+    void updatePasswordByUserid(String userid, String password);
+
+    //通过userid修改userlevel
+    @Update("update coap.user set user_level = #{userLevel} where userid = #{userid}")
+    void updateLevelByUserid(String userid,String userLevel);
+
+    //通过userid初始化用户的openid
+    @Update("update coap.user set openid = NULL where userid = #{userid}")
+    void initOpenidByUserid(String userid);
 }

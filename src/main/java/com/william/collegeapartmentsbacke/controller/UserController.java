@@ -218,9 +218,42 @@ public class UserController {
 
    }
 
+   @RequestMapping(value = "/updatePasswordByUserid/{userid}",method = RequestMethod.POST)
+   public Result updatePasswordByUserid(@PathVariable String userid, @RequestBody User user) {
+       if (userid == null) {
+           return Result.error("用户不存在");
+       }
+       String newPassword = user.getPassword();
+       if (newPassword == null || newPassword.isEmpty()) {
+           return Result.error("密码不能为空");
+       }
+       log.info("要更新的用户ID: " + userid + " 新密码: " + newPassword);
+       userService.updatePasswordByUserid(userid, newPassword);
+       return Result.success();
+   }
 
+   @RequestMapping(value = "/updateLevelByUserid/{userid}",method = RequestMethod.POST)
+    public Result updateLevelByUserid(@PathVariable String userid, @RequestBody User user) {
+        if (userid == null) {
+            return Result.error("用户不存在");
+        }
+        String newLevel = user.getUserLevel();
+        if (newLevel == null || newLevel.isEmpty()) {
+            return Result.error("等级不能为空");
+        }
+       log.info("要更新的用户ID: " + userid + " 新等级: " + newLevel);
+       userService.updateLevelByUserid(userid, newLevel);
+       return Result.success();
+   }
 
-
+   @RequestMapping(value = "/initOpenidByUserid/{userid}",method = RequestMethod.POST)
+    public Result intiOpenidByUserid(@PathVariable String userid) {
+        if (userid == null) {
+            return Result.error("用户不存在");
+        }
+        userService.initOpenidByUserid(userid);
+        return Result.success();
+   }
 
 
 
