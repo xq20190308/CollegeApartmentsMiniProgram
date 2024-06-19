@@ -15,6 +15,7 @@ public class WebSocketInterceptor extends HttpSessionHandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
         log.info(request.getRemoteAddress().toString()+"开始握手");
+        log.info(request.getHeaders().get("Authorization").toString());
         return super.beforeHandshake(request, response, wsHandler, attributes);
     }
 
