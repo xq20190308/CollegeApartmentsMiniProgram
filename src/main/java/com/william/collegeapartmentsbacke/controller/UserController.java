@@ -29,8 +29,51 @@ public class UserController {
     @Autowired
     private FileService fileService;
 
+
+    @RequestMapping(value = "loginInnerTest", method = RequestMethod.POST)
+    public Result loginInnerTest(@RequestBody UserLoginDTO userLoginDTO) {
+        log.info("USER LOGIN DTO: {}", userLoginDTO);
+        String currentUsername = userLoginDTO.getUsername();
+        String msg = userService.verifyByPwd(currentUsername,userLoginDTO.getPassword());
+//        2.如果用户名密码正确，则获取DTO中的该微信号的code，换取openid
+        if(msg != "true"){
+            //情况1：登录失败，查无此用户,请注册或联系管理员
+            //情况2：登陆失败,账号或密码错误
+            return Result.error(msg);
+        }
+        User user = userService.findByUsername(currentUsername);
+        if(user == null){
+            return Result.error("测试登录时查无此用户");
+        }
+        //生成token
+        Map<String, Object> claims = new HashMap<String, Object>() {{
+            put(JwtClaimsConstant.ID,user.getId());
+            put(JwtClaimsConstant.OPENID, user.getOpenid());
+            put(JwtClaimsConstant.USERID,user.getUserid());
+            put(JwtClaimsConstant.USERLEVEL,user.getUserLevel());
+        }};
+        String token = JwtUtil.createJWT(jwtProperties.getSecretKey(), jwtProperties.getTtl(), claims);
+        //返回给前端的数据
+        Permission permission = userService.getPermission(user.getOpenid());
+        UserLoginVO userLoginVO = UserLoginVO.builder()
+                .id(user.getId())
+                .openid(user.getOpenid())
+                .username(user.getUsername())
+                .trueName(user.getName())
+                .userid(user.getUserid())
+                .phone(user.getPhone())
+                .userPermission(permission)
+                .token(token)
+                .build();
+        //id,token
+        log.info("测试登录返回给前端："+userLoginVO.toString());
+        return Result.success(userLoginVO);
+
+    }
+
+
     /**
-     * 登录
+     * 正式登录
      *
      * @param userLoginDTO
      * @return
@@ -52,7 +95,6 @@ public class UserController {
         }
         //测试时用,可不校验opid
 //        User  user = userService.findByUsername(userLoginDTO.getUsername());
-
         User user = userService.wxLogin(userLoginDTO);
         //情况3：如果到此查询不到数据,则出现未知问题
         //情况4：也有可能是获取不到openid;
@@ -87,7 +129,6 @@ public class UserController {
         log.info("返回给前端："+userLoginVO.toString());
         return Result.success(userLoginVO);
     }
-
 
 
 

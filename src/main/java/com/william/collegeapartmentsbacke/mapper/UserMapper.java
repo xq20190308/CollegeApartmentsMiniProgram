@@ -21,6 +21,8 @@ public interface UserMapper {
     @Select("select * from coap.user where user_level = #{userLevel} order by name")
     List<User> getByUserLevel(String userLevel);
 
+    @Select("select * from coap.user where username = #{username}")
+    User getUserByUsername(String username);
 
     @Select("select password from coap.user where username = #{username}")
     String findPwdByUsername(String username);

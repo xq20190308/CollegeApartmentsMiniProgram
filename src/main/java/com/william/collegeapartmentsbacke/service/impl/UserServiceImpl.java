@@ -48,9 +48,17 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
 
         }
-
         return user;
+    }
 
+    /**
+     * @param username
+     * @return
+     */
+    @Override
+    public User findByUsername(String username) {
+        User user = userMapper.getUserByUsername(username);
+        return user;
     }
 
     /**

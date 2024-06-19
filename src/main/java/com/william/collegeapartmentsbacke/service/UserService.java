@@ -17,6 +17,8 @@ public interface UserService {
 
     User findByUserid(String username);
 
+    User findByUsername(String username);
+
     List<User> findByUserLevel(String userLevel);
 
 

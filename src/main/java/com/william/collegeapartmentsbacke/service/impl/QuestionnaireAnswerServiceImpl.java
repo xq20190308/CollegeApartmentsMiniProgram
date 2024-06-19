@@ -95,7 +95,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                     JSONArray choiceArray = new JSONArray(answerDTO.getAnswer());
                     Object mulQuestionIAnswer = choiceArray.get(i);
 
-
                     if (mulQuestionIAnswer instanceof JSONArray) {
                         for (Object obj : (JSONArray) mulQuestionIAnswer) {
                             if (obj instanceof String) {
@@ -104,8 +103,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                                 currAnswerCount.incrementChoiceAtIndex(choiceInt);
                             }
                         }
-
-
                     }
                 }
             }
