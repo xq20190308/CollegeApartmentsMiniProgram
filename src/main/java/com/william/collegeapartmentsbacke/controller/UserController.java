@@ -54,7 +54,7 @@ public class UserController {
         }};
         String token = JwtUtil.createJWT(jwtProperties.getSecretKey(), jwtProperties.getTtl(), claims);
         //返回给前端的数据
-        Permission permission = userService.getPermission(user.getOpenid());
+        Permission permission = userService.getPermissionByUserid(user.getUserid());
         UserLoginVO userLoginVO = UserLoginVO.builder()
                 .id(user.getId())
                 .openid(user.getOpenid())
@@ -114,7 +114,7 @@ public class UserController {
         }};
         String token = JwtUtil.createJWT(jwtProperties.getSecretKey(), jwtProperties.getTtl(), claims);
         //返回给前端的数据
-        Permission permission = userService.getPermission(user.getOpenid());
+        Permission permission = userService.getPermissionByUserid(user.getUserid());
         UserLoginVO userLoginVO = UserLoginVO.builder()
                 .id(user.getId())
                 .openid(user.getOpenid())
@@ -143,8 +143,8 @@ public class UserController {
     }
 
     public Result getPermission(@RequestHeader("Authorization") String token) {
-        String openid = JwtUtil.parseJWT(jwtProperties.getSecretKey(),token).get("openid").toString();
-        Permission permission = userService.getPermission(openid);
+        String userId = userService.getUseridFromToken(token);
+        Permission permission = userService.getPermissionByUserid(userId);
         return Result.success(permission);
     }
 

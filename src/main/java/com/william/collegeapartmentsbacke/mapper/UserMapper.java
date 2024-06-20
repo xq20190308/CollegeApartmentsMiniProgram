@@ -28,8 +28,8 @@ public interface UserMapper {
     String findPwdByUsername(String username);
 
     //查询用户权限
-    @Select("select p.* from coap.user_permission p join coap.user u on p.user_level = u.user_level where u.openid = #{openid}")
-    Permission getPermissionByOpenid(String openid);
+    @Select("select p.* from coap.user_permission p join coap.user u on p.user_level = u.user_level where u.userid = #{userId}")
+    Permission getPermissionByUserId(String userId);
 
 //    @Select("select * from coap.user where username = #{username}")
 //    User getUserByUserName(String username);

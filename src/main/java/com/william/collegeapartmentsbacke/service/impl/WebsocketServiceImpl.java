@@ -58,7 +58,7 @@ public class WebsocketServiceImpl implements WebsocketService {
         ClientSessionBean clientSessionBean = new ClientSessionBean(session, ClientSessionMannager.getClientIdMaker());
         String clientUserId = session.getAttributes().get("userId").toString();
         ClientSessionMannager.addClientSessionBean(clientUserId, clientSessionBean);
-        log.info(clientUserId+"建立了连接");
+        log.info(clientUserId+"建立了连接，现在总连接人数是"+ ClientSessionMannager.CLIENT_POOL.size());
 //        stringBuffer.append(sessionBeanMap.get(session.getId()).getClientId()+"进入了群聊<br/>");
 //        sendMessage(sessionBeanMap);
     }
@@ -97,49 +97,28 @@ public class WebsocketServiceImpl implements WebsocketService {
     }
 
     /**
-     * @param session 会话
-     * @param message 接收的消息
-     */
-
-    /**
-     * @param session 当前会话
-     * @param message 要发送的消息
+     * @param clientMessage
      * @throws IOException
      */
     @Override
-    public void sendMessage(WebSocketSession session, String message) throws IOException {
+    public void sendMessage(ClientMessage clientMessage) throws IOException {
+        log.info(clientMessage.toString());
+        String pureMessage = clientMessage.getData();
+        for(String receiverId: clientMessage.getReceivers()){
+            ClientSessionBean clientSessionBean =  ClientSessionMannager.getClientSessionBean(receiverId);
+            if(clientSessionBean != null){
+                continue;
+            }
 
+            WebSocketSession session = clientSessionBean.getWebSocketSession();
+            if(session != null || !session.isOpen()){
+                continue;
+            }
+            clientSessionBean.getWebSocketSession().sendMessage(new TextMessage(pureMessage));
+
+        }
     }
 
-    /**
-     * @param userId  用户id
-     * @param message 要发送的消息
-     * @throws IOException
-     */
-    @Override
-    public void sendMessage(Integer userId, TextMessage message) throws IOException {
-
-    }
-
-    /**
-     * @param userId  用户id
-     * @param message 要发送的消息
-     * @throws IOException
-     */
-    @Override
-    public void sendMessage(Integer userId, String message) throws IOException {
-
-    }
-
-    /**
-     * @param session 当前会话
-     * @param message 要发送的消息
-     * @throws IOException
-     */
-    @Override
-    public void sendMessage(WebSocketSession session, TextMessage message) throws IOException {
-
-    }
 
     /**
      * @param message 字符串消息
@@ -151,21 +130,12 @@ public class WebsocketServiceImpl implements WebsocketService {
             WebSocketSession session = clientSessionBean.getWebSocketSession();
             if(session.isOpen()){
                 try {
-                    session.sendMessage(new TextMessage("后端发送"+message));
+                    session.sendMessage(new TextMessage("后端发送: "+message));
                 }catch (IOException e){
                     e.printStackTrace();
                 }
             }
         }
-    }
-
-    /**
-     * @param message 文本消息
-     * @throws IOException
-     */
-    @Override
-    public void broadCast(TextMessage message) throws IOException {
-
     }
 
     /**

@@ -12,5 +12,5 @@ import java.util.List;
 public class ClientMessage {
     private String type;
     private String data;
-    private List<String> receiver;
+    private List<String> receivers;
 }

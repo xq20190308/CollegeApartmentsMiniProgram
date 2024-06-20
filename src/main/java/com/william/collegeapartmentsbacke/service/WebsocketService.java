@@ -1,5 +1,6 @@
 package com.william.collegeapartmentsbacke.service;
 
+import com.william.collegeapartmentsbacke.pojo.entity.ClientMessage;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -29,41 +30,46 @@ public interface WebsocketService {
      */
     void handleMessage(WebSocketSession session, TextMessage message) throws IOException;
 
-    /**
-     * 发送消息
-     *
-     * @param session 当前会话
-     * @param message 要发送的消息
-     * @throws IOException 发送io异常
-     */
-    void sendMessage(WebSocketSession session, String message) throws IOException;
 
-    /**
-     * 发送消息
-     *
-     * @param userId  用户id
-     * @param message 要发送的消息
-     * @throws IOException 发送io异常
-     */
-    void sendMessage(Integer userId, TextMessage message) throws IOException;
 
-    /**
-     * 发送消息
-     *
-     * @param userId  用户id
-     * @param message 要发送的消息
-     * @throws IOException 发送io异常
-     */
-    void sendMessage(Integer userId, String message) throws IOException;
 
-    /**
-     * 发送消息
-     *
-     * @param session 当前会话
-     * @param message 要发送的消息
-     * @throws IOException 发送io异常
-     */
-    void sendMessage(WebSocketSession session, TextMessage message) throws IOException;
+    void sendMessage(ClientMessage clientMessage) throws IOException;
+//
+//    /**
+//     * 发送消息
+//     *
+//     * @param session 当前会话
+//     * @param message 要发送的消息
+//     * @throws IOException 发送io异常
+//     */
+//    void sendMessage(WebSocketSession session, String message) throws IOException;
+//
+//    /**
+//     * 发送消息
+//     *
+//     * @param userId  用户id
+//     * @param message 要发送的消息
+//     * @throws IOException 发送io异常
+//     */
+//    void sendMessage(Integer userId, TextMessage message) throws IOException;
+//
+//    /**
+//     * 发送消息
+//     *
+//     * @param userId  用户id
+//     * @param message 要发送的消息
+//     * @throws IOException 发送io异常
+//     */
+//    void sendMessage(Integer userId, String message) throws IOException;
+//
+//    /**
+//     * 发送消息
+//     *
+//     * @param session 当前会话
+//     * @param message 要发送的消息
+//     * @throws IOException 发送io异常
+//     */
+//    void sendMessage(WebSocketSession session, TextMessage message) throws IOException;
 
     /**
      * 广播
@@ -73,13 +79,13 @@ public interface WebsocketService {
      */
     void broadCast(String message) throws IOException;
 
-    /**
-     * 广播
-     *
-     * @param message 文本消息
-     * @throws IOException 异常
-     */
-    void broadCast(TextMessage message) throws IOException;
+//    /**
+//     * 广播
+//     *
+//     * @param message 文本消息
+//     * @throws IOException 异常
+//     */
+//    void broadCast(TextMessage message) throws IOException;
 
     /**
      * 处理会话异常

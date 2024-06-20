@@ -174,12 +174,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Permission getPermission(String openid) {
+    public Permission getPermissionByUserid(String userId) {
         try {
-            Permission permissionByOpenid = userMapper.getPermissionByOpenid(openid);
-            log.info("openid:{}", openid);
-            log.info("permission：{}", permissionByOpenid.toString());
-            return userMapper.getPermissionByOpenid(openid);
+            Permission permission = userMapper.getPermissionByUserId(userId);
+            log.info("userId:{}", userId);
+            log.info("permission：{}", permission.toString());
+            return permission;
         }
         catch (Exception e) {
             e.printStackTrace();
