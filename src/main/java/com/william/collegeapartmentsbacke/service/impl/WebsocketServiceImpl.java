@@ -1,10 +1,11 @@
 package com.william.collegeapartmentsbacke.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONObject;
 import com.william.collegeapartmentsbacke.common.utils.JsonUtil;
 import com.william.collegeapartmentsbacke.pojo.entity.ClientMessage;
 import com.william.collegeapartmentsbacke.pojo.entity.ClientSessionBean;
+import com.william.collegeapartmentsbacke.pojo.vo.ClientMessageVO;
 import com.william.collegeapartmentsbacke.service.WebsocketService;
 import com.william.collegeapartmentsbacke.websoket.ClientSessionMannager;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,11 +80,11 @@ public class WebsocketServiceImpl implements WebsocketService {
      * @param message 接收的消息
      */
     @Override
-    public void handleMessage(WebSocketSession session, TextMessage message) throws IOException {
+    public void handleMessage(String userId, WebSocketSession session, TextMessage message) throws IOException {
 
         log.info("received a message：{}", message.getPayload());
-        JSONObject obj = new JSONObject(message.getPayload());
-        String type = obj.get("type").toString();
+        JSONObject obj = JSONObject.parseObject(message.getPayload());
+        Integer type = Integer.valueOf(obj.get("type").toString());
         String data = obj.get("data").toString();
         List<Object> receiversObj = JsonUtil.jsonArrayToList(new JSONArray(obj.get("receviers")));
         log.info("receiversObj:"+receiversObj);
@@ -90,7 +92,9 @@ public class WebsocketServiceImpl implements WebsocketService {
         for (Object receiverObj : receiversObj) {
             receivers.add(receiverObj.toString());
         }
-        ClientMessage clientMessage = new ClientMessage(type,data,receivers);
+        LocalDateTime sendTime = LocalDateTime.now();
+        ClientMessage clientMessage = new ClientMessage(userId,type,data,sendTime,receivers);
+        sendMessage(clientMessage);
         broadCast(clientMessage.getData());
 
 
@@ -102,19 +106,30 @@ public class WebsocketServiceImpl implements WebsocketService {
      */
     @Override
     public void sendMessage(ClientMessage clientMessage) throws IOException {
-        log.info(clientMessage.toString());
-        String pureMessage = clientMessage.getData();
+        log.info("进入消息发送函数"+clientMessage.toString());
+        ClientMessageVO messageVO = ClientMessageVO.builder()
+                .type(clientMessage.getType())
+                .senderUserId(clientMessage.getSenderUserId())
+                .data(clientMessage.getData())
+                .sendTime(clientMessage.getSendTime())
+                .build();
+
+
+
         for(String receiverId: clientMessage.getReceivers()){
             ClientSessionBean clientSessionBean =  ClientSessionMannager.getClientSessionBean(receiverId);
-            if(clientSessionBean != null){
+            if(clientSessionBean == null){
                 continue;
             }
 
             WebSocketSession session = clientSessionBean.getWebSocketSession();
-            if(session != null || !session.isOpen()){
+            if(session == null || !session.isOpen()){
                 continue;
             }
-            clientSessionBean.getWebSocketSession().sendMessage(new TextMessage(pureMessage));
+            log.info("私聊给{}发送了："+messageVO.toString(),receiverId);
+            String messageJsonStr = JSONObject.toJSONString(messageVO);
+            log.info("json转换后："+ messageJsonStr);
+            clientSessionBean.getWebSocketSession().sendMessage(new TextMessage(messageJsonStr));
 
         }
     }
@@ -130,7 +145,7 @@ public class WebsocketServiceImpl implements WebsocketService {
             WebSocketSession session = clientSessionBean.getWebSocketSession();
             if(session.isOpen()){
                 try {
-                    session.sendMessage(new TextMessage("后端发送: "+message));
+                    session.sendMessage(new TextMessage("后端群发: "+message));
                 }catch (IOException e){
                     e.printStackTrace();
                 }

@@ -28,7 +28,7 @@ public interface WebsocketService {
      * @param session 会话
      * @param message 接收的消息
      */
-    void handleMessage(WebSocketSession session, TextMessage message) throws IOException;
+    void handleMessage(String userId,WebSocketSession session, TextMessage message) throws IOException;
 
 
 

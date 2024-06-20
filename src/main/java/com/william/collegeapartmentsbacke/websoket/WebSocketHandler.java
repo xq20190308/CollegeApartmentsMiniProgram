@@ -41,7 +41,9 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         super.afterConnectionEstablished(session);
+        log.info("--"+session.getHandshakeHeaders().toString());
         log.info("websocketToken:"+session.getHandshakeHeaders().get("Authorization"));
+        log.info("@@token:"+session.getHandshakeHeaders().get("token"));
         String token = session.getHandshakeHeaders().get("Authorization").get(0);
         String userId = userService.getUseridFromToken(token);
         session.getAttributes().put("userId", userId);
@@ -64,7 +66,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
         super.handleTextMessage(session, message);
         String userId = session.getAttributes().get("userId").toString();
         log.info(userId + ":" + message.getPayload());
-        websocketService.handleMessage(session, message);
+        websocketService.handleMessage(userId,session, message);
 
 //        log.info(sessionBeanMap.get(session.getId()).getClientId()+":"+message.getPayload());
 //
