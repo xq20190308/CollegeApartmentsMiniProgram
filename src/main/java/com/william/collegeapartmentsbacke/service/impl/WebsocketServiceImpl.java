@@ -95,7 +95,7 @@ public class WebsocketServiceImpl implements WebsocketService {
         LocalDateTime sendTime = LocalDateTime.now();
         ClientMessage clientMessage = new ClientMessage(userId,type,data,sendTime,receivers);
         sendMessage(clientMessage);
-        broadCast(clientMessage.getData());
+//        broadCast(clientMessage.getData());
 
 
     }
@@ -113,8 +113,6 @@ public class WebsocketServiceImpl implements WebsocketService {
                 .data(clientMessage.getData())
                 .sendTime(clientMessage.getSendTime())
                 .build();
-
-
 
         for(String receiverId: clientMessage.getReceivers()){
             ClientSessionBean clientSessionBean =  ClientSessionMannager.getClientSessionBean(receiverId);

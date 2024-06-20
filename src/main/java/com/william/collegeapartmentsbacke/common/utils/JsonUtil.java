@@ -10,28 +10,15 @@ import java.util.List;
 
 @Slf4j
 public class JsonUtil {
-    public static void main123(String jsonString) {
-        // 这是给定的JSON字符串
-//        String jsonString = "[\"0\",\"0\",\"0\",\"1\",[\"0\",\"1\",\"2\",\"3\",\"4\"],[\"0\",\"4\"],[\"1\",\"0\"],[\"4\"],[\"3\",\"4\",\"1\"],[\"0\",\"3\",\"1\"]]";
 
-        // 解析字符串为JSONArray
-        JSONArray jsonArray;
-
-        try {
-            jsonArray = new JSONArray(jsonString);
-        } catch (JSONException e) {
-
-            System.err.println("Error parsing JSON: " + e.getMessage());
-            return;
-        }
-
-        // 将JSONArray转换为List<Object>
-        List<Object> list = jsonArrayToList(jsonArray);
-
-        // 打印结果
-        System.out.println(list);
-    }
-
+    /**
+     * @Author William
+     * @Date 2024/6/20 20:22
+     * @Description 将JssonArray转换成List
+     * @Param [jsonArray]
+     * @Return java.util.List<java.lang.Object>
+     * @Since version 1.0
+     */
     public static List<Object> jsonArrayToList(JSONArray jsonArray) throws JSONException {
         List<Object> list = new ArrayList<>();
         for (int i = 0; i < jsonArray.size(); i++) {
@@ -47,4 +34,5 @@ public class JsonUtil {
         }
         return list;
     }
+
 }

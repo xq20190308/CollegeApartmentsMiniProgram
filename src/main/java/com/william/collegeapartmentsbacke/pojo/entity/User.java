@@ -54,7 +54,7 @@ public class User implements Comparable<User>{
         try {
             if(PinyinUtil.isEnglish(this.getName()))
             {
-                pinyinOfName1 = this.getName();
+                pinyinOfName1 = this.getName().toUpperCase();
             }
             else
             {
@@ -63,7 +63,7 @@ public class User implements Comparable<User>{
 
             if(PinyinUtil.isEnglish(o.getName()))
             {
-                pinyinOfName2 = o.getName();
+                pinyinOfName2 = o.getName().toUpperCase();
             }
             else
             {

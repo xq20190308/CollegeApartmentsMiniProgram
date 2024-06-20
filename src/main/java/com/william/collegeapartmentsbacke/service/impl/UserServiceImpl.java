@@ -1,4 +1,6 @@
 package com.william.collegeapartmentsbacke.service.impl;
+import com.william.collegeapartmentsbacke.common.utils.PinyinUtil;
+import com.william.collegeapartmentsbacke.pojo.vo.ContactInfoVO;
 import io.jsonwebtoken.Claims;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -12,6 +14,7 @@ import com.william.collegeapartmentsbacke.pojo.entity.User;
 import com.william.collegeapartmentsbacke.service.UserService;
 import com.william.collegeapartmentsbacke.common.properties.WeChatProperties;
 import lombok.extern.slf4j.Slf4j;
+import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,14 +69,18 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public List<User> findByUserLevel(String userLevel) {
+    public List<ContactInfoVO> findByUserLevel(String userLevel) throws BadHanyuPinyinOutputFormatCombination {
         List<User> users = userMapper.getByUserLevel(userLevel);
-        log.info("排序前");
-        log.info(users.toString());
         Collections.sort(users);
-        log.info("排序后");
         log.info(users.toString());
-        return users;
+        List<ContactInfoVO> contactInfoVOs = new ArrayList<>();
+        for (User user : users) {
+            Character letter = PinyinUtil.getFirstLetter(user.getName());
+            ContactInfoVO currContactInfo = new ContactInfoVO(user.getName(),user.getUserid(),user.getPhone(),letter);
+            contactInfoVOs.add(currContactInfo);
+        }
+
+        return contactInfoVOs;
     }
 
     @Override

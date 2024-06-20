@@ -1,8 +1,11 @@
 package com.william.collegeapartmentsbacke.service;
 
+import com.william.collegeapartmentsbacke.pojo.dto.ContactInfoDTO;
 import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Permission;
 import com.william.collegeapartmentsbacke.pojo.entity.User;
+import com.william.collegeapartmentsbacke.pojo.vo.ContactInfoVO;
+import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
 import java.util.List;
 
@@ -19,7 +22,7 @@ public interface UserService {
 
     User findByUsername(String username);
 
-    List<User> findByUserLevel(String userLevel);
+    List<ContactInfoVO> findByUserLevel(String userLevel) throws BadHanyuPinyinOutputFormatCombination;
 
 
 
