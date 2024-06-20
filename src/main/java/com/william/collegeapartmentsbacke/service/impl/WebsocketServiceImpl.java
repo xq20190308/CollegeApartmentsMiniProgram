@@ -65,6 +65,7 @@ public class WebsocketServiceImpl implements WebsocketService {
 //        sendMessage(sessionBeanMap);
     }
 
+
     /**
      * @param session 会话
      */
@@ -138,7 +139,7 @@ public class WebsocketServiceImpl implements WebsocketService {
             }
             log.info("私聊给{}发送了："+messageVO.toString(),receiverId);
             String messageJsonStr = JSONObject.toJSONString(messageVO);
-            log.info("json转换后："+ messageJsonStr);
+            log.info("json转换后：" + messageJsonStr);
             clientSessionBean.getWebSocketSession().sendMessage(new TextMessage(messageJsonStr));
 
         }
