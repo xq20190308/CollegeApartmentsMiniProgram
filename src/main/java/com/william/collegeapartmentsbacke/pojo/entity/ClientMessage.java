@@ -17,6 +17,5 @@ public class ClientMessage {
     private String data;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime sendTime;
-    private List<String> receivers;
-
+    private String receivers;
 }
