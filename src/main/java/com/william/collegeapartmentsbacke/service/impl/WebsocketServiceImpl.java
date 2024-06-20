@@ -92,6 +92,7 @@ public class WebsocketServiceImpl implements WebsocketService {
         for (Object receiverObj : receiversObj) {
             receivers.add(receiverObj.toString());
         }
+
         LocalDateTime sendTime = LocalDateTime.now();
         ClientMessage clientMessage = new ClientMessage(userId,type,data,sendTime,receivers);
         sendMessage(clientMessage);
