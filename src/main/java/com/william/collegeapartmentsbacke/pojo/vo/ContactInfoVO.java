@@ -19,7 +19,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ContactInfoVO implements Serializable {
-    private String tureName;
+    private String trueName;
     private String userId;
     private String phoneNumber;
     private Character nameInitialLetter;
