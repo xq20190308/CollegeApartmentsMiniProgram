@@ -6,8 +6,10 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
+
 public class Hygiene {
     public Hygiene(){}
+    private Integer id;
     private String weeks;
     @ExcelProperty("宿舍号")
     private String Dormitoryid;
