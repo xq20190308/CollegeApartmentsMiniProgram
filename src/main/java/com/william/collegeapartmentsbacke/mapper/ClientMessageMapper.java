@@ -1,10 +1,9 @@
 package com.william.collegeapartmentsbacke.mapper;
 
 import com.william.collegeapartmentsbacke.pojo.entity.ClientMessage;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 /**
  * @Author: William
@@ -21,9 +20,11 @@ public interface ClientMessageMapper {
     @Delete("delete from coap.client_message where id = #{id}")
     void deleteClientMessage(Integer id);
 
-    @Select("select * from coap.client_message where id = ")
-    void getClientMessageById(Integer id);
+    @Select("select * from coap.client_message where id = #{id}")
+    ClientMessage getClientMessageById(Integer id);
 
+    @Select("select * from coap.client_message where receivers like concat('%',#{receiver},'%')")
+    List<ClientMessage> getClientMessageListByReceiver(String receiver);
 
 
 }

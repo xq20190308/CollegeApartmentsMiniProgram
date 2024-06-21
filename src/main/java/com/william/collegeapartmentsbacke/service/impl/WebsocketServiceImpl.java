@@ -90,14 +90,6 @@ public class WebsocketServiceImpl implements WebsocketService {
 
         String receivers = obj.get("receivers").toString();
 
-//        List<Object> receiversObj = JsonUtil.jsonArrayToList(new JSONArray(obj.get("receivers").toString()));
-//
-//        log.info("receiversObj:"+receiversObj);
-//        List<String> receivers = new ArrayList<>();
-//        for (Object receiverObj : receiversObj) {
-//            receivers.add(receiverObj.toString());
-//        }
-
         LocalDateTime sendTime = LocalDateTime.now();
         ClientMessage clientMessage = new ClientMessage(userId,type,data,sendTime,receivers);
         sendMessage(clientMessage);
@@ -120,13 +112,8 @@ public class WebsocketServiceImpl implements WebsocketService {
                 .sendTime(clientMessage.getSendTime())
                 .build();
 
-        List<Object> receiversObj = JsonUtil.jsonArrayToList(new JSONArray(clientMessage.getReceivers()));
-        log.info("receiversObj:"+receiversObj);
-        List<String> receiversUserids = new ArrayList<>();
-        for (Object receiverObj : receiversObj) {
-            receiversUserids.add(receiverObj.toString());
-        }
-        
+
+        List<String> receiversUserids = clientMessage.getReceiversStrList();
         for(String receiverId: receiversUserids){
             ClientSessionBean clientSessionBean =  ClientSessionMannager.getClientSessionBean(receiverId);
             if(clientSessionBean == null){
