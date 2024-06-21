@@ -23,7 +23,7 @@ zhrc:
   jwt:
     secret-key: 7bd78bq99bee54deec255986ba95d654
     ttl: 604800000
-    token-name: authorization
+    token-name: Authorization
   wechat:
     appid: wx3b5ec6e4e336f19e
     secret: adb45243c65766fca8e5c94454a39ef0

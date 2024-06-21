@@ -8,11 +8,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ClientSessionManager {
     public static ConcurrentHashMap<String, ClientSessionBean> CLIENT_POOL;
     private static AtomicInteger clientIdMaker;
-    private static StringBuffer stringBuffer;
     static {
         CLIENT_POOL = new ConcurrentHashMap<>();
         clientIdMaker = new AtomicInteger(0);
-        stringBuffer = new StringBuffer();
     }
 
     public static Integer getClientIdMaker() {
