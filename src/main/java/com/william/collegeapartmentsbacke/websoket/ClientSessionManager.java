@@ -5,7 +5,7 @@ import com.william.collegeapartmentsbacke.pojo.entity.ClientSessionBean;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ClientSessionMannager {
+public class ClientSessionManager {
     public static ConcurrentHashMap<String, ClientSessionBean> CLIENT_POOL;
     private static AtomicInteger clientIdMaker;
     private static StringBuffer stringBuffer;

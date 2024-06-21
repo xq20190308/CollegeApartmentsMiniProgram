@@ -1,4 +1,4 @@
-package com.william.collegeapartmentsbacke.websoket;
+package com.william.collegeapartmentsbacke.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.server.ServerHttpRequest;

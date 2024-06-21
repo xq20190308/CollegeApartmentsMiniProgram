@@ -1,21 +1,17 @@
 package com.william.collegeapartmentsbacke.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import cn.hutool.json.JSONArray;
-import com.william.collegeapartmentsbacke.common.utils.JsonUtil;
 import com.william.collegeapartmentsbacke.pojo.entity.ClientMessage;
 import com.william.collegeapartmentsbacke.pojo.entity.ClientSessionBean;
 import com.william.collegeapartmentsbacke.pojo.vo.ClientMessageVO;
 import com.william.collegeapartmentsbacke.service.WebsocketService;
-import com.william.collegeapartmentsbacke.websoket.ClientSessionMannager;
+import com.william.collegeapartmentsbacke.websoket.ClientSessionManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -46,7 +42,7 @@ public class WebsocketServiceImpl implements WebsocketService {
 //     */
 //    @Override
 //    public void broadcastMessage(String message) throws IOException {
-//        for(ClientSessionBean sessionBean: ClientSessionMannager.SESSION_POOL.values()){
+//        for(ClientSessionBean sessionBean: ClientSessionManager.SESSION_POOL.values()){
 //            sessionBean.getWebSocketSession().sendMessage(new TextMessage(message));
 //        }
 //    }
@@ -57,10 +53,10 @@ public class WebsocketServiceImpl implements WebsocketService {
     @Override
     public void handleOpen( String userId,WebSocketSession session) {
 
-        ClientSessionBean clientSessionBean = new ClientSessionBean(session, ClientSessionMannager.getClientIdMaker());
+        ClientSessionBean clientSessionBean = new ClientSessionBean(session, ClientSessionManager.getClientIdMaker());
         String clientUserId = session.getAttributes().get("userId").toString();
-        ClientSessionMannager.addClientSessionBean(clientUserId, clientSessionBean);
-        log.info(clientUserId+"建立了连接，现在总连接人数是"+ ClientSessionMannager.CLIENT_POOL.size());
+        ClientSessionManager.addClientSessionBean(clientUserId, clientSessionBean);
+        log.info(clientUserId+"建立了连接，现在总连接人数是"+ ClientSessionManager.CLIENT_POOL.size());
 //        stringBuffer.append(sessionBeanMap.get(session.getId()).getClientId()+"进入了群聊<br/>");
 //        sendMessage(sessionBeanMap);
     }
@@ -72,8 +68,8 @@ public class WebsocketServiceImpl implements WebsocketService {
     @Override
     public void handleClose(WebSocketSession session) {
         String clientUserId = session.getAttributes().get("userId").toString();
-        ClientSessionMannager.removeClientSessionBean(clientUserId);
-        log.info(clientUserId+" 的连接断开,现在总连接人数是"+ ClientSessionMannager.CLIENT_POOL.size());
+        ClientSessionManager.removeClientSessionBean(clientUserId);
+        log.info(clientUserId+" 的连接断开,现在总连接人数是"+ ClientSessionManager.CLIENT_POOL.size());
     }
 
     /**
@@ -95,7 +91,6 @@ public class WebsocketServiceImpl implements WebsocketService {
         sendMessage(clientMessage);
 //        broadCast(clientMessage.getData());
 
-
     }
 
     /**
@@ -115,7 +110,7 @@ public class WebsocketServiceImpl implements WebsocketService {
 
         List<String> receiversUserids = clientMessage.getReceiversStrList();
         for(String receiverId: receiversUserids){
-            ClientSessionBean clientSessionBean =  ClientSessionMannager.getClientSessionBean(receiverId);
+            ClientSessionBean clientSessionBean =  ClientSessionManager.getClientSessionBean(receiverId);
             if(clientSessionBean == null){
                 continue;
             }
@@ -139,7 +134,7 @@ public class WebsocketServiceImpl implements WebsocketService {
      */
     @Override
     public void broadCast(String message) throws IOException {
-        for (ClientSessionBean clientSessionBean : ClientSessionMannager.CLIENT_POOL.values()){
+        for (ClientSessionBean clientSessionBean : ClientSessionManager.CLIENT_POOL.values()){
             WebSocketSession session = clientSessionBean.getWebSocketSession();
             if(session.isOpen()){
                 try {
@@ -161,6 +156,6 @@ public class WebsocketServiceImpl implements WebsocketService {
             session.close();
         }
         String clientUserid = session.getAttributes().get("userId").toString();
-        ClientSessionMannager.removeAndCloseClientSession(clientUserid);
+        ClientSessionManager.removeAndCloseClientSession(clientUserid);
     }
 }

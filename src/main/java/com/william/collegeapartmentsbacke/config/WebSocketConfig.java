@@ -1,7 +1,7 @@
-package com.william.collegeapartmentsbacke.Config;
+package com.william.collegeapartmentsbacke.config;
 
-import com.william.collegeapartmentsbacke.websoket.WebSocketHandler;
-import com.william.collegeapartmentsbacke.websoket.WebSocketInterceptor;
+import com.william.collegeapartmentsbacke.handler.WebSocketHandler;
+import com.william.collegeapartmentsbacke.interceptor.WebSocketInterceptor;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;

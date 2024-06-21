@@ -1,7 +1,5 @@
-package com.william.collegeapartmentsbacke.websoket;
+package com.william.collegeapartmentsbacke.handler;
 
-import cn.hutool.json.JSONObject;
-import com.william.collegeapartmentsbacke.pojo.entity.ClientMessage;
 import com.william.collegeapartmentsbacke.service.UserService;
 import com.william.collegeapartmentsbacke.service.WebsocketService;
 import lombok.extern.slf4j.Slf4j;
