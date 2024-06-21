@@ -1,6 +1,7 @@
 package com.william.collegeapartmentsbacke.controller;
 
 
+import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.dto.NoticeDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Notice;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
@@ -22,6 +23,7 @@ public class NoticeController {
     private NoticeService noticeService;
 
     //查询全部通知
+    @NoNeedLogin
     @GetMapping
     public Result list(
             Integer id,
