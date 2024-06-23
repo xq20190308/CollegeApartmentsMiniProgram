@@ -10,6 +10,7 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
 
+
 @Configuration
 @EnableWebSocket
 @Slf4j
@@ -20,6 +21,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Resource
     WebSocketInterceptor webSocketInterceptor;
 
+
+
     /**
      * @param registry
      */
@@ -29,4 +32,3 @@ public class WebSocketConfig implements WebSocketConfigurer {
         log.info("Registered WebSocket Handler,WebSocket开始服务");
     }
 }
-

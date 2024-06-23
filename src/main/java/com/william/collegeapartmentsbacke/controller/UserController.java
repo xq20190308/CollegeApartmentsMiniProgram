@@ -1,5 +1,6 @@
 package com.william.collegeapartmentsbacke.controller;
 
+import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.common.constant.JwtClaimsConstant;
 import com.william.collegeapartmentsbacke.common.properties.JwtProperties;
 import com.william.collegeapartmentsbacke.common.utils.JwtUtil;
@@ -32,6 +33,7 @@ public class UserController {
     private FileService fileService;
 
 
+    @NoNeedLogin
     @RequestMapping(value = "loginInnerTest", method = RequestMethod.POST)
     public Result loginInnerTest(@RequestBody UserLoginDTO userLoginDTO) {
         log.info("USER LOGIN DTO: {}", userLoginDTO);
@@ -81,6 +83,7 @@ public class UserController {
      * @return
      */
     //传入账号密码，返回登录状态，用户基本信息
+    @NoNeedLogin
     @PostMapping("/login")
     public Result login(@RequestBody UserLoginDTO userLoginDTO) {
 //        1.验证用户名密码
