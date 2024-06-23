@@ -4,16 +4,19 @@ import com.alibaba.fastjson.JSONObject;
 import com.william.collegeapartmentsbacke.mapper.ClientMessageMapper;
 import com.william.collegeapartmentsbacke.pojo.entity.ClientMessage;
 import com.william.collegeapartmentsbacke.pojo.entity.ClientSessionBean;
+import com.william.collegeapartmentsbacke.pojo.dto.MessageDTO;
 import com.william.collegeapartmentsbacke.pojo.vo.ClientMessageVO;
 import com.william.collegeapartmentsbacke.service.WebsocketService;
 import com.william.collegeapartmentsbacke.websoket.ClientSessionManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -51,16 +54,17 @@ public class WebsocketServiceImpl implements WebsocketService {
         JSONObject obj = JSONObject.parseObject(message.getPayload());
         Integer type = Integer.valueOf(obj.get("type").toString());
         String data = obj.get("data").toString();
-        String receivers = obj.get("receivers").toString();
+        String receivers = obj.get("receiver").toString();
         LocalDateTime sendTime = LocalDateTime.now();
         ClientMessage clientMessage = new ClientMessage(null,userId,type,data,sendTime,receivers,true);
-        clientMessageMapper.insertClientMessage(clientMessage);
+//        clientMessageMapper.insertClientMessage(clientMessage);
         sendMessage(clientMessage);
 
     }
 
     @Override
     public void sendMessage(ClientMessage clientMessage) throws IOException {
+
         log.info("进入消息发送函数"+clientMessage.toString());
         ClientMessageVO messageVO = ClientMessageVO.builder()
                 .type(clientMessage.getType())
@@ -68,22 +72,39 @@ public class WebsocketServiceImpl implements WebsocketService {
                 .data(clientMessage.getData())
                 .sendTime(clientMessage.getSendTime())
                 .build();
-        List<String> receiversUserids = clientMessage.getReceiversStrList();
-        for(String receiverId: receiversUserids){
-            ClientSessionBean clientSessionBean =  ClientSessionManager.getClientSessionBean(receiverId);
-            if(clientSessionBean == null){
-                continue;
-            }
-            WebSocketSession session = clientSessionBean.getWebSocketSession();
-            if(session == null || !session.isOpen()){
-                continue;
-            }
-            log.info("私聊给{}发送了："+messageVO.toString(),receiverId);
-            String messageJsonStr = JSONObject.toJSONString(messageVO);
-            log.info("json转换后：" + messageJsonStr);
-            clientSessionBean.getWebSocketSession().sendMessage(new TextMessage(messageJsonStr));
 
+        String receiverId = clientMessage.getReceiver();
+        ClientSessionBean clientSessionBean =  ClientSessionManager.getClientSessionBean(receiverId);
+        if(clientSessionBean == null){
+            log.info("clientSessionbean为空，消息会被存到数据库");
+            clientMessageMapper.insertClientMessage(clientMessage);
+            return;
         }
+        WebSocketSession session = clientSessionBean.getWebSocketSession();
+        if(session == null || !session.isOpen()){
+            log.info("session为空，消息会被存到数据库");
+            clientMessageMapper.insertClientMessage(clientMessage);
+            return;
+        }
+        log.info("私聊给{}发送了："+messageVO.toString(),receiverId);
+        String messageJsonStr = JSONObject.toJSONString(messageVO);
+        log.info("json转换后：" + messageJsonStr);
+        clientSessionBean.getWebSocketSession().sendMessage(new TextMessage(messageJsonStr));
+//        List<String> receiversUserids = clientMessage.getReceiversStrList();
+//        for(String receiverId: receiversUserids){
+//            ClientSessionBean clientSessionBean =  ClientSessionManager.getClientSessionBean(receiverId);
+//            if(clientSessionBean == null){
+//                continue;
+//            }
+//            WebSocketSession session = clientSessionBean.getWebSocketSession();
+//            if(session == null || !session.isOpen()){
+//                continue;
+//            }
+//            log.info("私聊给{}发送了："+messageVO.toString(),receiverId);
+//            String messageJsonStr = JSONObject.toJSONString(messageVO);
+//            log.info("json转换后：" + messageJsonStr);
+//            clientSessionBean.getWebSocketSession().sendMessage(new TextMessage(messageJsonStr));
+
     }
 
     @Override
@@ -108,4 +129,25 @@ public class WebsocketServiceImpl implements WebsocketService {
         String clientUserid = session.getAttributes().get("userId").toString();
         ClientSessionManager.removeAndCloseClientSession(clientUserid);
     }
+
+    /**
+     * @param userId
+     * @return
+     */
+    @Override
+    @Transactional
+    public List<MessageDTO> getHistoryMessageListByUserId(String userId) {
+        List<ClientMessage> clientMessages = clientMessageMapper.getClientMessageListByReceiver(userId);
+
+        List<MessageDTO> messageDTOList = new ArrayList<>();
+        for(ClientMessage clientMessage : clientMessages){
+            MessageDTO messageDTO = new MessageDTO(clientMessage.getType(),clientMessage.getData(),clientMessage.getSenderUserId(),clientMessage.getSendTime());
+            messageDTOList.add(messageDTO);
+            //设置为已读，测试用，可以直接删除
+            clientMessageMapper.updateMessageStatusByMessageId(clientMessage.getMessageId(),0);
+        }
+        return messageDTOList;
+    }
+
+
 }

@@ -13,20 +13,23 @@ import java.util.List;
  */
 @Mapper
 public interface ClientMessageMapper {
-    @Insert("INSERT into coap.client_message (sender_user_id, send_time, data, type,receivers) " +
-            "VALUE (#{senderUserId},#{sendTime},#{data},#{type},#{receivers})")
+    @Insert("INSERT into coap.client_message (sender_user_id, send_time, data, type,receiver,status) " +
+            "VALUE (#{senderUserId},#{sendTime},#{data},#{type},#{receiver},#{status})")
     void insertClientMessage(ClientMessage clientMessage);
 
-    @Delete("delete from coap.client_message where type = 1 and receivers like concat('%',#{receiver},'%')")
-    void deleteSingleClientMessage(Integer id, String receiver);
+    @Delete("delete from coap.client_message where message_id = #{messageId} and status = #{status}")
+    void deleteMessageByMessageId(Integer messageId,Integer status);
+
+    @Update("update coap.client_message set status = #{status}")
+    void updateMessageStatusByMessageId(Integer messageId,Integer status);
 
 
 
-    @Select("select * from coap.client_message where id = #{id}")
+    @Select("select * from coap.client_message where message_id = #{id}")
     ClientMessage getClientMessageById(Integer id);
 
     //根据receiver的id来查有没有消息
-    @Select("select * from coap.client_message where receivers like concat('%',#{receiver},'%')")
+    @Select("select * from coap.client_message where receiver = #{receiver}")
     List<ClientMessage> getClientMessageListByReceiver(String receiver);
 
 
