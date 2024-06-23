@@ -14,7 +14,7 @@ import java.util.List;
 @Mapper
 public interface ClientMessageMapper {
     @Insert("INSERT into coap.client_message (sender_user_id, send_time, data, type,receivers) " +
-            "VALUE (#{senderUserId},#{sendTime},#{data},#{type})")
+            "VALUE (#{senderUserId},#{sendTime},#{data},#{type},#{receivers})")
     void insertClientMessage(ClientMessage clientMessage);
 
     @Delete("delete from coap.client_message where type = 1 and receivers like concat('%',#{receiver},'%')")
