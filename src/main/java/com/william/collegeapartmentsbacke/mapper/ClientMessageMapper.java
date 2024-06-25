@@ -29,7 +29,7 @@ public interface ClientMessageMapper {
     ClientMessage getClientMessageById(Integer id);
 
     //根据receiver的id来查有没有消息
-    @Select("select * from coap.client_message where receiver = #{receiver}")
+    @Select("select * from coap.client_message where receiver = #{receiver} and status = true")
     List<ClientMessage> getClientMessageListByReceiver(String receiver);
 
 
