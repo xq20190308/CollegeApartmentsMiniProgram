@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+mybatis-plus:
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.william.collegeapartmentsbacke.mybatis.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  level:
+    com.zoctan.api.mapper : debug
+
+spring:
+  datasource:
+    url: jdbc:mysql://121.41.36.101:13308
+    username: root
+    password: CollegeApartments!@#123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+zhrc:
+  jwt:
+    secret-key: 7bd78bq99bee54deec255986ba95d654
+    ttl: 604800000
+    token-name: Authorization
+  wechat:
+    appid: wx3b5ec6e4e336f19e
+    secret: adb45243c65766fca8e5c94454a39ef0
+localFileUrl : F:/static/
+mapFileUrl : /static/

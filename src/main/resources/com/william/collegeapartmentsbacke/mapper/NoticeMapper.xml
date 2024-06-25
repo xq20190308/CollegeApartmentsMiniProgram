@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.william.collegeapartmentsbacke.mapper.NoticeMapper">
+
+    <!--查询所有通知-->
+    <select id="list" resultType="com.william.collegeapartmentsbacke.pojo.entity.Notice">
+        select id,
+               title,
+               content,
+               type_name,
+               publish_time,
+               is_active
+        from
+            coap.notice
+        <where>
+            <if test="id != null and id != ''">
+                id = #{id}
+            </if>
+            <if test="keyword != null and keyword != '' ">
+                and  (title like concat('%',#{keyword},'%') or content like concat('%',#{keyword},'%'))
+            </if>
+            <if test="type_name != null and type_name != ''">
+                and type_name like concat('%',#{type_name},'%')
+            </if>
+            <if test="publish_time_st != null">
+                and publish_time between #{publish_time_st} and #{publish_time_ed}
+            </if>
+            <if test="publish_time_st == null">
+                and publish_time &lt;= #{publish_time_ed}
+            </if>
+            <if test="is_active != null  and is_active != ''">
+                and is_active = #{is_active}
+            </if>
+        </where>
+        order by publish_time desc
+    </select>
+
+
+
+
+
+
+
+
+    <select id="search" resultType="com.william.collegeapartmentsbacke.pojo.entity.Notice">
+        select title,
+               content
+        from coap.notice
+        where title = #{title} or content = #{content}
+    </select>
+
+
+
+    <insert id="insertNotice">
+        insert into coap.notice (id, title, content, type_name, publish_time, is_active)
+                                        values (#{id},#{title},#{content},#{typeName},#{publishTime},#{isActive})
+    </insert>
+
+
+    <update id="updateNotice">
+        update coap.notice
+        <set>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="typeName != null and typeName != ''">
+                type_name = #{typeName},
+            </if>
+            <if test="publishTime != null">
+                publish_time = #{publishTime},
+            </if>
+            <if test="isActive != null">
+                is_active = #{isActive}
+            </if>
+        </set>
+        where id = #{id}
+
+    </update>
+
+    <delete id="deleteNotice">
+        delete
+        from coap.notice
+        where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+<!--    &lt;!&ndash;    type表相关操作&ndash;&gt;-->
+<!--    <select id="findTyoeId" resultType="java.lang.Integer">-->
+<!--        select id-->
+<!--        from Notification.announcement_types-->
+<!--        where type_name = #{type_name}-->
+<!--    </select>-->
+<!--    <select id="getAllTyoeName" resultType="java.lang.String">-->
+<!--        select type_name-->
+<!--        from Notification.announcement_types-->
+<!--    </select>-->
+<!--    <insert id="insertType">-->
+<!--        insert into Notification.announcement_types (type_name)-->
+<!--        values (#{typename})-->
+<!--    </insert>-->
+
+
+</mapper>
