@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class HygieneServicelmpl implements HygieneService {
@@ -17,24 +19,26 @@ public class HygieneServicelmpl implements HygieneService {
     HygieneMapper hygieneMapper;
 
     @Override
-    public List<Hygiene> SaveRank(InputStream file)
+    public Set<Hygiene> SaveRank(InputStream file)
     {
         List <Hygiene> hygiene= EasyExcel.read(file).sheet().head(Hygiene.class).doReadSync();
-        return hygiene;
+        HashSet<Hygiene> set=new HashSet<>(hygiene);
+        return set;
     }
 
     @Override
     public String getDynamicUpdateSql(Hygiene hygiene, String dromaticSql) {
-        return "UPDATE coap.Hygiene SET " + dromaticSql+"Rank = #{hygiene.Rank}" + " WHERE Dormitoryid = #{hygiene.Dormitoryid}";
+        return "UPDATE coap.Hygiene SET " + dromaticSql+"Rank = #{hygiene.Rank}  WHERE Dormitoryid = #{hygiene.Dormitoryid}" ;
+
     }
 
     @Override
     public String selectHygieneByDormitoryid(String id) {
-        return "select * from coap.Hygiene where " + "Dormitoryid = #{Dormitoryid}  LIMIT 1";
+        return "select * from coap.Hygiene where " + " Dormitoryid = #{Dormitoryid}  LIMIT 1";
     }
 
     @Override
-    public void upData(List<Hygiene> hygieneList,String weeks) {
+    public void upData(Set<Hygiene> hygieneList,String weeks) {
         for (Hygiene hygiene : hygieneList) {
             hygieneMapper.insertHygiene(hygiene,weeks);
         }

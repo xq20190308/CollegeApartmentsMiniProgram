@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RestController
@@ -21,8 +22,8 @@ public class HygieneController {
 
     @SneakyThrows
     @PostMapping("/updateData")
-    public List<Hygiene> updateData(@RequestParam("file") MultipartFile file,String weeks) {
-        List<Hygiene> p=hygieneService.SaveRank(file.getInputStream());
+    public Set<Hygiene> updateData(@RequestParam("file") MultipartFile file,String weeks) {
+        Set<Hygiene> p=hygieneService.SaveRank(file.getInputStream());
         hygieneService.upData(p,weeks);
         return p;
     }
