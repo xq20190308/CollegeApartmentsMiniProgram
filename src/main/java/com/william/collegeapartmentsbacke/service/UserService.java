@@ -27,10 +27,13 @@ public interface UserService {
 
 
 
+
     //查询用户标识
     Permission getPermissionByUserid(String openid);
 
     String getUseridFromToken(String token);
+
+    String getUserLevleFromToken(String token);
 
     void updateAvatar(String userid, String avatar);
 

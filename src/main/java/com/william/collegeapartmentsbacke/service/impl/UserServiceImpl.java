@@ -120,6 +120,18 @@ public class UserServiceImpl implements UserService {
         return userid;
     }
 
+    /**
+     * @param token
+     * @return
+     */
+    @Override
+    public String getUserLevleFromToken(String token) {
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getSecretKey(),token);
+        log.info(claims.toString());
+        String userLevel = JwtUtil.parseJWT(jwtProperties.getSecretKey(),token).get("userlevel").toString();
+        return userLevel;
+    }
+
     @Override
     public void updateAvatar(String userid, String avatar) {
         userMapper.updateAvatarFileid(userid, avatar);

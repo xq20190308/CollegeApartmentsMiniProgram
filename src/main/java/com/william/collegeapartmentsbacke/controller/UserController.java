@@ -137,9 +137,6 @@ public class UserController {
 
 
 
-
-
-
     public Result regist(@RequestBody UserLoginDTO userLoginDTO) {
 
         User user = userService.wxLogin(userLoginDTO);
@@ -183,9 +180,17 @@ public class UserController {
     }
 
     @RequestMapping(value = "findByUserid",method = RequestMethod.GET)
-    public Result findByUserid(String userid){
+    public Result findByUserid(@RequestHeader("Authorization") String token,String userid){
+        String userLevel = userService.getUserLevleFromToken(token);
         User user = userService.findByUserid(userid);
-        return Result.success(user);
+        if(userLevel == "0" || userLevel =="1")
+        {
+            return Result.success(user);
+        }
+        else {
+            user.setPassword(null);
+            return Result.success(user);
+        }
     }
 
 
