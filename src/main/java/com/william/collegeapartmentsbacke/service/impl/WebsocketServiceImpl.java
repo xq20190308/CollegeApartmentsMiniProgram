@@ -82,9 +82,6 @@ public class WebsocketServiceImpl implements WebsocketService {
             }
         }
 
-//        clientMessageMapper.insertClientMessage(clientMessage);
-//        sendMessage(clientMessage);
-
     }
 
     @Override
