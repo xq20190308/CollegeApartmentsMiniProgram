@@ -84,6 +84,16 @@ public class UserServiceImpl implements UserService {
         return contactInfoVOs;
     }
 
+    /**
+     * @param classId
+     * @return
+     */
+    @Override
+    public List<String> findUserIdsByClassId(String classId) {
+        List<String> userIds = userMapper.findUserByClassId(classId);
+        return userIds;
+    }
+
     @Override
     public String verifyByPwd(String username, String password) {
         String truePwd = userMapper.findPwdByUsername(username);

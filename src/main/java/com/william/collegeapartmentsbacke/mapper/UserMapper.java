@@ -27,9 +27,15 @@ public interface UserMapper {
     @Select("select password from coap.user where username = #{username}")
     String findPwdByUsername(String username);
 
+    @Select("select userid from coap.user where class_id = #{classId}")
+    List<String> findUserByClassId(String classId);
+
+
     //查询用户权限
     @Select("select p.* from coap.user_permission p join coap.user u on p.user_level = u.user_level where u.userid = #{userId}")
     Permission getPermissionByUserId(String userId);
+
+
 
 //    @Select("select * from coap.user where username = #{username}")
 //    User getUserByUserName(String username);

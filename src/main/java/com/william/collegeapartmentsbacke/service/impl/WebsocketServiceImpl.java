@@ -2,6 +2,7 @@ package com.william.collegeapartmentsbacke.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.william.collegeapartmentsbacke.mapper.ClientMessageMapper;
+import com.william.collegeapartmentsbacke.mapper.UserMapper;
 import com.william.collegeapartmentsbacke.pojo.entity.ClientMessage;
 import com.william.collegeapartmentsbacke.pojo.entity.ClientSessionBean;
 import com.william.collegeapartmentsbacke.pojo.dto.MessageDTO;
@@ -26,6 +27,9 @@ public class WebsocketServiceImpl implements WebsocketService {
 
     @Autowired
     private ClientMessageMapper clientMessageMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
 
 
@@ -53,12 +57,24 @@ public class WebsocketServiceImpl implements WebsocketService {
         log.info("received a message：{}", message.getPayload());
         JSONObject obj = JSONObject.parseObject(message.getPayload());
         Integer type = Integer.valueOf(obj.get("type").toString());
+        //说明是单发消息
         String data = obj.get("data").toString();
-        String receivers = obj.get("receiver").toString();
+        String receiver = obj.get("receiver").toString();
         LocalDateTime sendTime = LocalDateTime.now();
-        ClientMessage clientMessage = new ClientMessage(null,userId,type,data,sendTime,receivers,true);
+        if(type == 0){
+            ClientMessage clientMessage = new ClientMessage(null,userId,type,data,sendTime, receiver,true);
+            sendMessage(clientMessage);
+        }
+        if(type == 1){
+            List<String> userIds = userMapper.findUserByClassId(receiver);
+            for(String userid : userIds){
+                ClientMessage ClientMessage = new ClientMessage(null,userId,type,data,sendTime, userid,true);
+                sendMessage(ClientMessage);
+            }
+        }
+
 //        clientMessageMapper.insertClientMessage(clientMessage);
-        sendMessage(clientMessage);
+//        sendMessage(clientMessage);
 
     }
 

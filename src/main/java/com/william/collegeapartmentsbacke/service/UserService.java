@@ -1,6 +1,5 @@
 package com.william.collegeapartmentsbacke.service;
 
-import com.william.collegeapartmentsbacke.pojo.dto.ContactInfoDTO;
 import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Permission;
 import com.william.collegeapartmentsbacke.pojo.entity.User;
@@ -24,6 +23,7 @@ public interface UserService {
 
     List<ContactInfoVO> findByUserLevel(String userLevel) throws BadHanyuPinyinOutputFormatCombination;
 
+    List<String> findUserIdsByClassId(String classId);
 
 
 

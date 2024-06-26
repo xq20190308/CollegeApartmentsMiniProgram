@@ -1,9 +1,14 @@
 package com.william.collegeapartmentsbacke.common.utils;
 
+import ch.qos.logback.core.net.server.Client;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONException;
+import com.alibaba.fastjson.JSONObject;
+import com.william.collegeapartmentsbacke.pojo.entity.ClientMessage;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.socket.TextMessage;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,5 +39,12 @@ public class JsonUtil {
         }
         return list;
     }
+
+//    public static ClientMessage parseMessage(TextMessage message) throws ParseException {
+//        ClientMessage clientMessage = new ClientMessage();
+//        JSONObject obj = JSONObject.parseObject(message.getPayload());
+//        Integer type = Integer.valueOf(obj.get("type").toString());
+//        r
+//    }
 
 }
