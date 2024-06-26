@@ -12,4 +12,7 @@ public interface LostpropertyService {
     List<Itemdata> getItemdata(String category);
 
     void updateItemdata(Itemdata itemdata);
+
+    void deleteItemdata(Integer id);
+
 }

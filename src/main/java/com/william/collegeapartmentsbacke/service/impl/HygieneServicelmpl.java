@@ -28,13 +28,13 @@ public class HygieneServicelmpl implements HygieneService {
 
     @Override
     public String getDynamicUpdateSql(Hygiene hygiene, String dromaticSql) {
-        return "UPDATE coap.Hygiene SET " + dromaticSql+"Rank = #{hygiene.Rank}  WHERE Dormitoryid = #{hygiene.Dormitoryid}" ;
+        return "UPDATE coap.hygiene SET " + dromaticSql+"Rank = #{hygiene.Rank}  WHERE Dormitoryid = #{hygiene.Dormitoryid}" ;
 
     }
 
     @Override
     public String selectHygieneByDormitoryid(String id) {
-        return "select * from coap.Hygiene where " + " Dormitoryid = #{Dormitoryid}  LIMIT 1";
+        return "select * from coap.hygiene where " + " Dormitoryid = #{Dormitoryid}  LIMIT 1";
     }
 
     @Override
@@ -48,4 +48,5 @@ public class HygieneServicelmpl implements HygieneService {
     public HygieneDTO SelectRank(String id) {
         return hygieneMapper.selectHygieneByDormitoryid(id);
     }
+
 }

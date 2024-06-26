@@ -11,15 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Mapper
 public interface FileMapper {
 
-    @Update("insert into  coap.Filedata (id,user_id,name,type,path,data) values(#{id},#{userid},#{name},#{type},#{path},#{data})")
+    @Update("insert into  coap.filedata (id,user_id,name,type,path,data) values(#{id},#{userid},#{name},#{type},#{path},#{data})")
     void savefile(Uploadfile file);
 
-    @Select("select path from coap.Filedata where id=#{id}")
+    @Select("select path from coap.filedata where id=#{id}")
     String selectfile(String id);
 
     @Select("select LAST_INSERT_ID()")
     String getLatestId();
 
-    @Delete("Delete *from coap.Filedata where path=#{Url}")
+    @Delete("Delete from coap.filedata where path=#{Url}")
     String deletefile(String Url);
 }
