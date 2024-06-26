@@ -59,16 +59,25 @@ public class WebsocketServiceImpl implements WebsocketService {
         Integer type = Integer.valueOf(obj.get("type").toString());
         //说明是单发消息
         String data = obj.get("data").toString();
-        String receiver = obj.get("receiver").toString();
         LocalDateTime sendTime = LocalDateTime.now();
         if(type == 0){
-            ClientMessage clientMessage = new ClientMessage(null,userId,type,data,sendTime, receiver,true);
+            String singleUser = obj.get("receiver").toString();
+            ClientMessage clientMessage = new ClientMessage(null,userId,type,data,sendTime, singleUser,true);
             sendMessage(clientMessage);
         }
-        if(type == 1){
-            List<String> userIds = userMapper.findUserByClassId(receiver);
+        else if(type == 1){
+            String classId = obj.get("receiver").toString();
+            List<String> userIds = userMapper.findUserByClassId(classId);
             for(String userid : userIds){
                 ClientMessage ClientMessage = new ClientMessage(null,userId,type,data,sendTime, userid,true);
+                sendMessage(ClientMessage);
+            }
+        }
+        else if(type == 2){
+            String domitoryId = obj.get("receiver").toString();
+            List<String> userIds = userMapper.findUsersByDomitory(domitoryId);
+            for(String userid : userIds){
+                ClientMessage ClientMessage = new ClientMessage(null,userid,type,data,sendTime, userid,true);
                 sendMessage(ClientMessage);
             }
         }
