@@ -1,5 +1,6 @@
 server:
   port: 8080
+  address: 192.168.231.218
 
 mybatis-plus:
   mapper-locations: classpath:mappers/*.xml

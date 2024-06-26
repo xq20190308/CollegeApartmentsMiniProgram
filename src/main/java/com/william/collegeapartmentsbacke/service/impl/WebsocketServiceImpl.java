@@ -62,12 +62,14 @@ public class WebsocketServiceImpl implements WebsocketService {
         LocalDateTime sendTime = LocalDateTime.now();
         if(type == 0){
             String singleUser = obj.get("receiver").toString();
+            log.info("消息type为 0 给{}发的。",singleUser);
             ClientMessage clientMessage = new ClientMessage(null,userId,type,data,sendTime, singleUser,true);
             sendMessage(clientMessage);
         }
         else if(type == 1){
             String classId = obj.get("receiver").toString();
             List<String> userIds = userMapper.findUserByClassId(classId);
+            log.info("消息type为1，群发了给{}，消息内容：{}",userIds.toString(),data);
             for(String userid : userIds){
                 ClientMessage ClientMessage = new ClientMessage(null,userId,type,data,sendTime, userid,true);
                 sendMessage(ClientMessage);
@@ -76,6 +78,7 @@ public class WebsocketServiceImpl implements WebsocketService {
         else if(type == 2){
             String domitoryId = obj.get("receiver").toString();
             List<String> userIds = userMapper.findUsersByDomitory(domitoryId);
+            log.info("消息type为2，群发了给{}，消息内容：{}",userIds.toString(),data);
             for(String userid : userIds){
                 ClientMessage ClientMessage = new ClientMessage(null,userid,type,data,sendTime, userid,true);
                 sendMessage(ClientMessage);
@@ -108,7 +111,7 @@ public class WebsocketServiceImpl implements WebsocketService {
             clientMessageMapper.insertClientMessage(clientMessage);
             return;
         }
-        log.info("私聊给{}发送了："+messageVO.toString(),receiverId);
+        log.info("send函数中给{}发送了："+messageVO.toString(),receiverId);
         String messageJsonStr = JSONObject.toJSONString(messageVO);
         log.info("json转换后：" + messageJsonStr);
         clientSessionBean.getWebSocketSession().sendMessage(new TextMessage(messageJsonStr));

@@ -37,6 +37,7 @@ public class WebSocketInterceptor extends HttpSessionHandshakeInterceptor {
             HttpServletRequest req = ((ServletServerHttpRequest) request).getServletRequest();
             String token = req.getHeader("Authorization");
 
+
             try {
                 log.info("websocket jwt校验:{}", token);
                 Claims claims = JwtUtil.parseJWT(jwtProperties.getSecretKey(), token);
