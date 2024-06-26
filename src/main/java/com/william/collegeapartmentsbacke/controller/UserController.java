@@ -197,6 +197,13 @@ public class UserController {
    @RequestMapping(value = "/uploadavatar",method = RequestMethod.POST)
    public Result upLoadAvatar(@RequestHeader("Authorization") String token, MultipartFile avatar, HttpServletRequest request) {
         String userid = userService.getUseridFromToken(token);
+
+        //删除上一次的头像
+       User user = userService.findByUserid(userid);
+       String avatarUrl = user.getAvatar();
+       if(avatar != null ){
+           fileService.DeletefileByUrl(avatarUrl);
+       }
         Uploadfile savaedFile = fileService.SaveSingleFile(userid,avatar,request);
         String avatarFileId = savaedFile.getId();
         userService.updateAvatar(userid,avatarFileId);
