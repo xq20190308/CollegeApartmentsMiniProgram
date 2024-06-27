@@ -115,20 +115,6 @@ public class WebsocketServiceImpl implements WebsocketService {
         String messageJsonStr = JSONObject.toJSONString(messageVO);
         log.info("json转换后：" + messageJsonStr);
         clientSessionBean.getWebSocketSession().sendMessage(new TextMessage(messageJsonStr));
-//        List<String> receiversUserids = clientMessage.getReceiversStrList();
-//        for(String receiverId: receiversUserids){
-//            ClientSessionBean clientSessionBean =  ClientSessionManager.getClientSessionBean(receiverId);
-//            if(clientSessionBean == null){
-//                continue;
-//            }
-//            WebSocketSession session = clientSessionBean.getWebSocketSession();
-//            if(session == null || !session.isOpen()){
-//                continue;
-//            }
-//            log.info("私聊给{}发送了："+messageVO.toString(),receiverId);
-//            String messageJsonStr = JSONObject.toJSONString(messageVO);
-//            log.info("json转换后：" + messageJsonStr);
-//            clientSessionBean.getWebSocketSession().sendMessage(new TextMessage(messageJsonStr));
 
     }
 
