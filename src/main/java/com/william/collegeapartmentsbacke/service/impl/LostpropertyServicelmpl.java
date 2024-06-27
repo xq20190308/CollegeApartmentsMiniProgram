@@ -17,7 +17,8 @@ public class LostpropertyServicelmpl implements LostpropertyService {
 
     @Override
     public void saveSubmit(Itemdata itemdata) {
-        itemdata.setStatus("审核中...");
+        itemdata.setStatus(0);
+        itemdata.setSolve(0);
         lostpropertyMapper.saveSubmit(itemdata);
     }
 
@@ -30,4 +31,10 @@ public class LostpropertyServicelmpl implements LostpropertyService {
     public void updateItemdata(Itemdata itemdata) {
         lostpropertyMapper.updateAll(itemdata);
     }
+    @Override
+    public void deleteItemdata(Integer id)
+    {
+         lostpropertyMapper.deleteData(id);
+    }
+
 }

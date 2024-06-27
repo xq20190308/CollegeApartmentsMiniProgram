@@ -3,7 +3,7 @@ package com.william.collegeapartmentsbacke.service;
 import com.william.collegeapartmentsbacke.service.impl.CoursemainServicelmpl;
 
 public interface CoursemainService {
-     void initialization();
+     boolean initialization();
      void setCurtime(String zc,String curtime);
      void setAccount(String account,String password);
      CoursemainServicelmpl getCurrentTime();

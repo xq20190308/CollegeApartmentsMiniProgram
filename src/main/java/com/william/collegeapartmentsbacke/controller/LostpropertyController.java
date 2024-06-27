@@ -47,4 +47,11 @@ public class LostpropertyController {
         lostpropertyService.updateItemdata(itemdata);
         return Result.success();
     }
+
+    @DeleteMapping("/deleteData/{id}")
+    public Result deleteData(@PathVariable ("id") Integer id)
+    {
+           lostpropertyService.deleteItemdata(id);
+           return Result.success();
+    }
 }

@@ -27,7 +27,7 @@ public class CoursemainServicelmpl implements CoursemainService {
         public Map<String, String> headers = new HashMap<>();
 
         @Override
-        public void initialization() {
+        public boolean initialization() {
             this.params.put("method", "authUser");
             this.params.put("xh", this.account);
             this.params.put("pwd", this.password);
@@ -36,9 +36,11 @@ public class CoursemainServicelmpl implements CoursemainService {
             String[] reqResultArr  = reqResult.split(",");
             if(reqResultArr[0].charAt(9) == '0') {
                 System.out.println("登录失败");
-                System.exit(0);
+                return false;
+//                System.exit(0);
             }else {
                 this.headers.put("token", reqResultArr[2].substring(9, reqResultArr[2].length()-1));
+                return true;
             }
         }
         @Override

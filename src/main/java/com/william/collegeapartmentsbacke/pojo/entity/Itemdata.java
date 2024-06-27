@@ -15,5 +15,6 @@ public class Itemdata {
     private String describes;
     private String contactobject;
     private String filepath;
-    private String status;
+    private Integer status;
+    private Integer solve;
 }
