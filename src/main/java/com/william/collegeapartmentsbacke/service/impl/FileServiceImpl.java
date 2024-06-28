@@ -7,6 +7,7 @@ import com.william.collegeapartmentsbacke.pojo.entity.Uploadfile;
 import com.william.collegeapartmentsbacke.service.FileService;
 import com.william.collegeapartmentsbacke.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class FileServiceImpl implements FileService {
     public static final String AVATAR = "avatar";
@@ -91,6 +93,7 @@ public class FileServiceImpl implements FileService {
     public String DeletefileByUrl(String Url)
     {
         String filename = Url.substring(Url.lastIndexOf("/")+1);
+        log.info("filename:{}",filename);
         String filepath=localFileUrl+filename;
         Path path= Paths.get(filepath);
         try{

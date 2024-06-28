@@ -39,8 +39,7 @@ public class StuClassController {
         return Result.success(stuClassInfo);
     }
     @RequestMapping(value = "/get-all")
-    public Result getAllClassInfo(@RequestHeader("Authorization") String token) {
-        String userId = userService.getUseridFromToken(token);
+    public Result getAllClassInfo() {
         List<StuClassInfo> stuClassInfos = stuClassInfoService.getAllClassInfo();
         log.info("stuClassInfos:{}", stuClassInfos);
         return Result.success(stuClassInfos);
