@@ -64,6 +64,8 @@ public class FileServiceImpl implements FileService {
                 }
             } catch (IOException e) {
                 // 处理异常情况
+                e.printStackTrace();
+                e.getMessage();
                 return null;
             }
             return null;

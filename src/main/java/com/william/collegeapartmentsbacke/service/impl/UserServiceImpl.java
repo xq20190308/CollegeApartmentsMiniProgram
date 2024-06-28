@@ -1,4 +1,6 @@
 package com.william.collegeapartmentsbacke.service.impl;
+import com.william.collegeapartmentsbacke.common.utils.PinyinUtil;
+import com.william.collegeapartmentsbacke.pojo.vo.ContactInfoVO;
 import io.jsonwebtoken.Claims;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -12,11 +14,11 @@ import com.william.collegeapartmentsbacke.pojo.entity.User;
 import com.william.collegeapartmentsbacke.service.UserService;
 import com.william.collegeapartmentsbacke.common.properties.WeChatProperties;
 import lombok.extern.slf4j.Slf4j;
+import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
@@ -49,9 +51,47 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
 
         }
-
         return user;
+    }
 
+
+    /**
+     * @param username
+     * @return
+     */
+    @Override
+    public User findByUsername(String username) {
+        User user = userMapper.getUserByUsername(username);
+        return user;
+    }
+
+    /**
+     * @param userLevel
+     * @return
+     */
+    @Override
+    public List<ContactInfoVO> findByUserLevel(String userLevel) throws BadHanyuPinyinOutputFormatCombination {
+        List<User> users = userMapper.getByUserLevel(userLevel);
+        Collections.sort(users);
+        log.info(users.toString());
+        List<ContactInfoVO> contactInfoVOs = new ArrayList<>();
+        for (User user : users) {
+            Character letter = PinyinUtil.getFirstLetter(user.getName());
+            ContactInfoVO currContactInfo = new ContactInfoVO(user.getName(),user.getUserid(),user.getPhone(),letter);
+            contactInfoVOs.add(currContactInfo);
+        }
+
+        return contactInfoVOs;
+    }
+
+    /**
+     * @param classId
+     * @return
+     */
+    @Override
+    public List<String> findUserIdsByClassId(String classId) {
+        List<String> userIds = userMapper.findUserByClassId(classId);
+        return userIds;
     }
 
     @Override
@@ -88,6 +128,18 @@ public class UserServiceImpl implements UserService {
         log.info(claims.toString());
         String userid = JwtUtil.parseJWT(jwtProperties.getSecretKey(),token).get("userid").toString();
         return userid;
+    }
+
+    /**
+     * @param token
+     * @return
+     */
+    @Override
+    public String getUserLevleFromToken(String token) {
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getSecretKey(),token);
+        log.info(claims.toString());
+        String userLevel = JwtUtil.parseJWT(jwtProperties.getSecretKey(),token).get("userlevel").toString();
+        return userLevel;
     }
 
     @Override
@@ -152,12 +204,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Permission getPermission(String openid) {
+    public Permission getPermissionByUserid(String userId) {
         try {
-            Permission permissionByOpenid = userMapper.getPermissionByOpenid(openid);
-            log.info("openid:{}", openid);
-            log.info("permission：{}", permissionByOpenid.toString());
-            return userMapper.getPermissionByOpenid(openid);
+            Permission permission = userMapper.getPermissionByUserId(userId);
+            log.info("userId:{}", userId);
+            log.info("permission：{}", permission.toString());
+            return permission;
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -166,6 +218,18 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
+    public void updatePasswordByUserid(String userid,String password){
+        userMapper.updatePasswordByUserid(userid,password);
+    }
 
+    @Override
+    public void updateLevelByUserid(String userid,String level){
+        userMapper.updateLevelByUserid(userid,level);
+    }
 
+    @Override
+    public void initOpenidByUserid(String userid){
+        userMapper.initOpenidByUserid(userid);
+    }
 }

@@ -20,12 +20,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.william.collegeapartmentsbacke.common.utils.PinyinUtil;
+import lombok.extern.slf4j.Slf4j;
+import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+
+@Slf4j
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User implements Comparable<User>{
     private Integer id;
     private String openid;
     private String username;
@@ -35,4 +40,41 @@ public class User {
     private String phone;
     private String avatar;
     private String userLevel;
+
+    /**
+     * @param o the object to be compared.
+     * @return
+     */
+    @Override
+    public int compareTo(User o) {
+        String pinyinOfName1 = new String();
+        String pinyinOfName2 = new String();
+//        pinyinOfName1 = this.getName();
+//        pinyinOfName2 = o.getName();
+        try {
+            if(PinyinUtil.isEnglish(this.getName()))
+            {
+                pinyinOfName1 = this.getName().toUpperCase();
+            }
+            else
+            {
+                pinyinOfName1 = PinyinUtil.toPinyin(this.getName());
+            }
+            if(PinyinUtil.isEnglish(o.getName()))
+            {
+                pinyinOfName2 = o.getName().toUpperCase();
+            }
+            else
+            {
+                pinyinOfName2 = PinyinUtil.toPinyin(o.getName());
+            }
+            log.info("pinyinOfName1:" + pinyinOfName1);
+            log.info("pinyinOfName2:" + pinyinOfName2);
+            log.info(String.valueOf(pinyinOfName1.compareTo(pinyinOfName2)));
+            return pinyinOfName1.compareTo(pinyinOfName2);
+
+        } catch (BadHanyuPinyinOutputFormatCombination e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

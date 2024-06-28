@@ -1,6 +1,7 @@
 package com.william.collegeapartmentsbacke.controller;
 
 
+import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.dto.NoticeDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Notice;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
@@ -22,6 +23,7 @@ public class NoticeController {
     private NoticeService noticeService;
 
     //查询全部通知
+    @NoNeedLogin
     @GetMapping
     public Result list(
             Integer id,
@@ -34,7 +36,7 @@ public class NoticeController {
         List<Notice> noticeList = noticeService.list(id,keyword,typeName,publish_time_st,publish_time_ed,isActive);
 
         log.info("查询全部通知{}",typeName,isActive);
-        log.info(noticeList.toString());
+//        log.info(noticeList.toString());
         return Result.success(noticeList);
     }
 
@@ -49,6 +51,12 @@ public class NoticeController {
 //        else
 //            return Result.error("已存在相同标题或相同内容的通知");
 //    }
+
+
+
+
+
+
     @PostMapping
     public Result addNotice(@RequestBody NoticeDTO noticeDTO){
         log.info("新增Notice");

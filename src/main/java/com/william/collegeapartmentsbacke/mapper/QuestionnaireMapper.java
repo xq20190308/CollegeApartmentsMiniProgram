@@ -15,13 +15,11 @@ public interface QuestionnaireMapper {
 
     List<QuestionnaireVO> countById(@Param("list") List<String> idList);
 
-    @Select("select * from coap.questionnaire where id = #{id}")
-    Questionnaire selectById(Integer id);
-
     @Delete("delete from coap.questionnaire where id = #{id}")
     void deleteById(Integer id);
 
-    @Update("update coap.questionnaire set type = #{type}, " +
+    @Update("update coap.questionnaire set anonymous = #{anonymous}, " +
+            "type = #{type}, " +
             "name = #{name}, " +
             "description = #{description}, " +
             "start_time = #{startTime}, " +
