@@ -36,7 +36,7 @@ public class NoticeController {
         List<Notice> noticeList = noticeService.list(id,keyword,typeName,publish_time_st,publish_time_ed,isActive);
 
         log.info("查询全部通知{}",typeName,isActive);
-        log.info(noticeList.toString());
+//        log.info(noticeList.toString());
         return Result.success(noticeList);
     }
 
