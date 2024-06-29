@@ -32,10 +32,10 @@ public class NoticeController {
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_st,
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_ed,
             Boolean isActive){
-        log.info("isActive{}", isActive);
+//        log.info("isActive{}", isActive);
         List<Notice> noticeList = noticeService.list(id,keyword,typeName,publish_time_st,publish_time_ed,isActive);
 
-        log.info("查询全部通知{}",typeName,isActive);
+//        log.info("查询全部通知{}",typeName,isActive);
 //        log.info(noticeList.toString());
         return Result.success(noticeList);
     }
@@ -72,7 +72,7 @@ public class NoticeController {
 
     @PostMapping("/modify")
     public Result modifyNotice(@RequestBody Notice notice){
-        log.info("更新数据 Notice:{}",notice.toString());
+//        log.info("更新数据 Notice:{}",notice.toString());
         noticeService.modifyNotice(notice);
         return Result.success();
     }
@@ -80,7 +80,7 @@ public class NoticeController {
     @DeleteMapping("/{ids}")
     public Result deleteNotice(@PathVariable List<Integer> ids)
     {
-        log.info("彻底删除操作, ids:{}",ids);
+//        log.info("彻底删除操作, ids:{}",ids);
         noticeService.deleteNotice(ids);
         return Result.success();
     }

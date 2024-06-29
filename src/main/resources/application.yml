@@ -7,11 +7,11 @@ mybatis-plus:
   type-aliases-package: com.william.collegeapartmentsbacke.mybatis.entity
   configuration:
     map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-logging:
-  level:
-    com.zoctan.api.mapper : debug
+#logging:
+#  level:
+#    com.zoctan.api.mapper : debug
 
 spring:
   datasource:
@@ -29,5 +29,5 @@ zhrc:
   wechat:
     appid: wx3b5ec6e4e336f19e
     secret: adb45243c65766fca8e5c94454a39ef0
-localFileUrl : F:/static/
+localFileUrl : /www/static/
 mapFileUrl : /static/

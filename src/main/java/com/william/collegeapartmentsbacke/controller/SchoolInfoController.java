@@ -27,7 +27,7 @@ public class SchoolInfoController {
     @RequestMapping(value = "/infos")
     public Result getSchoolInfo(){
         TotalSchoolInfoVO totalSchoolInfoVO =  schoolnfoService.getAllSchoolInfo();
-//        log.info("totalSchoolInfoVO:{}", totalSchoolInfoVO);
+        log.info("totalSchoolInfoVO:{}", totalSchoolInfoVO);
         return Result.success(totalSchoolInfoVO);
     }
 
