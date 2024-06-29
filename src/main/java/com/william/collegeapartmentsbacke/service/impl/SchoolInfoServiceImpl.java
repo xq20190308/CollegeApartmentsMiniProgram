@@ -43,7 +43,7 @@ public class SchoolInfoServiceImpl implements SchoolnfoService {
         List<CampusInfo> campusInfos = campusInfoMapper.selectAll();
 
         for (CampusInfo campusInfo : campusInfos) {
-            log.info("campusInfo: {}", campusInfo);
+//            log.info("campusInfo: {}", campusInfo);
             Integer campusId = campusInfo.getCampusId();
             List<GradeInfo> gradeInfos = gradeInfoMapper.selectAllGradeInfoByCampusId(campusId);
 
@@ -52,7 +52,7 @@ public class SchoolInfoServiceImpl implements SchoolnfoService {
             campusInfoVO.setCampusName(campusInfo.getCampusName());
             campusInfoVO.setGrades(new ArrayList<>());
             for (GradeInfo gradeInfo : gradeInfos) {
-                log.info("gradeInfo: {}", gradeInfo);
+//                log.info("gradeInfo: {}", gradeInfo);
                 Integer gradeId = gradeInfo.getGradeId();
                 List<CollegeInfo> collegeInfos = collegeInfoMapper.selectCollegeInfosByGradeId(gradeId);
 
@@ -61,7 +61,7 @@ public class SchoolInfoServiceImpl implements SchoolnfoService {
                 gradeInfoVO.setGradeName(gradeInfo.getGradeName());
                 gradeInfoVO.setColleges(new ArrayList<>());
                 for (CollegeInfo collegeInfo : collegeInfos) {
-                    log.info("collegeInfo: {}", collegeInfo);
+//                    log.info("collegeInfo: {}", collegeInfo);
                     Integer collegeId = collegeInfo.getCollegeId();
                     List<MajorInfo> majorInfos = majorInfoMapper.getMajorInfosByCollegeId(collegeId);
 
@@ -70,7 +70,7 @@ public class SchoolInfoServiceImpl implements SchoolnfoService {
                     collegeInfoVO.setCollegeName(collegeInfo.getCollegeName());
                     collegeInfoVO.setMajors(new ArrayList<>());
                     for (MajorInfo majorInfo : majorInfos) {
-                        log.info("majorInfo: {}", majorInfo);
+//                        log.info("majorInfo: {}", majorInfo);
                         Integer majorId = majorInfo.getMajorId();
                         List<ClassInfo> classInfos = classInfoMapper.getClassInfosByMajorId(majorId);
 
@@ -79,7 +79,7 @@ public class SchoolInfoServiceImpl implements SchoolnfoService {
                         majorInfoVO.setMajorId(majorId);
                         majorInfoVO.setClasses(new ArrayList<>());
                         for (ClassInfo classInfo : classInfos) {
-                            log.info("classInfo: {}", classInfo);
+//                            log.info("classInfo: {}", classInfo);
                             ClassInfoVO classInfoVO = new ClassInfoVO(classInfo.getClassId(), classInfo.getClassName());
                             majorInfoVO.getClasses().add(classInfoVO);
                         }

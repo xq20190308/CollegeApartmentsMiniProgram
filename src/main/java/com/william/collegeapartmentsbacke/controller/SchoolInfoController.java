@@ -1,6 +1,5 @@
 package com.william.collegeapartmentsbacke.controller;
 
-import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.vo.basicInfo.TotalSchoolInfoVO;
 import com.william.collegeapartmentsbacke.service.SchoolnfoService;
@@ -28,7 +27,7 @@ public class SchoolInfoController {
     @RequestMapping(value = "/infos")
     public Result getSchoolInfo(){
         TotalSchoolInfoVO totalSchoolInfoVO =  schoolnfoService.getAllSchoolInfo();
-        log.info("totalSchoolInfoVO:{}", totalSchoolInfoVO);
+//        log.info("totalSchoolInfoVO:{}", totalSchoolInfoVO);
         return Result.success(totalSchoolInfoVO);
     }
 
