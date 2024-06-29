@@ -23,7 +23,8 @@ spring:
 zhrc:
   jwt:
     secret-key: 7bd78bq99bee54deec255986ba95d654
-    ttl: 604800000
+    ttl: 86400000
+
     token-name: Authorization
   wechat:
     appid: wx3b5ec6e4e336f19e

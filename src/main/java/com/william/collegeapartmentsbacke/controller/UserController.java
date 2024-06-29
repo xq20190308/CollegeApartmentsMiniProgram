@@ -197,16 +197,14 @@ public class UserController {
    @RequestMapping(value = "/uploadavatar",method = RequestMethod.POST)
    public Result upLoadAvatar(@RequestHeader("Authorization") String token, MultipartFile avatar, HttpServletRequest request) {
         String userid = userService.getUseridFromToken(token);
-
         //删除上一次的头像
        User user = userService.findByUserid(userid);
        String avatarUrl = user.getAvatar();
-       if(avatar != null ){
+       if(avatarUrl != null ){
            fileService.DeletefileByUrl(avatarUrl);
        }
         Uploadfile savaedFile = fileService.SaveSingleFile(userid,avatar,request);
-        String avatarFileId = savaedFile.getId();
-        userService.updateAvatar(userid,avatarFileId);
+        userService.updateAvatar(userid,savaedFile.getPath());
 
         String fileUrl = savaedFile.getPath();
         log.info("fileUrl : {}",fileUrl);
@@ -223,17 +221,13 @@ public class UserController {
             userid = otherUserid;
        }
         User user = userService.findByUserid(userid);
-        String avatarFileId = user.getAvatar();
+        String avatarUrl = user.getAvatar();
         //暂时返回网络头像,其实应该在User表的avatar存一个默认File的id
-       if(avatarFileId == null || "".equals(avatarFileId)){
+       if(avatarUrl == null || "".equals(avatarUrl)){
 //            返回默认头像
            return Result.success("https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg");
        }else
        {
-           String avatarUrl = fileService.SelectfileById(avatarFileId);
-           if(avatarUrl == null || "".equals(avatarUrl)){
-               return Result.error("头像不存在");
-           }
            log.info("avatar : {}",avatarUrl);
            return Result.success(avatarUrl);
        }
@@ -255,6 +249,7 @@ public class UserController {
        return Result.success();
    }
 
+   
    @RequestMapping(value = "/updateLevelByUserid/{userid}",method = RequestMethod.POST)
     public Result updateLevelByUserid(@PathVariable String userid, @RequestBody User user) {
         if (userid == null) {
@@ -269,6 +264,7 @@ public class UserController {
        return Result.success();
    }
 
+
    @RequestMapping(value = "/initOpenidByUserid/{userid}",method = RequestMethod.POST)
     public Result intiOpenidByUserid(@PathVariable String userid) {
         if (userid == null) {
@@ -277,9 +273,6 @@ public class UserController {
         userService.initOpenidByUserid(userid);
         return Result.success();
    }
-
-
-
 
 }
 
