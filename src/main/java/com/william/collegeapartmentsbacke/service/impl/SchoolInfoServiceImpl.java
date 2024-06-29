@@ -34,7 +34,6 @@ public class SchoolInfoServiceImpl implements SchoolnfoService {
 
 
 
-
     @Override
     public TotalSchoolInfoVO getAllSchoolInfo() {
         //返回给Controller的数组

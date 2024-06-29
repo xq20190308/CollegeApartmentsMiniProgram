@@ -31,4 +31,5 @@ public class SchoolInfoController {
         log.info("totalSchoolInfoVO:{}", totalSchoolInfoVO);
         return Result.success(totalSchoolInfoVO);
     }
+
 }

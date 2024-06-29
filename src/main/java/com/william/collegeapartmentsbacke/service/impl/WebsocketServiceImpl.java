@@ -3,6 +3,8 @@ package com.william.collegeapartmentsbacke.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.william.collegeapartmentsbacke.mapper.ClientMessageMapper;
 import com.william.collegeapartmentsbacke.mapper.UserMapper;
+import com.william.collegeapartmentsbacke.mapper.basicInfo.SchoolInfoMapper;
+import com.william.collegeapartmentsbacke.pojo.dto.schoolInfo.SchoolInfo;
 import com.william.collegeapartmentsbacke.pojo.entity.ClientMessage;
 import com.william.collegeapartmentsbacke.pojo.entity.ClientSessionBean;
 import com.william.collegeapartmentsbacke.pojo.dto.MessageDTO;
@@ -30,6 +32,9 @@ public class WebsocketServiceImpl implements WebsocketService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private SchoolInfoMapper schoolInfoMapper;
 
 
 
@@ -66,7 +71,7 @@ public class WebsocketServiceImpl implements WebsocketService {
             ClientMessage clientMessage = new ClientMessage(null,userId,type,data,sendTime, singleUser,true);
             sendMessage(clientMessage);
         }
-        else if(type == 1){
+        else if(type == 3){
             String classId = obj.get("receiver").toString();
             List<String> userIds = userMapper.findUserByClassId(classId);
             log.info("消息type为1，群发了给{}，消息内容：{}",userIds.toString(),data);
@@ -82,7 +87,25 @@ public class WebsocketServiceImpl implements WebsocketService {
             for(String userid : userIds){
                 ClientMessage ClientMessage = new ClientMessage(null,userid,type,data,sendTime, userid,true);
                 sendMessage(ClientMessage);
+
             }
+        }
+        else if(type == 1){
+            JSONObject schoolInfoObj = obj.getJSONObject("receiver");
+            Integer campusId = Integer.parseInt(schoolInfoObj.get("campusId").toString());
+            Integer gradeId = Integer.parseInt(schoolInfoObj.get("gradeId").toString());
+            Integer collegeId = Integer.parseInt(schoolInfoObj.get("collegeId").toString());
+            Integer majorId = Integer.parseInt(schoolInfoObj.get("majorId").toString());
+            Integer classId = Integer.parseInt(schoolInfoObj.get("classId").toString());
+            SchoolInfo schoolInfo = new SchoolInfo(campusId,gradeId,collegeId,majorId,classId);
+            log.info("schoolInfo: {}", schoolInfo);
+            List<String> userIds = schoolInfoMapper.selectUserIdBySchoolInfo(schoolInfo);
+            for(String userid : userIds){
+                ClientMessage ClientMessage = new ClientMessage(null,userid,type,data,sendTime, userid,true);
+                sendMessage(ClientMessage);
+
+            }
+
         }
 
     }
