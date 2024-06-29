@@ -17,4 +17,7 @@ public interface SchoolInfoMapper {
 
 
     List<String> selectUserIdBySchoolInfo(SchoolInfo schoolInfo);
+//
+//    @Select("select")
+//    List<SchoolInfo> selectAllDomitory();
 }

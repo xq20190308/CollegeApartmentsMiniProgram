@@ -65,31 +65,14 @@ public class WebsocketServiceImpl implements WebsocketService {
         //说明是单发消息
         String data = obj.get("data").toString();
         LocalDateTime sendTime = LocalDateTime.now();
+        //按单人发送
         if(type == 0){
             String singleUser = obj.get("receiver").toString();
             log.info("消息type为 0 给{}发的。",singleUser);
             ClientMessage clientMessage = new ClientMessage(null,userId,type,data,sendTime, singleUser,true);
             sendMessage(clientMessage);
         }
-        else if(type == 3){
-            String classId = obj.get("receiver").toString();
-            List<String> userIds = userMapper.findUserByClassId(classId);
-            log.info("消息type为1，群发了给{}，消息内容：{}",userIds.toString(),data);
-            for(String userid : userIds){
-                ClientMessage ClientMessage = new ClientMessage(null,userId,type,data,sendTime, userid,true);
-                sendMessage(ClientMessage);
-            }
-        }
-        else if(type == 2){
-            String domitoryId = obj.get("receiver").toString();
-            List<String> userIds = userMapper.findUsersByDomitory(domitoryId);
-            log.info("消息type为2，群发了给{}，消息内容：{}",userIds.toString(),data);
-            for(String userid : userIds){
-                ClientMessage ClientMessage = new ClientMessage(null,userid,type,data,sendTime, userid,true);
-                sendMessage(ClientMessage);
-
-            }
-        }
+        //自由群发 校区-年级-学院-专业-班级
         else if(type == 1){
             JSONObject schoolInfoObj = obj.getJSONObject("receiver");
             Integer campusId = Integer.parseInt(schoolInfoObj.get("campusId").toString());
@@ -105,9 +88,27 @@ public class WebsocketServiceImpl implements WebsocketService {
                 sendMessage(ClientMessage);
 
             }
-
         }
+        else if(type == 2){
+            String domitoryId = obj.get("receiver").toString();
+            List<String> userIds = userMapper.findUsersByDomitory(domitoryId);
+            log.info("消息type为2，群发了给{}，消息内容：{}",userIds.toString(),data);
+            for(String userid : userIds){
+                ClientMessage ClientMessage = new ClientMessage(null,userid,type,data,sendTime, userid,true);
+                sendMessage(ClientMessage);
 
+            }
+        }
+//        else if(type == 3){
+//            String classId = obj.get("receiver").toString();
+//            List<String> userIds = userMapper.findUserByClassId(classId);
+//            log.info("消息type为1，群发了给{}，消息内容：{}",userIds.toString(),data);
+//            for(String userid : userIds){
+//                ClientMessage ClientMessage = new ClientMessage(null,userId,type,data,sendTime, userid,true);
+//                sendMessage(ClientMessage);
+//            }
+//        }
+        //按宿舍发送
     }
 
     @Override

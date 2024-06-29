@@ -24,7 +24,7 @@ public class SchoolInfoController {
     private SchoolnfoService schoolnfoService;
 
 
-    @NoNeedLogin
+//    @NoNeedLogin
     @RequestMapping(value = "/infos")
     public Result getSchoolInfo(){
         TotalSchoolInfoVO totalSchoolInfoVO =  schoolnfoService.getAllSchoolInfo();
