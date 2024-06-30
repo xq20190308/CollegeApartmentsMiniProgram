@@ -17,4 +17,7 @@ public interface MajorInfoMapper {
 
     @Select("select * from coap.major_info where college_id = #{collegeId}")
     List<MajorInfo> getMajorInfosByCollegeId(Integer collegeId);
+
+    @Select("select  * from coap.major_info")
+    List<MajorInfo> selectAll();
 }

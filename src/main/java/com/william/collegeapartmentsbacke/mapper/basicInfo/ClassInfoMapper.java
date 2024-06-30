@@ -17,4 +17,7 @@ public interface ClassInfoMapper {
 
     @Select("select * from coap.class_info where major_id = #{majorId}")
     List<ClassInfo> getClassInfosByMajorId(Integer majorId);
+
+    @Select("select * from coap.class_info")
+    List<ClassInfo> selectAll();
 }

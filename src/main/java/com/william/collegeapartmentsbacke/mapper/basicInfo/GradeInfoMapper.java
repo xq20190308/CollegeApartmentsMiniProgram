@@ -16,5 +16,8 @@ import java.util.List;
 public interface GradeInfoMapper {
 
     @Select("select * from coap.grade_info where campus_id = #{campusId}")
-    List<GradeInfo> selectAllGradeInfoByCampusId(Integer campusId);
+    List<GradeInfo> selectGradeInfoByCampusId(Integer campusId);
+
+    @Select("select * from coap.grade_info")
+    List<GradeInfo> selecAll();
 }

@@ -45,7 +45,7 @@ public class SchoolInfoServiceImpl implements SchoolnfoService {
         for (CampusInfo campusInfo : campusInfos) {
 //            log.info("campusInfo: {}", campusInfo);
             Integer campusId = campusInfo.getCampusId();
-            List<GradeInfo> gradeInfos = gradeInfoMapper.selectAllGradeInfoByCampusId(campusId);
+            List<GradeInfo> gradeInfos = gradeInfoMapper.selectGradeInfoByCampusId(campusId);
 
             CampusInfoVO campusInfoVO = new CampusInfoVO();
             campusInfoVO.setCampusId(campusInfo.getCampusId());
@@ -91,6 +91,20 @@ public class SchoolInfoServiceImpl implements SchoolnfoService {
             }
             totalSchoolInfoVO.getCampusInfoVOList().add(campusInfoVO);
         }
+
+        return totalSchoolInfoVO;
+    }
+
+    public TotalSchoolInfoVO getAllSchoolInfoBetter() {
+        TotalSchoolInfoVO totalSchoolInfoVO = new TotalSchoolInfoVO();
+        totalSchoolInfoVO.setCampusInfoVOList(new ArrayList<>());
+
+        List<CampusInfo> campusInfos = campusInfoMapper.selectAll();
+        List<GradeInfo> gradeInfos = gradeInfoMapper.selecAll();
+        List<CollegeInfo> collegeInfos = collegeInfoMapper.selectAll();
+        List<MajorInfo> majorInfos = majorInfoMapper.selectAll();
+        List<ClassInfo> classInfos = classInfoMapper.selectAll();
+
 
         return totalSchoolInfoVO;
     }
