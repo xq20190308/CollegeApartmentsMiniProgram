@@ -18,6 +18,6 @@ public interface GradeInfoMapper {
     @Select("select * from coap.grade_info where campus_id = #{campusId}")
     List<GradeInfo> selectGradeInfoByCampusId(Integer campusId);
 
-    @Select("select * from coap.grade_info")
+    @Select("select * from coap.grade_info order by campus_id")
     List<GradeInfo> selecAll();
 }

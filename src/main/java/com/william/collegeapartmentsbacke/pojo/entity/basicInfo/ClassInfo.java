@@ -15,4 +15,6 @@ public class ClassInfo {
     private Integer classId;
     private String className;
     private Integer majorId;
+
+
 }

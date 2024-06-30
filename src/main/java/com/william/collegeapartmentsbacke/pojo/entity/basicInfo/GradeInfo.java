@@ -11,8 +11,18 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class GradeInfo {
+public class GradeInfo implements Comparable<GradeInfo> {
     private Integer gradeId;
     private String gradeName;
     private Integer campusId;
+
+
+    /**
+     * @param o the object to be compared.
+     * @return
+     */
+    @Override
+    public int compareTo(GradeInfo o) {
+        return this.campusId.compareTo(o.campusId);
+    }
 }

@@ -98,14 +98,65 @@ public class SchoolInfoServiceImpl implements SchoolnfoService {
     public TotalSchoolInfoVO getAllSchoolInfoBetter() {
         TotalSchoolInfoVO totalSchoolInfoVO = new TotalSchoolInfoVO();
         totalSchoolInfoVO.setCampusInfoVOList(new ArrayList<>());
-
+        //从数据库取数据
         List<CampusInfo> campusInfos = campusInfoMapper.selectAll();
         List<GradeInfo> gradeInfos = gradeInfoMapper.selecAll();
         List<CollegeInfo> collegeInfos = collegeInfoMapper.selectAll();
         List<MajorInfo> majorInfos = majorInfoMapper.selectAll();
         List<ClassInfo> classInfos = classInfoMapper.selectAll();
 
+        //初始化返回给前端的对象
 
+
+//        for (CampusInfo campusInfo : campusInfos) {
+////            log.info("campusInfo: {}", campusInfo);
+//            Integer campusId = campusInfo.getCampusId();
+//            List<GradeInfo> gradeInfos = gradeInfoMapper.selectGradeInfoByCampusId(campusId);
+//
+//            CampusInfoVO campusInfoVO = new CampusInfoVO();
+//            campusInfoVO.setCampusId(campusInfo.getCampusId());
+//            campusInfoVO.setCampusName(campusInfo.getCampusName());
+//            campusInfoVO.setGrades(new ArrayList<>());
+//            for (GradeInfo gradeInfo : gradeInfos) {
+////                log.info("gradeInfo: {}", gradeInfo);
+//                Integer gradeId = gradeInfo.getGradeId();
+//                List<CollegeInfo> collegeInfos = collegeInfoMapper.selectCollegeInfosByGradeId(gradeId);
+//
+//                GradeInfoVO gradeInfoVO = new GradeInfoVO();
+//                gradeInfoVO.setGradeId(gradeInfo.getGradeId());
+//                gradeInfoVO.setGradeName(gradeInfo.getGradeName());
+//                gradeInfoVO.setColleges(new ArrayList<>());
+//                for (CollegeInfo collegeInfo : collegeInfos) {
+////                    log.info("collegeInfo: {}", collegeInfo);
+//                    Integer collegeId = collegeInfo.getCollegeId();
+//                    List<MajorInfo> majorInfos = majorInfoMapper.getMajorInfosByCollegeId(collegeId);
+//
+//                    CollegeInfoVO collegeInfoVO = new CollegeInfoVO();
+//                    collegeInfoVO.setCollegeId(collegeInfo.getCollegeId());
+//                    collegeInfoVO.setCollegeName(collegeInfo.getCollegeName());
+//                    collegeInfoVO.setMajors(new ArrayList<>());
+//                    for (MajorInfo majorInfo : majorInfos) {
+////                        log.info("majorInfo: {}", majorInfo);
+//                        Integer majorId = majorInfo.getMajorId();
+//                        List<ClassInfo> classInfos = classInfoMapper.getClassInfosByMajorId(majorId);
+//
+//                        MajorInfoVO majorInfoVO = new MajorInfoVO();
+//                        majorInfoVO.setMajorName(majorInfo.getMajorName());
+//                        majorInfoVO.setMajorId(majorId);
+//                        majorInfoVO.setClasses(new ArrayList<>());
+//                        for (ClassInfo classInfo : classInfos) {
+////                            log.info("classInfo: {}", classInfo);
+//                            ClassInfoVO classInfoVO = new ClassInfoVO(classInfo.getClassId(), classInfo.getClassName());
+//                            majorInfoVO.getClasses().add(classInfoVO);
+//                        }
+//                        collegeInfoVO.getMajors().add(majorInfoVO);
+//                    }
+//                    gradeInfoVO.getColleges().add(collegeInfoVO);
+//                }
+//                campusInfoVO.getGrades().add(gradeInfoVO);
+//            }
+//            totalSchoolInfoVO.getCampusInfoVOList().add(campusInfoVO);
+//        }
         return totalSchoolInfoVO;
     }
 }

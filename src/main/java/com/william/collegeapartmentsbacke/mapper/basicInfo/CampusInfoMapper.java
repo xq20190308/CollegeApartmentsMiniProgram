@@ -15,7 +15,7 @@ import java.util.List;
 @Mapper
 public interface CampusInfoMapper {
 
-    @Select("select * from coap.campus_info")
+    @Select("select * from coap.campus_info order by campus_id")
     List<CampusInfo> selectAll();
 
 }
