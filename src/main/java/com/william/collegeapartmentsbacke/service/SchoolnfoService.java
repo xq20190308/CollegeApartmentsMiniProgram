@@ -11,4 +11,6 @@ import com.william.collegeapartmentsbacke.pojo.vo.basicInfo.TotalSchoolInfoVO;
 public interface SchoolnfoService {
     TotalSchoolInfoVO getAllSchoolInfo();
 
+    TotalSchoolInfoVO getAllSchoolInfoBetter();
+
 }
