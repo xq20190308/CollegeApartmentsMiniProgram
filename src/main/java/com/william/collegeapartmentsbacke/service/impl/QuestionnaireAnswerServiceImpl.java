@@ -135,7 +135,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             log.info(answerCount.toString());
         }
         //生成返回给前端的数据
-        answerCountDTO.setNumOfAnswers(questionList.size());
+        answerCountDTO.setNumOfAnswers(answerDTOList.size());
         answerCountDTO.setAnswerCountList(answerCountList);
         return answerCountDTO;
     }
