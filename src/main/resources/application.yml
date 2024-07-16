@@ -1,11 +1,10 @@
 server:
-#  port: 8080
+  port: 8080
   ssl:
     key-store: classpath:server.jks
     key-store-password: eg5zk70773
     keyStoreType: JKS
     enabled: true
-  port: 8080
 
 #  address: 192.168.168.218
 
