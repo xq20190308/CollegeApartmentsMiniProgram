@@ -11,8 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.william.collegeapartmentsbacke.common.utils.HttpClientUtil.doPost;
+
 
 @Slf4j
 @RestController
@@ -31,9 +37,9 @@ public class NoticeController {
             String typeName,
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_st,
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_ed,
-            Boolean isActive){
-//        log.info("isActive{}", isActive);
-        List<Notice> noticeList = noticeService.list(id,keyword,typeName,publish_time_st,publish_time_ed,isActive);
+            Boolean isActive) throws IOException {
+
+            List<Notice> noticeList = noticeService.list(id,keyword,typeName,publish_time_st,publish_time_ed,isActive);
 
 //        log.info("查询全部通知{}",typeName,isActive);
 //        log.info(noticeList.toString());

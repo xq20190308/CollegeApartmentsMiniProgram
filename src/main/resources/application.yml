@@ -5,8 +5,7 @@ server:
     key-store-password: eg5zk70773
     keyStoreType: JKS
     enabled: true
-
-#  address: 192.168.168.218
+    address: 192.168.36.204
 
 mybatis-plus:
   mapper-locations: classpath:mappers/*.xml
