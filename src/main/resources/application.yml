@@ -1,10 +1,24 @@
 server:
   port: 8080
+#  address: william.fit
   ssl:
-    key-store: classpath:server.jks
-    key-store-password: eg5zk70773
-    keyStoreType: JKS
-    enabled: true
+    key-store-password: 045u78eqn9l
+    keyStoreType: PKCS12
+    key-alias: william.fit
+    key-store: classpath:william.fit.pfx
+
+#
+#server:
+#  port: 8081
+#  address: william.fit
+#  ssl:
+#    key-store-password: 045u78eqn9l
+#    keyStoreType: PKCS12
+#    key-alias: william.fit
+#    key-store: classpath:william.fit.pfx
+#key-store-password: *******
+#key-store-type: PKCS12
+#key-store: classpath:cloud.tencent.com.pfx
 
 #  address: 192.168.168.218
 
