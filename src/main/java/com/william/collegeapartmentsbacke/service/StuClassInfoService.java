@@ -1,6 +1,6 @@
 package com.william.collegeapartmentsbacke.service;
 
-import com.william.collegeapartmentsbacke.pojo.entity.StuClassInfo;
+import com.william.collegeapartmentsbacke.pojo.entity.StuClassInfoDTO;
 
 import java.util.List;
 
@@ -11,7 +11,9 @@ import java.util.List;
  * @Version: 1.0
  */
 public interface StuClassInfoService {
-    public StuClassInfo getStuClassInfoByUserId(String userId);
+    StuClassInfoDTO getStuClassInfoByUserId(String userId);
 
-    List<StuClassInfo> getAllClassInfo();
+    List<StuClassInfoDTO> getAllClassInfo();
+
+    StuClassInfoDTO getStuClassInfoByUserIdBetter(String userId);
 }

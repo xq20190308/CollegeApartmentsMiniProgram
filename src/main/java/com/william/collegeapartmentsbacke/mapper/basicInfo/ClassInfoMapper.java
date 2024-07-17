@@ -20,4 +20,7 @@ public interface ClassInfoMapper {
 
     @Select("select * from coap.class_info order by major_id")
     List<ClassInfo> selectAll();
+
+    @Select("select class_name from coap.class_info where class_id = #{classId}")
+    String getClassNameById(Integer classId);
 }

@@ -9,8 +9,11 @@ import com.william.collegeapartmentsbacke.pojo.vo.basicInfo.TotalSchoolInfoVO;
  * @Version: 1.0
  */
 public interface SchoolnfoService {
+    //直接数据库强查，耗时五六秒
     TotalSchoolInfoVO getAllSchoolInfo();
 
+    //仅仅操作一次数据库，优化了算法，1s不到
     TotalSchoolInfoVO getAllSchoolInfoBetter();
+
 
 }

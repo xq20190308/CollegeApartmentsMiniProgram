@@ -1,7 +1,7 @@
 package com.william.collegeapartmentsbacke.controller;
 
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
-import com.william.collegeapartmentsbacke.pojo.entity.StuClassInfo;
+import com.william.collegeapartmentsbacke.pojo.entity.StuClassInfoDTO;
 import com.william.collegeapartmentsbacke.service.StuClassInfoService;
 import com.william.collegeapartmentsbacke.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,14 +33,25 @@ public class StuClassController {
     @RequestMapping(value = "/get-classinfo",method = RequestMethod.GET)
     public Result getClassInfoByUserId(@RequestHeader("Authorization") String token) {
         String userId = userService.getUseridFromToken(token);
-        StuClassInfo stuClassInfo = stuClassInfoService.getStuClassInfoByUserId(userId);
+        StuClassInfoDTO stuClassInfo = stuClassInfoService.getStuClassInfoByUserId(userId);
         log.info("stuClassInfo:{}", stuClassInfo);
 
         return Result.success(stuClassInfo);
     }
+
+    @RequestMapping("/get-class-better")
+    public Result getClassInfoByUserIdBetter(@RequestHeader("Authorization") String token) {
+        String userId = userService.getUseridFromToken(token);
+        StuClassInfoDTO stuClassInfo = stuClassInfoService.getStuClassInfoByUserIdBetter(userId);
+        log.info("stuClassInfo:{}", stuClassInfo);
+
+        return Result.success(stuClassInfo);
+    }
+
+
     @RequestMapping(value = "/get-all")
     public Result getAllClassInfo() {
-        List<StuClassInfo> stuClassInfos = stuClassInfoService.getAllClassInfo();
+        List<StuClassInfoDTO> stuClassInfos = stuClassInfoService.getAllClassInfo();
         log.info("stuClassInfos:{}", stuClassInfos);
         return Result.success(stuClassInfos);
     }
