@@ -6,5 +6,7 @@ import java.util.List;
 
 @Data
 public class FloorInfoVO {
-    private List<String> dormitorys;
+    private int floorId;
+    private String floorName;
+    private List<DormitoryInfoVO> dormitorys;
 }

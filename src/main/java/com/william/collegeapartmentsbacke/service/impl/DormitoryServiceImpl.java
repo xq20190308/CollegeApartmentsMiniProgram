@@ -47,9 +47,14 @@ public class DormitoryServiceImpl implements DormitoryService {
                 buildingInfoVO.setFloors(new ArrayList<>());
                 for (int i = 0; i < buildingInfo.getFloorNum(); i++) {
                     FloorInfoVO floorInfoVO = new FloorInfoVO();
+                    floorInfoVO.setFloorId(i+1);
+                    floorInfoVO.setFloorName(String.format("%d", i+1)+"楼");
                     floorInfoVO.setDormitorys(new ArrayList<>());
                     for (int j = 0; j < buildingInfo.getDormitoryNum(); j++) {
-                        floorInfoVO.getDormitorys().add(String.format("%01d",i+1)+String.format("%02d", j+1));
+                        DormitoryInfoVO dormitoryInfoVO = new DormitoryInfoVO();
+                        dormitoryInfoVO.setDormitoryId(i+1);
+                        dormitoryInfoVO.setDormitoryName(String.format("%01d",i+1)+String.format("%02d", j+1));
+                        floorInfoVO.getDormitorys().add(dormitoryInfoVO);
                     }
                     buildingInfoVO.getFloors().add(floorInfoVO);
                 }

@@ -90,13 +90,15 @@ public class WebsocketServiceImpl implements WebsocketService {
             }
         }
         else if(type == 2){
-            String domitoryId = obj.get("receiver").toString();
-            List<String> userIds = userMapper.findUsersByDomitory(domitoryId);
+            JSONObject domitoryInfo = JSONObject.parseObject(obj.get("receiver").toString());
+            String dormitoryName=domitoryInfo.get("dormitoryName").toString();
+            String campusId=domitoryInfo.get("campusId").toString();
+            List<String> userIds = userMapper.findUsersByDomitory(dormitoryName);
+            userIds.retainAll(userMapper.findUsersBycampusId(campusId));
             log.info("消息type为2，群发了给{}，消息内容：{}",userIds.toString(),data);
             for(String userid : userIds){
                 ClientMessage ClientMessage = new ClientMessage(null,userid,type,data,sendTime, userid,true);
                 sendMessage(ClientMessage);
-
             }
         }
 //        else if(type == 3){
