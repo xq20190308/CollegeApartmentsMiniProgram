@@ -31,7 +31,6 @@ public class SchoolInfoController {
 //        log.info("totalSchoolInfoVO:{}", totalSchoolInfoVO);
 //        return Result.success(totalSchoolInfoVO);
 //    }
-
 //    @NoNeedLogin
     @RequestMapping(value = "/infos")
     public Result getSchoolInfoBetter(){

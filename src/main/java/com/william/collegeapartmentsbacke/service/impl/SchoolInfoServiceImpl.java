@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Author: William
@@ -30,7 +31,6 @@ public class SchoolInfoServiceImpl implements SchoolnfoService {
     private MajorInfoMapper majorInfoMapper;
     @Autowired
     private ClassInfoMapper classInfoMapper;
-
 
 
 
@@ -122,7 +122,7 @@ public class SchoolInfoServiceImpl implements SchoolnfoService {
 //                log.info("gradeInfo: {}", gradeInfo);
                 Integer gradeId = gradeInfo.getGradeId();
 
-                if(gradeInfo.getCampusId() != campusId){
+                if(!Objects.equals(gradeInfo.getCampusId(), campusId)){
                     continue;
                 }
 
