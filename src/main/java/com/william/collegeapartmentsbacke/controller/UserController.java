@@ -58,6 +58,14 @@ public class UserController {
         }};
         String token = JwtUtil.createJWT(jwtProperties.getSecretKey(), jwtProperties.getTtl(), claims);
         //返回给前端的数据
+
+        String avatarUrl = user.getAvatar();
+        if(avatarUrl == null || "".equals(avatarUrl)){
+//            返回默认头像
+            avatarUrl =  "https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg";
+        }
+        //后面会改成服务器上的图片
+
         Permission permission = userService.getPermissionByUserid(user.getUserid());
         UserLoginVO userLoginVO = UserLoginVO.builder()
                 .id(user.getId())
@@ -68,6 +76,7 @@ public class UserController {
                 .phone(user.getPhone())
                 .userPermission(permission)
                 .token(token)
+                .avatarUrl(avatarUrl)
                 .build();
         //id,token
         log.info("测试登录返回给前端："+userLoginVO.toString());
