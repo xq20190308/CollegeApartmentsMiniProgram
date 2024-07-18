@@ -1,6 +1,7 @@
 package com.william.collegeapartmentsbacke.pojo.vo;
 
 import com.william.collegeapartmentsbacke.pojo.entity.Permission;
+import com.william.collegeapartmentsbacke.pojo.entity.StuClassInfoDTO;
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,5 +19,7 @@ public class UserLoginVO implements Serializable {
     private Permission userPermission;
     private String token;
     private String avatarUrl;
+    private StuClassInfoDTO classInfo;
+    private String email;
 
 }
