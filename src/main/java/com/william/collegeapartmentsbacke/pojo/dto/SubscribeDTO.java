@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class SubscribeDTO {
-    String openid;
+    String userid;
     String templateId;
     String page;
+    String data;
 }

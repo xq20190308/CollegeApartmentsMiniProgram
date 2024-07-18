@@ -3,8 +3,6 @@ package com.william.collegeapartmentsbacke.service.impl;
 import com.alibaba.excel.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.william.collegeapartmentsbacke.service.SubsribehttpService;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -104,21 +102,67 @@ public class SubsribehttpServiceImpl implements SubsribehttpService {
 
     }
 
-    private final static String getPubTemplate="https://api.weixin.qq.com/wxaapi/newtmpl/getpubtemplatekeywords?access_token=";
+    private final static String getPubTemplates="https://api.weixin.qq.com/wxaapi/newtmpl/gettemplate?access_token=";
     @Override
-    public String getPubTemplateKeyWordsById(String accessToken, String templateId) {
+    public Object getPubTemplates(String accessToken) {
+
         Map<String, Object> param = new HashMap<>();
-        param.put("tid",templateId);
         RestTemplate restTemplate = new RestTemplate();
-        log.info("templateId:"+templateId);
-        ResponseEntity<JSONObject> resp = restTemplate.getForEntity(getPubTemplate+accessToken+"&tid="+templateId, JSONObject.class,param);
+        ResponseEntity<JSONObject> resp = restTemplate.getForEntity(getPubTemplates+accessToken, JSONObject.class,param);
         JSONObject jsonObj = resp.getBody();
-        log.info("jsonObj:"+jsonObj);
-        String data = null;
+
+        Object data = null;
         if(jsonObj != null){
-            data = jsonObj.getString("data");
+            data = jsonObj.get("data");
         }
-        log.info("data:"+data);
+
+        return data;
+    }
+
+
+    private final static String getCategory="https://api.weixin.qq.com/wxaapi/newtmpl/getcategory?access_token=";
+    @Override
+    public Object getCategory(String accessToken) {
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<JSONObject> resp = restTemplate.getForEntity(getCategory+accessToken, JSONObject.class,new HashMap<>());
+        JSONObject jsonObj = resp.getBody();
+        Object data = null;
+        if(jsonObj != null){
+            log.info("获取类目res{}",jsonObj.toJSONString());
+            data = jsonObj.get("data");
+        }
+
+        return data;
+    }
+
+    private final static String getTemplates="https://api.weixin.qq.com/wxaapi/newtmpl/getpubtemplatetitles?access_token=";
+    @Override//获取到类目下所有模板
+    public Object getTemplates(String accessToken) {
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<JSONObject> resp = restTemplate.getForEntity(getTemplates+accessToken+"&ids="+"592"+"&start=0&limit=1", JSONObject.class,new HashMap<>());
+        JSONObject jsonObj = resp.getBody();
+        Object data = null;
+        if(jsonObj != null){
+            log.info(jsonObj.toJSONString());
+            data = jsonObj.get("data");
+        }
+
+        return data;
+    }
+
+    private final static String getTemplateKeys="https://api.weixin.qq.com/wxaapi/newtmpl/getpubtemplatekeywords?access_token=";
+    @Override//tid不知道怎么拿
+    public Object getTemplateKeys(String accessToken,String tid) {
+        Map<String, Object> param = new HashMap<>();
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<JSONObject> resp = restTemplate.getForEntity(getTemplateKeys+accessToken+"&tid="+"4611", JSONObject.class,param);
+        JSONObject jsonObj = resp.getBody();
+        log.info(jsonObj.toJSONString());
+        Object data = null;
+        if(jsonObj != null){
+            data = jsonObj.get("data");
+        }
+
         return data;
     }
 

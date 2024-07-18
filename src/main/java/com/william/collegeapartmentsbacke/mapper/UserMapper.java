@@ -27,6 +27,9 @@ public interface UserMapper {
     @Select("select password from coap.user where username = #{username}")
     String findPwdByUsername(String username);
 
+    @Select("select openid from coap.user where userid = #{username}")
+    String findOpenidByUsername(String username);
+
     @Select("select userid from coap.user where class_id = #{classId}")
     List<String> findUserByClassId(String classId);
 
