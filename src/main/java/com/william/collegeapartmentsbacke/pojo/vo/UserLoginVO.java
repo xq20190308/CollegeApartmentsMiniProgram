@@ -22,5 +22,7 @@ public class UserLoginVO implements Serializable {
     private String dormitory;
     private StuClassInfoDTO classInfo;
     private String email;
+    private String userLevel;
+    //加一个level 加ba
 
 }

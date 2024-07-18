@@ -84,7 +84,7 @@ public class WebsocketServiceImpl implements WebsocketService {
             log.info("schoolInfo: {}", schoolInfo);
             List<String> userIds = schoolInfoMapper.selectUserIdBySchoolInfo(schoolInfo);
             for(String userid : userIds){
-                ClientMessage ClientMessage = new ClientMessage(null,userid,type,data,sendTime, userid,true);
+                ClientMessage ClientMessage = new ClientMessage(null,userId,type,data,sendTime, userid,true);
                 sendMessage(ClientMessage);
 
             }
@@ -97,7 +97,7 @@ public class WebsocketServiceImpl implements WebsocketService {
             userIds.retainAll(userMapper.findUsersBycampusId(campusId));
             log.info("消息type为2，群发了给{}，消息内容：{}",userIds.toString(),data);
             for(String userid : userIds){
-                ClientMessage ClientMessage = new ClientMessage(null,userid,type,data,sendTime, userid,true);
+                ClientMessage ClientMessage = new ClientMessage(null,userId,type,data,sendTime, userid,true);
                 sendMessage(ClientMessage);
             }
         }

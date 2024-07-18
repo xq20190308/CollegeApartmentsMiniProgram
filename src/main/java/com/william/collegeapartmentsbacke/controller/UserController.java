@@ -8,6 +8,7 @@ import com.william.collegeapartmentsbacke.pojo.entity.*;
 import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
 import com.william.collegeapartmentsbacke.pojo.vo.ContactInfoVO;
 import com.william.collegeapartmentsbacke.pojo.vo.UserLoginVO;
+import com.william.collegeapartmentsbacke.pojo.vo.UserVO;
 import com.william.collegeapartmentsbacke.service.FileService;
 import com.william.collegeapartmentsbacke.service.SchoolnfoService;
 import com.william.collegeapartmentsbacke.service.UserService;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/user")
@@ -143,6 +145,7 @@ public class UserController {
                 .phone(user.getPhone())
                 .userPermission(permission)
                 .token(token)
+                .userLevel(user.getUserLevel())
                 .build();
         //id,token
         log.info("返回给前端："+userLoginVO.toString());
@@ -197,14 +200,31 @@ public class UserController {
     public Result findByUserid(@RequestHeader("Authorization") String token,String userid){
         String userLevel = userService.getUserLevleFromToken(token);
         User user = userService.findByUserid(userid);
-        if(userLevel == "0" || userLevel =="1")
+        StuClassInfoDTO stuClassInfo = schoolnfoService.getStuClassInfoByUserIdBetter(user.getUserid());
+        Permission permission = userService.getPermissionByUserid(user.getUserid());
+        String avatarUrl = user.getAvatar();
+        if(avatarUrl == null || "".equals(avatarUrl)){
+//            返回默认头像
+            avatarUrl =  "https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg";
+        }
+        UserVO userVO = UserVO.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .name(user.getName())
+                .userid(user.getUserid())
+                .phone(user.getPhone())
+                .avatar(user.getAvatar())
+                .dormitory(user.getDormitory())
+                .classInfo(stuClassInfo)
+                .email("无")
+                .build();
+        if(Objects.equals(userLevel, "0") || Objects.equals(userLevel, "1"))
         {
-            return Result.success(user);
+            userVO.setOpenid(user.getOpenid());
+            userVO.setUserLevel(user.getUserLevel());
+            userVO.setUserPermission(permission);
         }
-        else {
-            user.setPassword(null);
-            return Result.success(user);
-        }
+        return Result.success(userVO);
     }
 
 
