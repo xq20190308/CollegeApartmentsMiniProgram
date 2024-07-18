@@ -79,6 +79,7 @@ public class UserController {
                 .userPermission(permission)
                 .token(token)
                 .avatarUrl(avatarUrl)
+                .dormitory(user.getDormitory())
                 .classInfo(stuClassInfo)
                 .email("暂时还没写")
                 .build();

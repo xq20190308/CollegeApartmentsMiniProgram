@@ -33,8 +33,8 @@ public interface UserMapper {
     @Select("select userid from coap.user where class_id = #{classId}")
     List<String> findUserByClassId(String classId);
 
-    @Select("select userid from coap.user where domitory = #{domitory}")
-    List<String> findUsersByDomitory(String domitory);
+    @Select("select userid from coap.user where dormitory = #{dormitory}")
+    List<String> findUsersByDormitory(String dormitory);
 
     @Select("select user_id from coap.user_school_info where campus_id = #{campusId}")
     List<String> findUsersBycampusId(String campusId);

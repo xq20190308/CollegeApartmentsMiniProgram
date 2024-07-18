@@ -90,10 +90,10 @@ public class WebsocketServiceImpl implements WebsocketService {
             }
         }
         else if(type == 2){
-            JSONObject domitoryInfo = JSONObject.parseObject(obj.get("receiver").toString());
-            String dormitoryName=domitoryInfo.get("dormitoryName").toString();
-            String campusId=domitoryInfo.get("campusId").toString();
-            List<String> userIds = userMapper.findUsersByDomitory(dormitoryName);
+            JSONObject dormitoryInfo = JSONObject.parseObject(obj.get("receiver").toString());
+            String dormitoryName=dormitoryInfo.get("dormitoryName").toString();
+            String campusId=dormitoryInfo.get("campusId").toString();
+            List<String> userIds = userMapper.findUsersByDormitory(dormitoryName);
             userIds.retainAll(userMapper.findUsersBycampusId(campusId));
             log.info("消息type为2，群发了给{}，消息内容：{}",userIds.toString(),data);
             for(String userid : userIds){

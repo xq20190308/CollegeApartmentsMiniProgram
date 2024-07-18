@@ -40,6 +40,7 @@ public class User implements Comparable<User>{
     private String phone;
     private String avatar;
     private String userLevel;
+    private String dormitory;
 
     /**
      * @param o the object to be compared.

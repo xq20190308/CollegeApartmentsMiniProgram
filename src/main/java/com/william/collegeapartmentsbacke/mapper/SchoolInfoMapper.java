@@ -25,5 +25,5 @@ public interface SchoolInfoMapper {
 
 //
 //    @Select("select")
-//    List<UserSchoolInfo> selectAllDomitory();
+//    List<UserSchoolInfo> selectAllDormitory();
 }
