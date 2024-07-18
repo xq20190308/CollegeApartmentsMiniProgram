@@ -1,11 +1,12 @@
 server:
   port: 8080
+  address: 192.168.36.204
   ssl:
-    key-store: classpath:server.jks
-    key-store-password: eg5zk70773
-    keyStoreType: JKS
-    enabled: true
-    address: 192.168.36.204
+    key-store-password: 045u78eqn9l
+    keyStoreType: PKCS12
+    key-alias: william.fit
+    key-store: classpath:william.fit.pfx
+
 
 mybatis-plus:
   mapper-locations: classpath:mappers/*.xml
