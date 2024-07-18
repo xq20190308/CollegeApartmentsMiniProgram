@@ -49,12 +49,6 @@ public class SubscribeController {
             if(accessToken==null) return Result.error("获得access_token失败");
             log.info("向{}发订阅消息{}：{}",subscribeDTO.getUserid(),subscribeDTO.getTemplateId(),subscribeDTO.getData());
             String openid=userMapper.findOpenidByUsername(subscribeDTO.getUserid());
-//            Object category = wxCommonService.getCategory(accessToken);
-//            log.info("类目：{}",category.toString());
-//            Object templates = wxCommonService.getTemplates(accessToken);
-//            log.info("模板：{}",templates.toString());
-//            Object keys = wxCommonService.getTemplateKeys(accessToken,"");
-//            log.info("模板关键词列表：{}",keys.toString());
             String result = wxCommonService.sendSubscribeMessage(accessToken,openid, subscribeDTO.getTemplateId(), subscribeDTO.getPage(),subscribeDTO.getData());
             if (JSONObject.parseObject(result).getString("errcode").equals("0")) return Result.error(result);
             return Result.success(JSONObject.parseObject(result));
