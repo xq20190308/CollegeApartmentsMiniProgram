@@ -1,8 +1,11 @@
 package com.william.collegeapartmentsbacke.pojo.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * @Author: William
@@ -11,14 +14,14 @@ import lombok.NoArgsConstructor;
  * @Version: 1.0
  */
 
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StuClassInfo {
-    private Integer classId;
+public class StuClassInfoDTO implements Serializable {
     private String className;
     private String campusName;
-    private String grade;
-    private String major;
+    private String gradeName;
+    private String majorName;
     private String collegeName;
 }

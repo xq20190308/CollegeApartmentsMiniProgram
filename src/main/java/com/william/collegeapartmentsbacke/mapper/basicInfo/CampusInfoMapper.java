@@ -18,4 +18,7 @@ public interface CampusInfoMapper {
     @Select("select * from coap.campus_info order by campus_id")
     List<CampusInfo> selectAll();
 
+
+    @Select("select campus_name from coap.campus_info where  campus_id = #{campusId}")
+    String getCampusNameById(Integer campusId);
 }

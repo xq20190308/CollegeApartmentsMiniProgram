@@ -9,6 +9,7 @@ import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
 import com.william.collegeapartmentsbacke.pojo.vo.ContactInfoVO;
 import com.william.collegeapartmentsbacke.pojo.vo.UserLoginVO;
 import com.william.collegeapartmentsbacke.service.FileService;
+import com.william.collegeapartmentsbacke.service.SchoolnfoService;
 import com.william.collegeapartmentsbacke.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,8 @@ public class UserController {
     private JwtProperties jwtProperties;
     @Autowired
     private FileService fileService;
-
+    @Autowired
+    private SchoolnfoService schoolnfoService;
 
     @NoNeedLogin
     @RequestMapping(value = "loginInnerTest", method = RequestMethod.POST)
@@ -65,7 +67,7 @@ public class UserController {
             avatarUrl =  "https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg";
         }
         //后面会改成服务器上的图片
-
+        StuClassInfoDTO stuClassInfo = schoolnfoService.getStuClassInfoByUserIdBetter(user.getUserid());
         Permission permission = userService.getPermissionByUserid(user.getUserid());
         UserLoginVO userLoginVO = UserLoginVO.builder()
                 .id(user.getId())
@@ -77,6 +79,8 @@ public class UserController {
                 .userPermission(permission)
                 .token(token)
                 .avatarUrl(avatarUrl)
+                .classInfo(stuClassInfo)
+                .email("暂时还没写")
                 .build();
         //id,token
         log.info("测试登录返回给前端："+userLoginVO.toString());

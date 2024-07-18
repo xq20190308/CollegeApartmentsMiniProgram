@@ -1,6 +1,7 @@
-package com.william.collegeapartmentsbacke.mapper.basicInfo;
+package com.william.collegeapartmentsbacke.mapper;
 
 import com.william.collegeapartmentsbacke.pojo.dto.schoolInfo.SchoolInfo;
+import com.william.collegeapartmentsbacke.pojo.entity.UserSchoolInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -17,7 +18,12 @@ public interface SchoolInfoMapper {
 
 
     List<String> selectUserIdBySchoolInfo(SchoolInfo schoolInfo);
+
+    @Select("select * from coap.user_school_info where user_id = #{userId}")
+    UserSchoolInfo selectUserSchoolInfoByUserId(String userId);
+
+
 //
 //    @Select("select")
-//    List<SchoolInfo> selectAllDomitory();
+//    List<UserSchoolInfo> selectAllDomitory();
 }
