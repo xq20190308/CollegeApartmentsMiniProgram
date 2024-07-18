@@ -1,5 +1,6 @@
 package com.william.collegeapartmentsbacke.common.utils;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
@@ -17,6 +18,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -78,7 +80,7 @@ public class HttpClientUtil {
      * @return
      * @throws IOException
      */
-    public static String doPost(String url, Map<String, String> paramMap) throws IOException {
+    public static String doPost(String url, Map<String, Object> paramMap) throws IOException {
         // 创建Httpclient对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
         CloseableHttpResponse response = null;
@@ -91,8 +93,8 @@ public class HttpClientUtil {
             // 创建参数列表
             if (paramMap != null) {
                 List<NameValuePair> paramList = new ArrayList<>();
-                for (Map.Entry<String, String> param : paramMap.entrySet()) {
-                    paramList.add(new BasicNameValuePair(param.getKey(), param.getValue()));
+                for (Map.Entry<String, Object> param : paramMap.entrySet()) {
+                    paramList.add(new BasicNameValuePair(param.getKey(),param.getValue().toString()));
                 }
                 // 模拟表单
                 UrlEncodedFormEntity entity = new UrlEncodedFormEntity(paramList);
@@ -100,10 +102,8 @@ public class HttpClientUtil {
             }
 
             httpPost.setConfig(builderRequestConfig());
-
             // 执行http请求
             response = httpClient.execute(httpPost);
-
             resultString = EntityUtils.toString(response.getEntity(), "UTF-8");
         } catch (Exception e) {
             throw e;
@@ -115,7 +115,7 @@ public class HttpClientUtil {
                 e.printStackTrace();
             }
         }
-
+        System.out.println("return resultString:"+resultString);
         return resultString;
     }
 

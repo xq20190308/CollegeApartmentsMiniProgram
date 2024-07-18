@@ -11,8 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+
+import static com.william.collegeapartmentsbacke.common.utils.HttpClientUtil.doPost;
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
@@ -25,11 +29,11 @@ public class NoticeServiceImpl implements NoticeService {
     //查询通知
     @Override
     @Transactional
-    public List<Notice> list(Integer id, String keyword, String typeName, LocalDateTime publish_time_st,LocalDateTime publish_time_ed,Boolean isActive) {
+    public List<Notice> list(Integer id, String keyword, String typeName, LocalDateTime publish_time_st,LocalDateTime publish_time_ed,Boolean isActive) throws IOException {
         if (publish_time_ed == null){
             publish_time_ed = LocalDateTime.now();
         }
-//        List<Notice> test = noticeMapper.list(title,content,typeName,publish_time_st,publish_time_ed,isActive);
+        //List<Notice> test = noticeMapper.list(title,content,typeName,publish_time_st,publish_time_ed,isActive);
         return noticeMapper.list(id, keyword,typeName,publish_time_st,publish_time_ed,isActive);
     }
 

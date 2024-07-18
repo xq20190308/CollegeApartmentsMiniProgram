@@ -33,6 +33,9 @@ public interface UserMapper {
     @Select("select userid from coap.user where domitory = #{domitory}")
     List<String> findUsersByDomitory(String domitory);
 
+    @Select("select user_id from coap.user_school_info where campus_id = #{campusId}")
+    List<String> findUsersBycampusId(String campusId);
+
     //查询用户权限
     @Select("select p.* from coap.user_permission p join coap.user u on p.user_level = u.user_level where u.userid = #{userId}")
     Permission getPermissionByUserId(String userId);
