@@ -104,4 +104,22 @@ public class SubsribehttpServiceImpl implements SubsribehttpService {
 
     }
 
+    private final static String getPubTemplate="https://api.weixin.qq.com/wxaapi/newtmpl/getpubtemplatekeywords?access_token=";
+    @Override
+    public String getPubTemplateKeyWordsById(String accessToken, String templateId) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("tid",templateId);
+        RestTemplate restTemplate = new RestTemplate();
+        log.info("templateId:"+templateId);
+        ResponseEntity<JSONObject> resp = restTemplate.getForEntity(getPubTemplate+accessToken+"&tid="+templateId, JSONObject.class,param);
+        JSONObject jsonObj = resp.getBody();
+        log.info("jsonObj:"+jsonObj);
+        String data = null;
+        if(jsonObj != null){
+            data = jsonObj.getString("data");
+        }
+        log.info("data:"+data);
+        return data;
+    }
+
 }

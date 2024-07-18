@@ -11,4 +11,5 @@ import java.io.InputStreamReader;
 public interface SubsribehttpService {
     public String sendSubscribeMessage(String accessToken, String openid, String templateId, String page, String data);
     public String refreshAccessToken(String appid, String secret);
+    public String getPubTemplateKeyWordsById(String accessToken, String templateId);
 }
