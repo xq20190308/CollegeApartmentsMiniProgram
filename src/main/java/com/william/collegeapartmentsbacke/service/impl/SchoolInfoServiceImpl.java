@@ -1,6 +1,9 @@
 package com.william.collegeapartmentsbacke.service.impl;
 
+import com.william.collegeapartmentsbacke.mapper.SchoolInfoMapper;
 import com.william.collegeapartmentsbacke.mapper.basicInfo.*;
+import com.william.collegeapartmentsbacke.pojo.entity.StuClassInfoDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.UserSchoolInfo;
 import com.william.collegeapartmentsbacke.pojo.entity.basicInfo.*;
 import com.william.collegeapartmentsbacke.pojo.vo.basicInfo.*;
 import com.william.collegeapartmentsbacke.service.SchoolnfoService;
@@ -31,75 +34,42 @@ public class SchoolInfoServiceImpl implements SchoolnfoService {
     private MajorInfoMapper majorInfoMapper;
     @Autowired
     private ClassInfoMapper classInfoMapper;
+    @Autowired
+    private SchoolInfoMapper schoolInfoMapper;
+
+
+
+
+    @Override
+    public StuClassInfoDTO getStuClassInfoByUserIdBetter(String userId) {
+        UserSchoolInfo userSchoolInfo = schoolInfoMapper.selectUserSchoolInfoByUserId(userId);
+        String campusName = campusInfoMapper.getCampusNameById(userSchoolInfo.getCampusId());
+        String gradeName = gradeInfoMapper.getGeadeNameById(userSchoolInfo.getGradeId());
+        String collegeName = collegeInfoMapper.getCollegeNameById(userSchoolInfo.getCollegeId());
+        String majorName = majorInfoMapper.getMajorNameById(userSchoolInfo.getMajorId());
+        String className = classInfoMapper.getClassNameById(userSchoolInfo.getClassId());
+
+        StuClassInfoDTO stuClassInfoDTO = StuClassInfoDTO.builder()
+                .campusName(campusName)
+                .gradeName(gradeName)
+                .collegeName(collegeName)
+                .majorName(majorName)
+                .className(className)
+                .build();
+
+
+        return stuClassInfoDTO;
+    }
+
+
+
+
+
 
 
 
     @Override
     public TotalSchoolInfoVO getAllSchoolInfo() {
-        //返回给Controller的数组
-        TotalSchoolInfoVO totalSchoolInfoVO = new TotalSchoolInfoVO();
-        totalSchoolInfoVO.setCampusInfoVOList(new ArrayList<>());
-
-        List<CampusInfo> campusInfos = campusInfoMapper.selectAll();
-
-        for (CampusInfo campusInfo : campusInfos) {
-//            log.info("campusInfo: {}", campusInfo);
-            Integer campusId = campusInfo.getCampusId();
-            List<GradeInfo> gradeInfos = gradeInfoMapper.selectGradeInfoByCampusId(campusId);
-
-            CampusInfoVO campusInfoVO = new CampusInfoVO();
-            campusInfoVO.setCampusId(campusInfo.getCampusId());
-            campusInfoVO.setCampusName(campusInfo.getCampusName());
-            campusInfoVO.setGrades(new ArrayList<>());
-            for (GradeInfo gradeInfo : gradeInfos) {
-//                log.info("gradeInfo: {}", gradeInfo);
-                Integer gradeId = gradeInfo.getGradeId();
-                List<CollegeInfo> collegeInfos = collegeInfoMapper.selectCollegeInfosByGradeId(gradeId);
-
-                GradeInfoVO gradeInfoVO = new GradeInfoVO();
-                gradeInfoVO.setGradeId(gradeInfo.getGradeId());
-                gradeInfoVO.setGradeName(gradeInfo.getGradeName());
-                gradeInfoVO.setColleges(new ArrayList<>());
-                for (CollegeInfo collegeInfo : collegeInfos) {
-//                    log.info("collegeInfo: {}", collegeInfo);
-                    Integer collegeId = collegeInfo.getCollegeId();
-                    List<MajorInfo> majorInfos = majorInfoMapper.getMajorInfosByCollegeId(collegeId);
-
-                    CollegeInfoVO collegeInfoVO = new CollegeInfoVO();
-                    collegeInfoVO.setCollegeId(collegeInfo.getCollegeId());
-                    collegeInfoVO.setCollegeName(collegeInfo.getCollegeName());
-                    collegeInfoVO.setMajors(new ArrayList<>());
-                    for (MajorInfo majorInfo : majorInfos) {
-//                        log.info("majorInfo: {}", majorInfo);
-                        Integer majorId = majorInfo.getMajorId();
-                        List<ClassInfo> classInfos = classInfoMapper.getClassInfosByMajorId(majorId);
-
-                        MajorInfoVO majorInfoVO = new MajorInfoVO();
-                        majorInfoVO.setMajorName(majorInfo.getMajorName());
-                        majorInfoVO.setMajorId(majorId);
-                        majorInfoVO.setClasses(new ArrayList<>());
-                        for (ClassInfo classInfo : classInfos) {
-//                            log.info("classInfo: {}", classInfo);
-                            ClassInfoVO classInfoVO = new ClassInfoVO(classInfo.getClassId(), classInfo.getClassName());
-                            majorInfoVO.getClasses().add(classInfoVO);
-                        }
-                        collegeInfoVO.getMajors().add(majorInfoVO);
-                    }
-                    gradeInfoVO.getColleges().add(collegeInfoVO);
-                }
-                campusInfoVO.getGrades().add(gradeInfoVO);
-            }
-            totalSchoolInfoVO.getCampusInfoVOList().add(campusInfoVO);
-        }
-
-        return totalSchoolInfoVO;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public TotalSchoolInfoVO getAllSchoolInfoBetter() {
         TotalSchoolInfoVO totalSchoolInfoVO = new TotalSchoolInfoVO();
         totalSchoolInfoVO.setCampusInfoVOList(new ArrayList<>());
         //从数据库取数据

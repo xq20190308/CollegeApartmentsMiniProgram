@@ -3,7 +3,7 @@ package com.william.collegeapartmentsbacke.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.william.collegeapartmentsbacke.mapper.ClientMessageMapper;
 import com.william.collegeapartmentsbacke.mapper.UserMapper;
-import com.william.collegeapartmentsbacke.mapper.basicInfo.SchoolInfoMapper;
+import com.william.collegeapartmentsbacke.mapper.SchoolInfoMapper;
 import com.william.collegeapartmentsbacke.pojo.dto.schoolInfo.SchoolInfo;
 import com.william.collegeapartmentsbacke.pojo.entity.ClientMessage;
 import com.william.collegeapartmentsbacke.pojo.entity.ClientSessionBean;
