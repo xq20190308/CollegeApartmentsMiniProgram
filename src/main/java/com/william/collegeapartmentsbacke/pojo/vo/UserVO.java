@@ -18,10 +18,10 @@ public class UserVO implements Serializable {
     private String openid;
     private String username;
     private String password;
-    private String name;
+    private String trueName;
     private String userid;
     private String phone;
-    private String avatar;
+    private String avatarUrl;
     private String userLevel;
     private String dormitory;
     private Permission userPermission;
