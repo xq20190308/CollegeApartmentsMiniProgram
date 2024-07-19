@@ -63,7 +63,7 @@ public class UserController {
         String token = JwtUtil.createJWT(jwtProperties.getSecretKey(), jwtProperties.getTtl(), claims);
         //返回给前端的数据
 
-        String avatarUrl = user.getAvatar();
+        String avatarUrl = user.getAvatarUrl();
         if(avatarUrl == null || "".equals(avatarUrl)){
 //            返回默认头像
             avatarUrl =  "https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg";
@@ -75,7 +75,7 @@ public class UserController {
                 .id(user.getId())
                 .openid(user.getOpenid())
                 .username(user.getUsername())
-                .trueName(user.getName())
+                .trueName(user.getTrueName())
                 .userid(user.getUserid())
                 .phone(user.getPhone())
                 .userPermission(permission)
@@ -140,7 +140,7 @@ public class UserController {
                 .id(user.getId())
                 .openid(user.getOpenid())
                 .username(user.getUsername())
-                .trueName(user.getName())
+                .trueName(user.getTrueName())
                 .userid(user.getUserid())
                 .phone(user.getPhone())
                 .userPermission(permission)
@@ -202,7 +202,7 @@ public class UserController {
         User user = userService.findByUserid(userid);
         StuClassInfoDTO stuClassInfo = schoolnfoService.getStuClassInfoByUserIdBetter(user.getUserid());
         Permission permission = userService.getPermissionByUserid(user.getUserid());
-        String avatarUrl = user.getAvatar();
+        String avatarUrl = user.getAvatarUrl();
         if(avatarUrl == null || "".equals(avatarUrl)){
 //            返回默认头像
             avatarUrl =  "https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg";
@@ -210,10 +210,10 @@ public class UserController {
         UserVO userVO = UserVO.builder()
                 .id(user.getId())
                 .username(user.getUsername())
-                .trueName(user.getName())
+                .trueName(user.getTrueName())
                 .userid(user.getUserid())
                 .phone(user.getPhone())
-                .avatarUrl(user.getAvatar())
+                .avatarUrl(user.getAvatarUrl())
                 .dormitory(user.getDormitory())
                 .classInfo(stuClassInfo)
                 .email("无")
@@ -233,7 +233,7 @@ public class UserController {
         String userid = userService.getUseridFromToken(token);
         //删除上一次的头像
        User user = userService.findByUserid(userid);
-       String avatarUrl = user.getAvatar();
+       String avatarUrl = user.getAvatarUrl();
        if(avatarUrl != null ){
            fileService.DeletefileByUrl(avatarUrl);
        }
@@ -255,7 +255,7 @@ public class UserController {
             userid = otherUserid;
        }
         User user = userService.findByUserid(userid);
-        String avatarUrl = user.getAvatar();
+        String avatarUrl = user.getAvatarUrl();
         //暂时返回网络头像,其实应该在User表的avatar存一个默认File的id
        if(avatarUrl == null || "".equals(avatarUrl)){
 //            返回默认头像

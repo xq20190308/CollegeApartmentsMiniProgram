@@ -76,8 +76,8 @@ public class UserServiceImpl implements UserService {
         log.info(users.toString());
         List<ContactInfoVO> contactInfoVOs = new ArrayList<>();
         for (User user : users) {
-            Character letter = PinyinUtil.getFirstLetter(user.getName());
-            ContactInfoVO currContactInfo = new ContactInfoVO(user.getName(),user.getUserid(),user.getPhone(),letter);
+            Character letter = PinyinUtil.getFirstLetter(user.getTrueName());
+            ContactInfoVO currContactInfo = new ContactInfoVO(user.getTrueName(),user.getUserid(),user.getPhone(),letter);
             contactInfoVOs.add(currContactInfo);
         }
 
