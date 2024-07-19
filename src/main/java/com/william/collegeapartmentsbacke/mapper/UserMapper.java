@@ -18,7 +18,7 @@ public interface UserMapper {
     User getLastestUser();
 
     //通过权限获取用户，主要是获取老师信息
-    @Select("select * from coap.user where user_level = #{userLevel} order by name")
+    @Select("select * from coap.user where user_level = #{userLevel} order by true_name")
     List<User> getByUserLevel(String userLevel);
 
     @Select("select * from coap.user where username = #{username}")
