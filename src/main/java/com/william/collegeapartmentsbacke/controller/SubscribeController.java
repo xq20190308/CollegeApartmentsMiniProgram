@@ -17,6 +17,7 @@ import com.william.collegeapartmentsbacke.pojo.entity.Result;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 //消息推送的模拟方法
 @Slf4j
@@ -50,7 +51,7 @@ public class SubscribeController {
             log.info("向{}发订阅消息{}：{}",subscribeDTO.getUserid(),subscribeDTO.getTemplateId(),subscribeDTO.getData());
             String openid=userMapper.findOpenidByUsername(subscribeDTO.getUserid());
             String result = wxCommonService.sendSubscribeMessage(accessToken,openid, subscribeDTO.getTemplateId(), subscribeDTO.getPage(),subscribeDTO.getData());
-            if (JSONObject.parseObject(result).getString("errcode").equals("0")) return Result.error(result);
+            if (!Objects.equals(JSONObject.parseObject(result).getString("errcode"), "0")) return Result.error(result);
             return Result.success(JSONObject.parseObject(result));
         }
         private static Map<String, Object> createDataItem(String name, String value) {
