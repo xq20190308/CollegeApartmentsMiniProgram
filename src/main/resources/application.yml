@@ -1,11 +1,47 @@
+spring:
+  profiles:
+    active: dev2
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
 server:
   port: 8080
-#  address: 192.168.0.4
+  ##  address: 192.168.0.4
   ssl:
     key-store-password: 045u78eqn9l
     keyStoreType: PKCS12
     key-alias: william.fit
     key-store: classpath:william.fit.pfx
+---
+spring:
+  config:
+    activate:
+      on-profile: dev1
+server:
+  port: 8081
+  ##  address: 192.168.0.4
+  ssl:
+    key-store-password: 045u78eqn9l
+    keyStoreType: PKCS12
+    key-alias: william.fit
+    key-store: classpath:william.fit.pfx
+---
+spring:
+  config:
+    activate:
+      on-profile: dev2
+server:
+  port: 8082
+##  address: 192.168.0.4
+  ssl:
+    key-store-password: 045u78eqn9l
+    keyStoreType: PKCS12
+    key-alias: william.fit
+    key-store: classpath:william.fit.pfx
+---
+
 
 mybatis-plus:
   mapper-locations: classpath:mappers/*.xml
@@ -13,7 +49,7 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
+#
 #logging:
 #  level:
 #    com.zoctan.api.mapper : debug
