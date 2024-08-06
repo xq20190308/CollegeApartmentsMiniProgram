@@ -13,6 +13,7 @@ import com.william.collegeapartmentsbacke.service.QuestionnaireService;
 import com.william.collegeapartmentsbacke.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,9 +65,11 @@ public class QuestionnaireController {
     }
 
     @RequestMapping(value = "/deleteById/{id}", method = RequestMethod.DELETE)
+    @Transactional
     public Result deleteById(@PathVariable("id") Integer id) {
         log.info("根据问卷id删除对应问卷及其所有问题");
         questionnaireService.deleteById(id);
+//        int i=1/0;
         questionService.deleteByQuestionnaireId(id);
         return Result.success();
     }

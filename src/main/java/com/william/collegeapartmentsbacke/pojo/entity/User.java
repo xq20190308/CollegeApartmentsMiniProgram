@@ -23,6 +23,9 @@ import lombok.NoArgsConstructor;
 import com.william.collegeapartmentsbacke.common.utils.PinyinUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+import org.springframework.context.annotation.Bean;
+
+import java.io.Serializable;
 
 @Slf4j
 
