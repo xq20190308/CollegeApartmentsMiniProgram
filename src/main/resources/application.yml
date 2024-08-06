@@ -7,7 +7,6 @@ server:
     key-alias: william.fit
     key-store: classpath:william.fit.pfx
 
-
 mybatis-plus:
   mapper-locations: classpath:mappers/*.xml
   type-aliases-package: com.william.collegeapartmentsbacke.mybatis.entity
