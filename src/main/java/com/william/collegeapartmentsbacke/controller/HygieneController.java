@@ -27,7 +27,7 @@ public class HygieneController {
         hygieneService.upData(p,weeks);
         return p;
     }
-    @GetMapping("/SelesctRank/{id}")
+    @GetMapping("/SelectRank/{id}")
     public Result SelesctRank(@PathVariable String id) {
         HygieneDTO Rank=hygieneService.SelectRank(id);
         log.info(Rank.toString());

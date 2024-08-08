@@ -22,14 +22,12 @@ public class HygieneServicelmpl implements HygieneService {
     public Set<Hygiene> SaveRank(InputStream file)
     {
         List <Hygiene> hygiene= EasyExcel.read(file).sheet().head(Hygiene.class).doReadSync();
-        HashSet<Hygiene> set=new HashSet<>(hygiene);
-        return set;
+        return new HashSet<>(hygiene);
     }
 
     @Override
     public String getDynamicUpdateSql(Hygiene hygiene, String dromaticSql) {
         return "UPDATE coap.hygiene SET " + dromaticSql+"Rank = #{hygiene.Rank}  WHERE Dormitoryid = #{hygiene.Dormitoryid}" ;
-
     }
 
     @Override
@@ -39,8 +37,10 @@ public class HygieneServicelmpl implements HygieneService {
 
     @Override
     public void upData(Set<Hygiene> hygieneList,String weeks) {
+        String []weekList=new String []{" ","First","Second","Third","Fourth","Fifth","Sixth","Seventh","Eighth","Ninth","Tenth","Eleventh","Twelfth","Thirteenth","Fourteenth","Fifteenth","Sixteenth","Seventh","Eighteenth","Nineteenth"};
+        String week=weekList[Integer.parseInt(weeks)];
         for (Hygiene hygiene : hygieneList) {
-            hygieneMapper.insertHygiene(hygiene,weeks);
+            hygieneMapper.insertHygiene(hygiene,week);
         }
     }
 
