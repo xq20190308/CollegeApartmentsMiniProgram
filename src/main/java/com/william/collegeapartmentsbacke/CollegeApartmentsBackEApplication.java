@@ -1,6 +1,8 @@
 package com.william.collegeapartmentsbacke;
 
+
 import org.apache.catalina.connector.Connector;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
@@ -11,6 +13,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableTransactionManagement
 public class CollegeApartmentsBackEApplication {
+
+    @Value("${httpport}")
+    private int httpport;
 
     public static void main(String[] args) {
         SpringApplication.run(CollegeApartmentsBackEApplication.class, args);
@@ -36,7 +41,7 @@ public class CollegeApartmentsBackEApplication {
         //如果connector.setSecure(true)，则http使用http, https使用https; 分离状态，因此设置false
         connector.setSecure(false);
         //http默认端口
-        connector.setPort(80);
+        connector.setPort(httpport);
         //重定向证书端口443，便于http自动跳转https
         connector.setRedirectPort(443);
         return connector;

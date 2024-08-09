@@ -1,11 +1,12 @@
 spring:
   profiles:
-    active: dev2
+    active: dev
 ---
 spring:
   config:
     activate:
       on-profile: dev
+httpport: 80
 server:
   port: 8080
   ##  address: 192.168.0.4
@@ -19,6 +20,7 @@ spring:
   config:
     activate:
       on-profile: dev1
+httpport: 81
 server:
   port: 8081
   ##  address: 192.168.0.4
@@ -32,6 +34,7 @@ spring:
   config:
     activate:
       on-profile: dev2
+httpport: 82
 server:
   port: 8082
 ##  address: 192.168.0.4
@@ -45,7 +48,7 @@ server:
 
 mybatis-plus:
   mapper-locations: classpath:mappers/*.xml
-  type-aliases-package: com.william.collegeapartmentsbacke.mybatis.entity
+  type-aliases-package: com.william.collegeapartmentsbacke.pojo.entity
   configuration:
     map-underscore-to-camel-case: true
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
