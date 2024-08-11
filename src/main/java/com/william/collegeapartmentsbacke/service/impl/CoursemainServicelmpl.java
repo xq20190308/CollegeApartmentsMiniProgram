@@ -20,7 +20,7 @@ public class CoursemainServicelmpl implements CoursemainService {
         public String password = "wyc.1024";
         public String url = "https://jwgl.sdust.edu.cn/app.do";
         public String curWeek = "15";
-        public String curTerm = "2023-2024-2";
+        public String curTerm = "2024-2025-1";
         ////////////////////////////////////////////////////////
 
         public Map<String, String> params = new HashMap<>();
@@ -37,7 +37,6 @@ public class CoursemainServicelmpl implements CoursemainService {
             if(reqResultArr[0].charAt(9) == '0') {
                 System.out.println("登录失败");
                 return false;
-//                System.exit(0);
             }else {
                 this.headers.put("token", reqResultArr[2].substring(9, reqResultArr[2].length()-1));
                 return true;
@@ -54,17 +53,12 @@ public class CoursemainServicelmpl implements CoursemainService {
             this.password=password;
         }
 
-    //        @Override
-//        public CoursemainServicelmpl getStudentInfo() {
-//            this.params.put("method", "getUserInfo");
-//            this.params.put("xh", this.account);
-//            return this;
-//        }
         @Override
         public CoursemainServicelmpl getCurrentTime() {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             this.params.put("method", "getCurrentTime");
             this.params.put("currDate", df.format(new Date()));
+            System.out.println(this.params);
             return this;
         }
         @Override
