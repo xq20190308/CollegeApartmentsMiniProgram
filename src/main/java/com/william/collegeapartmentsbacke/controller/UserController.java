@@ -235,6 +235,7 @@ public class UserController {
         //删除上一次的头像
        User user = userService.findByUserid(userid);
        String avatarUrl = user.getAvatarUrl();
+       log.info("***旧的avatarUrl : {}",avatarUrl);
        if(avatarUrl != null ){
            fileService.DeletefileByUrl(avatarUrl);
        }
