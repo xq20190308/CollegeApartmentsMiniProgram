@@ -5,7 +5,6 @@ import com.william.collegeapartmentsbacke.mapper.NoticeMapper;
 import com.william.collegeapartmentsbacke.mapper.UserMapper;
 import com.william.collegeapartmentsbacke.pojo.dto.NoticeDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Notice;
-import com.william.collegeapartmentsbacke.pojo.entity.Permission;
 import com.william.collegeapartmentsbacke.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-
-import static com.william.collegeapartmentsbacke.common.utils.HttpClientUtil.doPost;
 
 @Service
 public class NoticeServiceImpl implements NoticeService {

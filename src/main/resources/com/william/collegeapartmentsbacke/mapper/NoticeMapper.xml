@@ -44,7 +44,7 @@
 
 
 
-    <select id="search" resultType="com.william.collegeapartmentsbacke.pojo.entity.Notice">
+    <select id="search" resultType="Notice">
         select title,
                content
         from coap.notice

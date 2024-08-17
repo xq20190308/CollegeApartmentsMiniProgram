@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: dev2
 ---
 spring:
   config:
@@ -47,7 +47,7 @@ server:
 
 
 mybatis-plus:
-  mapper-locations: classpath:mappers/*.xml
+#  mapper-locations: classpath:com.william.collegeapartmentsbacke.mapper/**/*.xml
   type-aliases-package: com.william.collegeapartmentsbacke.pojo.entity
   configuration:
     map-underscore-to-camel-case: true
