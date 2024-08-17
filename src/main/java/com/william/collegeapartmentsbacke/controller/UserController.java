@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -229,14 +230,18 @@ public class UserController {
 
 
    @RequestMapping(value = "/uploadavatar",method = RequestMethod.POST)
-   public Result upLoadAvatar(@RequestHeader("Authorization") String token, MultipartFile avatar, HttpServletRequest request) {
+   public Result upLoadAvatar(@RequestHeader("Authorization") String token, MultipartFile avatar, HttpServletRequest request) throws IOException {
         String userid = userService.getUseridFromToken(token);
         //删除上一次的头像
        User user = userService.findByUserid(userid);
        String avatarUrl = user.getAvatarUrl();
+       log.info("***旧的avatarUrl : {}",avatarUrl);
        if(avatarUrl != null ){
            fileService.DeletefileByUrl(avatarUrl);
        }
+       log.info("***avatar : {}",avatar.getOriginalFilename());
+//       log.info("***avatar : {}",avatar.getContentType());
+//       log.info("***avatar : {}",avatar.getBytes());
         Uploadfile savaedFile = fileService.SaveSingleFile(userid,avatar,request);
         userService.updateAvatar(userid,savaedFile.getPath());
 

@@ -5,7 +5,7 @@
 <mapper namespace="com.william.collegeapartmentsbacke.mapper.NoticeMapper">
 
     <!--查询所有通知-->
-    <select id="list" resultType="com.william.collegeapartmentsbacke.pojo.entity.Notice">
+    <select id="list" resultType="Notice">
         select id,
                title,
                content,
@@ -44,7 +44,7 @@
 
 
 
-    <select id="search" resultType="com.william.collegeapartmentsbacke.pojo.entity.Notice">
+    <select id="search" resultType="Notice">
         select title,
                content
         from coap.notice

@@ -9,6 +9,7 @@ import com.william.collegeapartmentsbacke.service.NoticeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -32,19 +33,21 @@ public class NoticeController {
     @NoNeedLogin
     @GetMapping
     public Result list(
-            Integer id,
-            String keyword,
-            String typeName,
-            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_st,
-            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_ed,
-            Boolean isActive) throws IOException {
+        Integer id,
+        String keyword,
+        String typeName,
+        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_st,
+        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_ed,
+        Boolean isActive) throws IOException {
 
-            List<Notice> noticeList = noticeService.list(id,keyword,typeName,publish_time_st,publish_time_ed,isActive);
+        List<Notice> noticeList = noticeService.list(id,keyword,typeName,publish_time_st,publish_time_ed,isActive);
 
 //        log.info("查询全部通知{}",typeName,isActive);
 //        log.info(noticeList.toString());
+        //返回结果
         return Result.success(noticeList);
     }
+
 
     //发布通知
 //    @PostMapping

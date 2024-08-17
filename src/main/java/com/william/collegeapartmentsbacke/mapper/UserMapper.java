@@ -61,7 +61,7 @@ public interface UserMapper {
 
 
     //更新头像
-    @Update("update coap.user set avatar = #{avatarFileId} where userid = #{userid}")
+    @Update("update coap.user set avatar_url = #{avatarFileId} where userid = #{userid}")
     void updateAvatarFileid(String userid, String avatarFileId);
 
 
