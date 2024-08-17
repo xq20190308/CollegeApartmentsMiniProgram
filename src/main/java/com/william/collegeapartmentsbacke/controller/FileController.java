@@ -20,10 +20,10 @@ public class FileController {
     @Autowired
     FileService fileService;
 
-    @GetMapping(value = "/delete")
+    @PostMapping(value = "/delete")
     @NoNeedLogin
     public String deleteFile() {
-        return "delet";
+        return "delete";
     }
 }
 
