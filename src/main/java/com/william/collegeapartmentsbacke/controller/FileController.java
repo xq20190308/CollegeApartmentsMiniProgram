@@ -1,6 +1,7 @@
 package com.william.collegeapartmentsbacke.controller;
 
 import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
+import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.Uploadfile;
 import com.william.collegeapartmentsbacke.pojo.entity.User;
 import com.william.collegeapartmentsbacke.service.FileService;
@@ -26,7 +27,7 @@ public class FileController {
 
     @PostMapping(value = "/updateAvatar")
     @NoNeedLogin
-    public HashMap<String, String> updateAvatar(MultipartFile file, String userid, HttpServletRequest request) {
+    public AjaxResult updateAvatar(MultipartFile file, String userid, HttpServletRequest request) {
         //打印所有的接收到的参数
         log.info("file : {}",file);
         log.info("userid : {}",userid);
@@ -45,11 +46,10 @@ public class FileController {
 
         HashMap<String, String> result = new HashMap<String , String>();
 
-        result.put("url",fileUrl);
-        result.put("fileName",fileUrl);
-        result.put("msg","success");
-        result.put("code","1");
-        return result;
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("url", fileUrl);
+        ajax.put("fileName", fileUrl);//与前端一致
+        return ajax;
     }
 }
 
