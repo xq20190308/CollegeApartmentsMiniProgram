@@ -51,7 +51,7 @@ mybatis-plus:
   type-aliases-package: com.william.collegeapartmentsbacke.pojo.entity
   configuration:
     map-underscore-to-camel-case: true
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
 #
 #logging:
 #  level:
@@ -62,11 +62,12 @@ spring:
     multipart:
       max-file-size: 500MB
       max-request-size: 1GB
-  datasource:
+  datasource: #主数据库
     url: jdbc:mysql://121.41.36.101:13308
     username: root
     password: CollegeApartments!@#123
     driver-class-name: com.mysql.cj.jdbc.Driver
+
 
 zhrc:
   jwt:
