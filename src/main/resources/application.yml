@@ -37,7 +37,7 @@ spring:
 httpport: 82
 server:
   port: 8082
-##  address: 192.168.0.4
+  address: 192.168.188.204
   ssl:
     key-store-password: 045u78eqn9l
     keyStoreType: PKCS12
@@ -58,6 +58,10 @@ mybatis-plus:
 #    com.zoctan.api.mapper : debug
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 1GB
   datasource:
     url: jdbc:mysql://121.41.36.101:13308
     username: root
