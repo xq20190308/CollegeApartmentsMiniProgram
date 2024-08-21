@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @TableName("ruoyi.sys_dict_data")
 public class DictItem {
     @TableId
-    @TableField("dict_code")
     private Long dictCode;
     @TableField("dict_label")
     private String dictLabel;
