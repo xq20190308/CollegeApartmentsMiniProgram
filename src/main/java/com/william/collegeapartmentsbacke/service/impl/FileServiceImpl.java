@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -45,7 +46,12 @@ public class FileServiceImpl implements FileService {
                 String ID = String.valueOf(UUID.randomUUID());
                 // 确保文件名不为空，并且获取文件扩展名
                 String originalFilename = file.getOriginalFilename();
+                log.info("originalFilename:{}",originalFilename);
                 if (originalFilename != null && originalFilename.lastIndexOf(".") != -1) {
+                    // 解码文件名
+                    originalFilename = new String(originalFilename.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+                    log.info("originalFilename:{}",originalFilename);
+
                     String filename = ID + originalFilename.substring(originalFilename.lastIndexOf("."));
                     // 获取文件的MIME类型
                     String filetype = file.getContentType();
