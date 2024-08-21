@@ -1,10 +1,12 @@
 package com.william.collegeapartmentsbacke.service.impl;
 
 import cn.hutool.json.JSONArray;
+import com.william.collegeapartmentsbacke.mapper.AnswerStatisticsMapper;
 import com.william.collegeapartmentsbacke.mapper.QuestionnaireAnswerMapper;
 import com.william.collegeapartmentsbacke.pojo.dto.AnswerCountDTO;
 import com.william.collegeapartmentsbacke.pojo.dto.AnswerDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.AnswerCount;
+import com.william.collegeapartmentsbacke.pojo.entity.AnswerStatistics;
 import com.william.collegeapartmentsbacke.pojo.entity.Question;
 import com.william.collegeapartmentsbacke.pojo.entity.QuestionnaireAnswer;
 import com.william.collegeapartmentsbacke.service.QuestionService;
@@ -24,6 +26,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     private QuestionnaireAnswerMapper questionnaireAnswerMapper;
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private AnswerStatisticsMapper answerStatisticsMapper;
 
 
     //插入的同时返回插入的id
@@ -54,6 +58,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         List<Question> questionList = questionService.selectByQuestionnaireId(naireid);
         //存储问题回答情况统计
         List<AnswerCount> answerCountList = new ArrayList<>();
+
         //初始化问题回答情况，将每个单选题，多选题每个选项的回答人数初始化为0
         for(Question question : questionList) {
             log.info(question.toString());
@@ -134,6 +139,32 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         for(AnswerCount answerCount : answerCountList) {
             log.info(answerCount.toString());
         }
+
+//        log.info("往数据库存储的统计如下");
+        List<AnswerStatistics> answerStatisticsList = new ArrayList<>();
+        for(AnswerCount answerCount : answerCountList) {
+            //跳过问答题
+            if (answerCount.getAnswerType() == 3)
+                continue;
+            AnswerStatistics answerStatistics = new AnswerStatistics();
+            answerStatistics.setNaireId(naireid);
+            answerStatistics.setQuestionId(answerCount.getQuestionId());
+            answerStatistics.setAnswerType(answerCount.getAnswerType());
+            StringBuffer sb = new StringBuffer();
+            for (Integer choiceCount : answerCount.getChoiceSumList()) {
+                // 如果不是第一个元素，则添加逗号作为分隔符
+                if (sb.length() > 0) {
+                    sb.append(",");
+                }
+                // 将当前计数添加到 StringBuilder 中
+                sb.append(choiceCount);
+            }
+            answerStatistics.setChoiceCount(sb.toString());
+            answerStatisticsList.add(answerStatistics);
+        }
+//        log.info(answerStatisticsList.toString());
+        answerStatisticsMapper.batchInsert(answerStatisticsList);
+
         //生成返回给前端的数据
         answerCountDTO.setNumOfAnswers(answerDTOList.size());
         answerCountDTO.setAnswerCountList(answerCountList);
