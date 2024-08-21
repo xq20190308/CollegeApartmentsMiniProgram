@@ -164,6 +164,7 @@ public class QuestionnaireController {
         return Result.success(questionnaireAwswerVO);
     }
 
+
     @RequestMapping(value = "/useranswer/anssum",method = RequestMethod.GET)
     public Result AnsSum(@RequestHeader("Authorization") String token, @RequestParam Integer questionnaireId) {
         AnswerCountDTO answerCountList = questionnaireAnswerService.answerSummery(questionnaireId);

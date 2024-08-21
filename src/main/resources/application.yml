@@ -67,6 +67,11 @@ spring:
     username: root
     password: CollegeApartments!@#123
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      test-on-borrow: true
 
 
 zhrc:
