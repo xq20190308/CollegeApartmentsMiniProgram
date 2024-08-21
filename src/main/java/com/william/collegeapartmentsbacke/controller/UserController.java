@@ -206,7 +206,7 @@ public class UserController {
         String avatarUrl = user.getAvatarUrl();
         if(avatarUrl == null || "".equals(avatarUrl)){
 //            返回默认头像
-            avatarUrl =  "https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg";
+            avatarUrl =  "https://william.fit:8082/static/default.jpg";
         }
         UserVO userVO = UserVO.builder()
                 .id(user.getId())
