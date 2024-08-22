@@ -63,15 +63,21 @@ public class FileController {
     //删除服务器的头像
     @PostMapping(value = "/deleteAvatar")
     @NoNeedLogin
-    public AjaxResult deleteAvatar(String userid, HttpServletRequest request) {
-        //打印所有的接收到的参数
-        log.info("userid : {}",userid);
-        //删除头像
-        User user = userService.findByUserid(userid);
-        String avatarUrl = user.getAvatarUrl();
-        if(avatarUrl != null ){
-            fileService.DeletefileByUrl(avatarUrl);
-            fileMapper.deletefile(avatarUrl);//删fileDate库
+    public AjaxResult deleteAvatar(@RequestParam("ids") Long[] ids, HttpServletRequest request) {
+        for (Long userid : ids){
+            //打印所有的接收到的参数
+            log.info("userid : {}", userid);
+            //删除头像
+            User user = userService.findById(userid);
+            String avatarUrl = user.getAvatarUrl();
+            if (avatarUrl != null && !avatarUrl.equals(defaultConfig.getAvatarUrl())) {
+                log.info("avatarUrl : {}", avatarUrl);
+                fileService.DeletefileByUrl(avatarUrl);
+                int i = fileMapper.deletefile(avatarUrl);//删fileDate库
+                log.info("删除数i : {}", i);
+            }else{
+                log.info("不用删");
+            }
         }
         return AjaxResult.success();
     }
