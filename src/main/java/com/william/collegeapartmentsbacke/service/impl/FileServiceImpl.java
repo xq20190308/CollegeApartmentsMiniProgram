@@ -102,6 +102,7 @@ public class FileServiceImpl implements FileService {
         log.info("filename:{}",filename);
         String filepath=localFileUrl+filename;
         Path path= Paths.get(filepath);
+        log.info("filepath:{}",filepath);
         try{
             if(Files.exists(path)) {
                 Files.delete(path);

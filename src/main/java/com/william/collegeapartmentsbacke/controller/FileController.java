@@ -1,6 +1,8 @@
 package com.william.collegeapartmentsbacke.controller;
 
 import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
+import com.william.collegeapartmentsbacke.config.DefaultConfig;
+import com.william.collegeapartmentsbacke.mapper.FileMapper;
 import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.Uploadfile;
@@ -26,6 +28,10 @@ public class FileController {
     FileService fileService;
     @Autowired
     UserService userService;
+    @Autowired
+    private FileMapper fileMapper;
+    @Autowired
+    private DefaultConfig defaultConfig;
 
     @PostMapping(value = "/updateAvatar")
     @NoNeedLogin
@@ -37,8 +43,10 @@ public class FileController {
         //删除上一次的头像
         User user = userService.findByUserid(userid);
         String avatarUrl = user.getAvatarUrl();
-        if(avatarUrl != null ){
-            fileService.DeletefileByUrl(avatarUrl);
+        log.info("avatarUrl : {}",avatarUrl);
+        if(avatarUrl != null && !avatarUrl.equals(defaultConfig.getAvatarUrl())){
+            fileService.DeletefileByUrl(avatarUrl);//删服务器
+            fileMapper.deletefile(avatarUrl);//删fileDate库
         }
         Uploadfile savaedFile = fileService.SaveSingleFile(userid,file,request);
         userService.updateAvatar(userid,savaedFile.getPath());
@@ -50,6 +58,22 @@ public class FileController {
         ajax.put("url", fileUrl);
         ajax.put("fileName", fileUrl);//与前端一致
         return ajax;
+    }
+
+    //删除服务器的头像
+    @PostMapping(value = "/deleteAvatar")
+    @NoNeedLogin
+    public AjaxResult deleteAvatar(String userid, HttpServletRequest request) {
+        //打印所有的接收到的参数
+        log.info("userid : {}",userid);
+        //删除头像
+        User user = userService.findByUserid(userid);
+        String avatarUrl = user.getAvatarUrl();
+        if(avatarUrl != null ){
+            fileService.DeletefileByUrl(avatarUrl);
+            fileMapper.deletefile(avatarUrl);//删fileDate库
+        }
+        return AjaxResult.success();
     }
 
     //上传文件
