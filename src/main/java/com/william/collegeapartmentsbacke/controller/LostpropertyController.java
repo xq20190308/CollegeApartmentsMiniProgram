@@ -1,5 +1,4 @@
 package com.william.collegeapartmentsbacke.controller;
-
 import com.william.collegeapartmentsbacke.pojo.entity.Itemdata;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.service.FileService;
@@ -40,6 +39,19 @@ public class LostpropertyController {
         List<Itemdata> itemdata= lostpropertyService.getItemdata(category);
         return Result.success(itemdata);
     }
+
+    @GetMapping("/getMydata/{id}")
+    public Result SelectMydata(@PathVariable ("id") String id)
+    {
+        List<Itemdata> itemdata= lostpropertyService.getUserItemdata(id);
+        return Result.success(itemdata);
+    }
+//    @GetMapping("/getydata/{category}")
+//    public Result SelectData(@PathVariable("category") String category)
+//    {
+//        List<Itemdata> itemdata= lostpropertyService.getItemdata(category);
+//        return Result.success(itemdata);
+//    }
 
     @PostMapping("/updateStatus")
     public Result updateStatus(@RequestBody Itemdata itemdata)

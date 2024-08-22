@@ -122,9 +122,4 @@ public class FileServiceImpl implements FileService {
     public String SelectfileById(String id) {
         return fileMapper.selectfile(id);
     }
-
-
-
-
-
 }

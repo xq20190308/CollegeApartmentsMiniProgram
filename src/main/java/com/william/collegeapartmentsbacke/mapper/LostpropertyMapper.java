@@ -16,6 +16,9 @@ public interface LostpropertyMapper {
     @Select("select * from coap.lostproperty where category=#{category} and status=1")
     List<Itemdata> selectAll(String category);
 
+    @Select("select * from coap.lostproperty where stuid=#{stuid} and status=1")
+    List<Itemdata> selectUserAll(String stuid);
+
     @Update("update  coap.lostproperty set status=#{status} where id=#{id}")
     void updateAll(Itemdata itemdata);
 
