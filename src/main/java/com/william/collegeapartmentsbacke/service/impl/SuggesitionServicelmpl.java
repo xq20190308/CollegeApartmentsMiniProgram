@@ -41,7 +41,7 @@ public class SuggesitionServicelmpl implements SuggestionService {
 //            suggestion.setUrlpath(Path);
 //        }
         suggestion.setPushtime(pushtime);
-        suggestion.setStatus(0);
+        suggestion.setStatus("1");
         suggestionmapper.submit(suggestion);
         }
 

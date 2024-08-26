@@ -9,10 +9,17 @@ import com.william.collegeapartmentsbacke.service.NoticeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.william.collegeapartmentsbacke.common.utils.HttpClientUtil.doPost;
+
 
 @Slf4j
 @RestController
@@ -26,19 +33,21 @@ public class NoticeController {
     @NoNeedLogin
     @GetMapping
     public Result list(
-            Integer id,
-            String keyword,
-            String typeName,
-            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_st,
-            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_ed,
-            Boolean isActive){
-        log.info("isActive{}", isActive);
+        Integer id,
+        String keyword,
+        String typeName,
+        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_st,
+        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_ed,
+        Boolean isActive) throws IOException {
+
         List<Notice> noticeList = noticeService.list(id,keyword,typeName,publish_time_st,publish_time_ed,isActive);
 
-        log.info("查询全部通知{}",typeName,isActive);
+//        log.info("查询全部通知{}",typeName,isActive);
 //        log.info(noticeList.toString());
+        //返回结果
         return Result.success(noticeList);
     }
+
 
     //发布通知
 //    @PostMapping
@@ -72,7 +81,7 @@ public class NoticeController {
 
     @PostMapping("/modify")
     public Result modifyNotice(@RequestBody Notice notice){
-        log.info("更新数据 Notice:{}",notice.toString());
+//        log.info("更新数据 Notice:{}",notice.toString());
         noticeService.modifyNotice(notice);
         return Result.success();
     }
@@ -80,7 +89,7 @@ public class NoticeController {
     @DeleteMapping("/{ids}")
     public Result deleteNotice(@PathVariable List<Integer> ids)
     {
-        log.info("彻底删除操作, ids:{}",ids);
+//        log.info("彻底删除操作, ids:{}",ids);
         noticeService.deleteNotice(ids);
         return Result.success();
     }

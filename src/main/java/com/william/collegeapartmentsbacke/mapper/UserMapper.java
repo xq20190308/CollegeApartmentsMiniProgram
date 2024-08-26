@@ -18,7 +18,7 @@ public interface UserMapper {
     User getLastestUser();
 
     //通过权限获取用户，主要是获取老师信息
-    @Select("select * from coap.user where user_level = #{userLevel} order by name")
+    @Select("select * from coap.user where user_level = #{userLevel} order by true_name")
     List<User> getByUserLevel(String userLevel);
 
     @Select("select * from coap.user where username = #{username}")
@@ -27,11 +27,20 @@ public interface UserMapper {
     @Select("select password from coap.user where username = #{username}")
     String findPwdByUsername(String username);
 
+    @Select("select openid from coap.user where userid = #{username}")
+    String findOpenidByUsername(String username);
+
+    @Select("select * from coap.user where id = #{id}")
+    User getUserById(Long id);
+
     @Select("select userid from coap.user where class_id = #{classId}")
     List<String> findUserByClassId(String classId);
 
-    @Select("select userid from coap.user where domitory = #{domitory}")
-    List<String> findUsersByDomitory(String domitory);
+    @Select("select userid from coap.user where dormitory = #{dormitory}")
+    List<String> findUsersByDormitory(String dormitory);
+
+    @Select("select user_id from coap.user_school_info where campus_id = #{campusId}")
+    List<String> findUsersBycampusId(String campusId);
 
     //查询用户权限
     @Select("select p.* from coap.user_permission p join coap.user u on p.user_level = u.user_level where u.userid = #{userId}")
@@ -55,7 +64,7 @@ public interface UserMapper {
 
 
     //更新头像
-    @Update("update coap.user set avatar = #{avatarFileId} where userid = #{userid}")
+    @Update("update coap.user set avatar_url = #{avatarFileId} where userid = #{userid}")
     void updateAvatarFileid(String userid, String avatarFileId);
 
 

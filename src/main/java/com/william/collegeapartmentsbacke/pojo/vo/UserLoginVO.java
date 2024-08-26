@@ -1,6 +1,7 @@
 package com.william.collegeapartmentsbacke.pojo.vo;
 
 import com.william.collegeapartmentsbacke.pojo.entity.Permission;
+import com.william.collegeapartmentsbacke.pojo.entity.StuClassInfoDTO;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,5 +18,11 @@ public class UserLoginVO implements Serializable {
     private String phone;
     private Permission userPermission;
     private String token;
+    private String avatarUrl;
+    private String dormitory;
+    private StuClassInfoDTO classInfo;
+    private String email;
+    private String userLevel;
+    //加一个level 加ba
 
 }

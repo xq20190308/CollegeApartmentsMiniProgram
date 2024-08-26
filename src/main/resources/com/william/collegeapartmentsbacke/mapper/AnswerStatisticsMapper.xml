@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.william.collegeapartmentsbacke.mapper.AnswerStatisticsMapper">
+
+    <!-- 批量插入统计结果 -->
+    <!-- 批量插入统计结果 -->
+    <insert id="batchInsert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO coap.answer_statistics (naire_id, question_id, answer_type, choice_count, updated_at)
+        VALUES
+        <foreach collection="answerStatisticsList" item="item" index="index" separator=",">
+            (#{item.naireId}, #{item.questionId}, #{item.answerType}, #{item.choiceCount} ,Now())
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        naire_id = VALUES(naire_id),
+        answer_type = VALUES(answer_type),
+        choice_count = VALUES(choice_count),
+        updated_at = NOW()
+    </insert>
+
+</mapper>

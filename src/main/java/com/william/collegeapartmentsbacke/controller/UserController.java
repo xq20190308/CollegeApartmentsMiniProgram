@@ -8,7 +8,9 @@ import com.william.collegeapartmentsbacke.pojo.entity.*;
 import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
 import com.william.collegeapartmentsbacke.pojo.vo.ContactInfoVO;
 import com.william.collegeapartmentsbacke.pojo.vo.UserLoginVO;
+import com.william.collegeapartmentsbacke.pojo.vo.UserVO;
 import com.william.collegeapartmentsbacke.service.FileService;
+import com.william.collegeapartmentsbacke.service.SchoolnfoService;
 import com.william.collegeapartmentsbacke.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -17,9 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/user")
@@ -31,7 +35,8 @@ public class UserController {
     private JwtProperties jwtProperties;
     @Autowired
     private FileService fileService;
-
+    @Autowired
+    private SchoolnfoService schoolnfoService;
 
     @NoNeedLogin
     @RequestMapping(value = "loginInnerTest", method = RequestMethod.POST)
@@ -58,16 +63,28 @@ public class UserController {
         }};
         String token = JwtUtil.createJWT(jwtProperties.getSecretKey(), jwtProperties.getTtl(), claims);
         //返回给前端的数据
+
+        String avatarUrl = user.getAvatarUrl();
+        if(avatarUrl == null || "".equals(avatarUrl)){
+//            返回默认头像
+            avatarUrl =  "https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg";
+        }
+        //后面会改成服务器上的图片
+        StuClassInfoDTO stuClassInfo = schoolnfoService.getStuClassInfoByUserIdBetter(user.getUserid());
         Permission permission = userService.getPermissionByUserid(user.getUserid());
         UserLoginVO userLoginVO = UserLoginVO.builder()
                 .id(user.getId())
                 .openid(user.getOpenid())
                 .username(user.getUsername())
-                .trueName(user.getName())
+                .trueName(user.getTrueName())
                 .userid(user.getUserid())
                 .phone(user.getPhone())
                 .userPermission(permission)
                 .token(token)
+                .avatarUrl(avatarUrl)
+                .dormitory(user.getDormitory())
+                .classInfo(stuClassInfo)
+                .email("暂时还没写")
                 .build();
         //id,token
         log.info("测试登录返回给前端："+userLoginVO.toString());
@@ -124,11 +141,12 @@ public class UserController {
                 .id(user.getId())
                 .openid(user.getOpenid())
                 .username(user.getUsername())
-                .trueName(user.getName())
+                .trueName(user.getTrueName())
                 .userid(user.getUserid())
                 .phone(user.getPhone())
                 .userPermission(permission)
                 .token(token)
+                .userLevel(user.getUserLevel())
                 .build();
         //id,token
         log.info("返回给前端："+userLoginVO.toString());
@@ -183,30 +201,49 @@ public class UserController {
     public Result findByUserid(@RequestHeader("Authorization") String token,String userid){
         String userLevel = userService.getUserLevleFromToken(token);
         User user = userService.findByUserid(userid);
-        if(userLevel == "0" || userLevel =="1")
+        StuClassInfoDTO stuClassInfo = schoolnfoService.getStuClassInfoByUserIdBetter(user.getUserid());
+        Permission permission = userService.getPermissionByUserid(user.getUserid());
+        String avatarUrl = user.getAvatarUrl();
+        if(avatarUrl == null || "".equals(avatarUrl)){
+//            返回默认头像
+            avatarUrl =  "https://william.fit:8082/static/default.jpg";
+        }
+        UserVO userVO = UserVO.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .trueName(user.getTrueName())
+                .userid(user.getUserid())
+                .phone(user.getPhone())
+                .avatarUrl(user.getAvatarUrl())
+                .dormitory(user.getDormitory())
+                .classInfo(stuClassInfo)
+                .email("无")
+                .build();
+        if(Objects.equals(userLevel, "0") || Objects.equals(userLevel, "1"))
         {
-            return Result.success(user);
+            userVO.setOpenid(user.getOpenid());
+            userVO.setUserLevel(user.getUserLevel());
+            userVO.setUserPermission(permission);
         }
-        else {
-            user.setPassword(null);
-            return Result.success(user);
-        }
+        return Result.success(userVO);
     }
 
 
    @RequestMapping(value = "/uploadavatar",method = RequestMethod.POST)
-   public Result upLoadAvatar(@RequestHeader("Authorization") String token, MultipartFile avatar, HttpServletRequest request) {
+   public Result upLoadAvatar(@RequestHeader("Authorization") String token, MultipartFile avatar, HttpServletRequest request) throws IOException {
         String userid = userService.getUseridFromToken(token);
-
         //删除上一次的头像
        User user = userService.findByUserid(userid);
-       String avatarUrl = user.getAvatar();
-       if(avatar != null ){
+       String avatarUrl = user.getAvatarUrl();
+       log.info("***旧的avatarUrl : {}",avatarUrl);
+       if(avatarUrl != null ){
            fileService.DeletefileByUrl(avatarUrl);
        }
+       log.info("***avatar : {}",avatar.getOriginalFilename());
+//       log.info("***avatar : {}",avatar.getContentType());
+//       log.info("***avatar : {}",avatar.getBytes());
         Uploadfile savaedFile = fileService.SaveSingleFile(userid,avatar,request);
-        String avatarFileId = savaedFile.getId();
-        userService.updateAvatar(userid,avatarFileId);
+        userService.updateAvatar(userid,savaedFile.getPath());
 
         String fileUrl = savaedFile.getPath();
         log.info("fileUrl : {}",fileUrl);
@@ -223,17 +260,13 @@ public class UserController {
             userid = otherUserid;
        }
         User user = userService.findByUserid(userid);
-        String avatarFileId = user.getAvatar();
+        String avatarUrl = user.getAvatarUrl();
         //暂时返回网络头像,其实应该在User表的avatar存一个默认File的id
-       if(avatarFileId == null || "".equals(avatarFileId)){
+       if(avatarUrl == null || "".equals(avatarUrl)){
 //            返回默认头像
            return Result.success("https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg");
        }else
        {
-           String avatarUrl = fileService.SelectfileById(avatarFileId);
-           if(avatarUrl == null || "".equals(avatarUrl)){
-               return Result.error("头像不存在");
-           }
            log.info("avatar : {}",avatarUrl);
            return Result.success(avatarUrl);
        }
@@ -255,6 +288,7 @@ public class UserController {
        return Result.success();
    }
 
+   
    @RequestMapping(value = "/updateLevelByUserid/{userid}",method = RequestMethod.POST)
     public Result updateLevelByUserid(@PathVariable String userid, @RequestBody User user) {
         if (userid == null) {
@@ -269,6 +303,7 @@ public class UserController {
        return Result.success();
    }
 
+
    @RequestMapping(value = "/initOpenidByUserid/{userid}",method = RequestMethod.POST)
     public Result intiOpenidByUserid(@PathVariable String userid) {
         if (userid == null) {
@@ -277,9 +312,6 @@ public class UserController {
         userService.initOpenidByUserid(userid);
         return Result.success();
    }
-
-
-
 
 }
 

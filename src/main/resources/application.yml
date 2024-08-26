@@ -1,23 +1,78 @@
+spring:
+  profiles:
+    active: dev2
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+httpport: 80
 server:
   port: 8080
-#  address: 192.168.168.218
+  ##  address: 192.168.0.4
+  ssl:
+    key-store-password: 045u78eqn9l
+    keyStoreType: PKCS12
+    key-alias: william.fit
+    key-store: classpath:william.fit.pfx
+---
+spring:
+  config:
+    activate:
+      on-profile: dev1
+httpport: 81
+server:
+  port: 8081
+  ##  address: 192.168.0.4
+  ssl:
+    key-store-password: 045u78eqn9l
+    keyStoreType: PKCS12
+    key-alias: william.fit
+    key-store: classpath:william.fit.pfx
+---
+spring:
+  config:
+    activate:
+      on-profile: dev2
+httpport: 82
+server:
+  port: 8082
+#  address: 192.168.188.204
+  ssl:
+    key-store-password: 045u78eqn9l
+    keyStoreType: PKCS12
+    key-alias: william.fit
+    key-store: classpath:william.fit.pfx
+---
+
 
 mybatis-plus:
-  mapper-locations: classpath:mappers/*.xml
-  type-aliases-package: com.william.collegeapartmentsbacke.mybatis.entity
+#  mapper-locations: classpath:com.william.collegeapartmentsbacke.mapper/**/*.xml
+  type-aliases-package: com.william.collegeapartmentsbacke.pojo.entity
   configuration:
     map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+#
+#logging:
+#  level:
+#    com.zoctan.api.mapper : debug
 
-logging:
-  level:
-    com.zoctan.api.mapper : debug
 spring:
-  datasource:
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 1GB
+  datasource: #主数据库
     url: jdbc:mysql://121.41.36.101:13308
     username: root
     password: CollegeApartments!@#123
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      test-on-borrow: true
+
 
 zhrc:
   jwt:
@@ -28,5 +83,10 @@ zhrc:
   wechat:
     appid: wx3b5ec6e4e336f19e
     secret: adb45243c65766fca8e5c94454a39ef0
-localFileUrl : E:/static/
+localFileUrl : D:/back/static/
 mapFileUrl : /static/
+defaults:
+  password: "123456"
+  userLevel: "2"
+  avatarUrl: "D:/back/static/default.jpg"
+

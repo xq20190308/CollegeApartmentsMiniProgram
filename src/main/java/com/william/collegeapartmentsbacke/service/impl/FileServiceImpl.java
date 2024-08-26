@@ -16,12 +16,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
 @Slf4j
 @Service
 public class FileServiceImpl implements FileService {
@@ -44,7 +46,12 @@ public class FileServiceImpl implements FileService {
                 String ID = String.valueOf(UUID.randomUUID());
                 // 确保文件名不为空，并且获取文件扩展名
                 String originalFilename = file.getOriginalFilename();
+                log.info("originalFilename:{}",originalFilename);
                 if (originalFilename != null && originalFilename.lastIndexOf(".") != -1) {
+                    // 解码文件名
+                    originalFilename = new String(originalFilename.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+                    log.info("originalFilename:{}",originalFilename);
+
                     String filename = ID + originalFilename.substring(originalFilename.lastIndexOf("."));
                     // 获取文件的MIME类型
                     String filetype = file.getContentType();
@@ -92,9 +99,10 @@ public class FileServiceImpl implements FileService {
     public String DeletefileByUrl(String Url)
     {
         String filename = Url.substring(Url.lastIndexOf("/")+1);
-        log.info(filename);
+        log.info("filename:{}",filename);
         String filepath=localFileUrl+filename;
         Path path= Paths.get(filepath);
+        log.info("filepath:{}",filepath);
         try{
             if(Files.exists(path)) {
                 Files.delete(path);

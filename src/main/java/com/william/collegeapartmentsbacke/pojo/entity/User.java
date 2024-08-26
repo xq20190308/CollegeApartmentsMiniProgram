@@ -16,6 +16,7 @@
 
 package com.william.collegeapartmentsbacke.pojo.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,9 @@ import lombok.NoArgsConstructor;
 import com.william.collegeapartmentsbacke.common.utils.PinyinUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+import org.springframework.context.annotation.Bean;
+
+import java.io.Serializable;
 
 @Slf4j
 
@@ -35,11 +39,12 @@ public class User implements Comparable<User>{
     private String openid;
     private String username;
     private String password;
-    private String name;
+    private String trueName;
     private String userid;
     private String phone;
-    private String avatar;
+    private String avatarUrl;
     private String userLevel;
+    private String dormitory;
 
     /**
      * @param o the object to be compared.
@@ -52,21 +57,21 @@ public class User implements Comparable<User>{
 //        pinyinOfName1 = this.getName();
 //        pinyinOfName2 = o.getName();
         try {
-            if(PinyinUtil.isEnglish(this.getName()))
+            if(PinyinUtil.isEnglish(this.getTrueName()))
             {
-                pinyinOfName1 = this.getName().toUpperCase();
+                pinyinOfName1 = this.getTrueName().toUpperCase();
             }
             else
             {
-                pinyinOfName1 = PinyinUtil.toPinyin(this.getName());
+                pinyinOfName1 = PinyinUtil.toPinyin(this.getTrueName());
             }
-            if(PinyinUtil.isEnglish(o.getName()))
+            if(PinyinUtil.isEnglish(o.getTrueName()))
             {
-                pinyinOfName2 = o.getName().toUpperCase();
+                pinyinOfName2 = o.getTrueName().toUpperCase();
             }
             else
             {
-                pinyinOfName2 = PinyinUtil.toPinyin(o.getName());
+                pinyinOfName2 = PinyinUtil.toPinyin(o.getTrueName());
             }
             log.info("pinyinOfName1:" + pinyinOfName1);
             log.info("pinyinOfName2:" + pinyinOfName2);

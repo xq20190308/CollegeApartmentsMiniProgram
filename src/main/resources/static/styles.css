@@ -1,0 +1,106 @@
+/* 基本重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 页面背景色 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* 头部样式 */
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+header h1 {
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 14px;
+}
+
+/* 导航样式 */
+nav {
+    background-color: #555;
+    overflow: hidden;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav li {
+    float: left;
+}
+
+nav a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    background-color: #111;
+}
+
+/* 主体内容样式 */
+main {
+    margin: 20px;
+}
+
+section {
+    margin-bottom: 20px;
+}
+
+section h2 {
+    margin-bottom: 10px;
+}
+
+/* 侧边栏样式 */
+aside {
+    float: right;
+    width: 25%;
+    padding: 20px;
+    background-color: #e9e9e9;
+    margin: 20px;
+}
+
+aside h3 {
+    margin-bottom: 10px;
+}
+
+/* 页脚样式 */
+footer {
+    background-color: #333;
+    color: #aaa;
+    text-align: center;
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p,a{
+    font-size: 14px;
+    color: #e9e9e9;
+}
+
+/* 清除浮动 */
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}

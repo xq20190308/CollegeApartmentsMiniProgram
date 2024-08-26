@@ -3,6 +3,8 @@ package com.william.collegeapartmentsbacke.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.william.collegeapartmentsbacke.mapper.ClientMessageMapper;
 import com.william.collegeapartmentsbacke.mapper.UserMapper;
+import com.william.collegeapartmentsbacke.mapper.SchoolInfoMapper;
+import com.william.collegeapartmentsbacke.pojo.dto.schoolInfo.SchoolInfo;
 import com.william.collegeapartmentsbacke.pojo.entity.ClientMessage;
 import com.william.collegeapartmentsbacke.pojo.entity.ClientSessionBean;
 import com.william.collegeapartmentsbacke.pojo.dto.MessageDTO;
@@ -30,6 +32,9 @@ public class WebsocketServiceImpl implements WebsocketService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private SchoolInfoMapper schoolInfoMapper;
 
 
 
@@ -60,31 +65,52 @@ public class WebsocketServiceImpl implements WebsocketService {
         //说明是单发消息
         String data = obj.get("data").toString();
         LocalDateTime sendTime = LocalDateTime.now();
+        //按单人发送
         if(type == 0){
             String singleUser = obj.get("receiver").toString();
             log.info("消息type为 0 给{}发的。",singleUser);
             ClientMessage clientMessage = new ClientMessage(null,userId,type,data,sendTime, singleUser,true);
             sendMessage(clientMessage);
         }
+        //自由群发 校区-年级-学院-专业-班级
         else if(type == 1){
-            String classId = obj.get("receiver").toString();
-            List<String> userIds = userMapper.findUserByClassId(classId);
-            log.info("消息type为1，群发了给{}，消息内容：{}",userIds.toString(),data);
+            JSONObject schoolInfoObj = obj.getJSONObject("receiver");
+            Integer campusId = Integer.parseInt(schoolInfoObj.get("campusId").toString());
+            Integer gradeId = Integer.parseInt(schoolInfoObj.get("gradeId").toString());
+            Integer collegeId = Integer.parseInt(schoolInfoObj.get("collegeId").toString());
+            Integer majorId = Integer.parseInt(schoolInfoObj.get("majorId").toString());
+            Integer classId = Integer.parseInt(schoolInfoObj.get("classId").toString());
+            SchoolInfo schoolInfo = new SchoolInfo(campusId,gradeId,collegeId,majorId,classId);
+            log.info("schoolInfo: {}", schoolInfo);
+            List<String> userIds = schoolInfoMapper.selectUserIdBySchoolInfo(schoolInfo);
+            for(String userid : userIds){
+                ClientMessage ClientMessage = new ClientMessage(null,userId,type,data,sendTime, userid,true);
+                sendMessage(ClientMessage);
+
+            }
+        }
+        else if(type == 2){
+            JSONObject dormitoryInfo = JSONObject.parseObject(obj.get("receiver").toString());
+            String dormitoryName=dormitoryInfo.get("dormitoryName").toString();
+            String campusId=dormitoryInfo.get("campusId").toString();
+            List<String> userIds = userMapper.findUsersByDormitory(dormitoryName);
+            userIds.retainAll(userMapper.findUsersBycampusId(campusId));
+            log.info("消息type为2，群发了给{}，消息内容：{}",userIds.toString(),data);
             for(String userid : userIds){
                 ClientMessage ClientMessage = new ClientMessage(null,userId,type,data,sendTime, userid,true);
                 sendMessage(ClientMessage);
             }
         }
-        else if(type == 2){
-            String domitoryId = obj.get("receiver").toString();
-            List<String> userIds = userMapper.findUsersByDomitory(domitoryId);
-            log.info("消息type为2，群发了给{}，消息内容：{}",userIds.toString(),data);
-            for(String userid : userIds){
-                ClientMessage ClientMessage = new ClientMessage(null,userid,type,data,sendTime, userid,true);
-                sendMessage(ClientMessage);
-            }
-        }
-
+//        else if(type == 3){
+//            String classId = obj.get("receiver").toString();
+//            List<String> userIds = userMapper.findUserByClassId(classId);
+//            log.info("消息type为1，群发了给{}，消息内容：{}",userIds.toString(),data);
+//            for(String userid : userIds){
+//                ClientMessage ClientMessage = new ClientMessage(null,userId,type,data,sendTime, userid,true);
+//                sendMessage(ClientMessage);
+//            }
+//        }
+        //按宿舍发送
     }
 
     @Override

@@ -6,7 +6,7 @@
 
 
     <insert id="insert">
-        insert into coap.user (openid, username, password, name, userid ,phone, avatar, user_level)
-        values (#{openid}, #{username}, #{password}, #{name}, #{userid}, #{phone},#{avatar},#{userLevel})
+        insert into coap.user (openid, username, password, name, userid ,phone, avatar_url, user_level)
+        values (#{openid}, #{username}, #{password}, #{name}, #{userid}, #{phone},#{avatarURL},#{userLevel})
     </insert>
 </mapper>

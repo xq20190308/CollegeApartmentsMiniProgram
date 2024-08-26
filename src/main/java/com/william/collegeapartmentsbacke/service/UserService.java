@@ -18,6 +18,7 @@ public interface UserService {
     User findByOpenid(String openid);
 
     User findByUserid(String username);
+    User findById(Long id);
 
     User findByUsername(String username);
 
