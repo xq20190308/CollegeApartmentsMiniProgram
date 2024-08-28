@@ -16,7 +16,7 @@
         naire_id = VALUES(naire_id),
         answer_type = VALUES(answer_type),
         choice_count = VALUES(choice_count),
-        updated_at = NOW()
+        updated_at =  CURRENT_TIMESTAMP
     </insert>
 
 </mapper>
