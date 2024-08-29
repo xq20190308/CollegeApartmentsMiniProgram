@@ -126,11 +126,12 @@ public class HttpClientUtil {
      * @return
      * @throws IOException
      */
-    public static String doPost4Json(String url, Map<String, String> paramMap) throws IOException {
+    public static String doPost4Json(String url, Map<String, Object> paramMap) throws IOException {
         // 创建Httpclient对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
         CloseableHttpResponse response = null;
         String resultString = "";
+        System.out.println("paramMap:"+ JSON.toJSONString(paramMap));
 
         try {
             // 创建Http Post请求
@@ -139,9 +140,10 @@ public class HttpClientUtil {
             if (paramMap != null) {
                 //构造json格式数据
                 JSONObject jsonObject = new JSONObject();
-                for (Map.Entry<String, String> param : paramMap.entrySet()) {
+                for (Map.Entry<String, Object> param : paramMap.entrySet()) {
                     jsonObject.put(param.getKey(),param.getValue());
                 }
+                System.out.println("json:"+jsonObject);
                 StringEntity entity = new StringEntity(jsonObject.toString(),"utf-8");
                 //设置请求编码
                 entity.setContentEncoding("utf-8");
@@ -166,7 +168,7 @@ public class HttpClientUtil {
                 e.printStackTrace();
             }
         }
-
+        System.out.println("return resultString:"+resultString);
         return resultString;
     }
     private static RequestConfig builderRequestConfig() {
