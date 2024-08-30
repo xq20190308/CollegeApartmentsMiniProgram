@@ -22,6 +22,9 @@ public interface LostpropertyMapper {
     @Update("update  coap.lostproperty set status=#{status} where id=#{id}")
     void updateAll(Itemdata itemdata);
 
+    @Update("update coap.lostproperty set solve=#{solve} where id=#{id}")
+    void updateSolve(Integer id,Integer solve);
+
     @Delete("delete from coap.lostproperty where id=#{id}")
     void deleteData(Integer id);
 }

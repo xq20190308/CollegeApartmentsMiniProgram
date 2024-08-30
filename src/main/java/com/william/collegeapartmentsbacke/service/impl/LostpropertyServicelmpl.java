@@ -36,8 +36,15 @@ public class LostpropertyServicelmpl implements LostpropertyService {
     public List<Itemdata> getUserItemdata(String stuid) {
         return lostpropertyMapper.selectUserAll(stuid);
     }
+
+    @Override
+    public void updateSolve(Integer id, Integer solve) {
+        lostpropertyMapper.updateSolve(id,solve);
+    }
+
     @Override
     public void updateItemdata(Itemdata itemdata) {
+
         lostpropertyMapper.updateAll(itemdata);
     }
     @Override

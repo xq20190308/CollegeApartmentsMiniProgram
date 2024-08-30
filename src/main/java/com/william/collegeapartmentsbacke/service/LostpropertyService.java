@@ -16,4 +16,6 @@ public interface LostpropertyService {
     void deleteItemdata(Integer id);
 
     List<Itemdata> getUserItemdata(String id);
+
+    void updateSolve(Integer id, Integer solve);
 }

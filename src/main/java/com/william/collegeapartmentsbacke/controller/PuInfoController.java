@@ -42,4 +42,14 @@ public class PuInfoController {
             throw new RuntimeException(e);
         }
     }
+
+//    @RequestMapping("getActivityInfo")
+//    public String getActivityInfo()
+//    {
+//        try {
+//            return puInfoService.getActivityInfo();
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }

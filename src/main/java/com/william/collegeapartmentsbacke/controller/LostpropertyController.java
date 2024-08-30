@@ -1,4 +1,5 @@
 package com.william.collegeapartmentsbacke.controller;
+import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.entity.Itemdata;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.service.FileService;
@@ -33,7 +34,7 @@ public class LostpropertyController {
             lostpropertyService.saveSubmit(itemdata);
             return Result.success();
     }
-
+    @NoNeedLogin
     @GetMapping("/Getdata/{category}")
     public Result SelectData(@PathVariable("category") String category)
     {
@@ -68,4 +69,10 @@ public Result updateStatus(@RequestBody Itemdata itemdata) {
     }
 }
 
+   @PostMapping("/updateData/{id}")
+    public Result updateData(@PathVariable("id") Integer id, Integer solve)
+    {
+        lostpropertyService.updateSolve(id,solve);
+        return Result.success();
+    }
 }
