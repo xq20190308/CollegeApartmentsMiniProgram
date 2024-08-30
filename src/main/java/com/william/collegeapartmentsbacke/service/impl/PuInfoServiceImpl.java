@@ -21,8 +21,7 @@ public class PuInfoServiceImpl implements PuInfoService {
         param.put("password",password);
         param.put("sid",SCHOOL_ID);
         param.put("device","pc");
-        String result=HttpClientUtil.doPost4Json(LoginURL,param);
-        return result;
+        return HttpClientUtil.doPost4Json(LoginURL,param);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.william.collegeapartmentsbacke.controller;
 
+import cn.hutool.json.JSONObject;
 import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.entity.PuUser;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
@@ -19,10 +20,13 @@ public class PuInfoController {
     public Result login(@RequestBody PuUser puUser)
     {
         try {
-            if(puInfoService.Login(puUser.getUsername(),puUser.getPassword())==null)
-                return Result.error("用户名或密码错误");
+            String response=puInfoService.Login(puUser.getUsername(),puUser.getPassword());
+            JSONObject jsonObject=new JSONObject(response);
+            JSONObject data=jsonObject.getJSONObject("data");
+            if(jsonObject.getStr("code").equals("0"))
+                return Result.success(data.getStr("token"));
             else
-                return Result.success();
+                return Result.error("用户名或密码错误");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
