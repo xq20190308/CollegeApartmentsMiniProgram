@@ -27,4 +27,15 @@ public class PuInfoController {
             throw new RuntimeException(e);
         }
     }
+
+    @NoNeedLogin
+    @RequestMapping("getPuInfo")
+    public String getPuInfo(@RequestBody PuUser puUser)
+    {
+        try {
+            return puInfoService.getPuInfo(puUser.getUsername(),puUser.getPassword());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

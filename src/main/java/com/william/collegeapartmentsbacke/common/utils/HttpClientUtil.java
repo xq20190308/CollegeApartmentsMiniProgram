@@ -102,6 +102,7 @@ public class HttpClientUtil {
             }
 
             httpPost.setConfig(builderRequestConfig());
+            System.out.println(httpPost);
             // 执行http请求
             response = httpClient.execute(httpPost);
             resultString = EntityUtils.toString(response.getEntity(), "UTF-8");
@@ -171,6 +172,52 @@ public class HttpClientUtil {
         System.out.println("return resultString:"+resultString);
         return resultString;
     }
+
+    public static String doPost(String url, Map<String, Object> paramMap, String authHeader) throws IOException {
+        // 创建Httpclient对象
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        CloseableHttpResponse response = null;
+        String resultString = "";
+
+        try {
+            // 创建Http Post请求
+            HttpPost httpPost = new HttpPost(url);
+
+            // 设置Authorization header
+            httpPost.setHeader("Authorization", authHeader);
+
+            // 创建参数列表
+            if (paramMap != null) {
+                List<NameValuePair> paramList = new ArrayList<>();
+                for (Map.Entry<String, Object> param : paramMap.entrySet()) {
+                    paramList.add(new BasicNameValuePair(param.getKey(), param.getValue().toString()));
+                }
+                // 模拟表单
+                UrlEncodedFormEntity entity = new UrlEncodedFormEntity(paramList);
+                httpPost.setEntity(entity);
+            }
+
+            httpPost.setConfig(builderRequestConfig());
+            System.out.println(httpPost);
+            // 执行http请求
+            response = httpClient.execute(httpPost);
+            resultString = EntityUtils.toString(response.getEntity(), "UTF-8");
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                if (response != null) {
+                    response.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("return resultString:" + resultString);
+        return resultString;
+    }
+
+
     private static RequestConfig builderRequestConfig() {
         return RequestConfig.custom()
                 .setConnectTimeout(TIMEOUT_MSEC)

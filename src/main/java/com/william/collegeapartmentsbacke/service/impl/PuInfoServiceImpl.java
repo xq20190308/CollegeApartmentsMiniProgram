@@ -1,15 +1,16 @@
 package com.william.collegeapartmentsbacke.service.impl;
 
+import cn.hutool.json.JSONObject;
 import com.william.collegeapartmentsbacke.common.utils.HttpClientUtil;
 import com.william.collegeapartmentsbacke.service.PuInfoService;
 import org.springframework.stereotype.Service;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Service
 public class PuInfoServiceImpl implements PuInfoService {
-    private static final String URL= "https://apis.pocketuni.net/uc/user/login";
+    private static final String LoginURL= "https://apis.pocketuni.net/uc/user/login";
+    private static final String InfoURL="https://apis.pocketuni.net/apis/user/pc-info";
     private static final int TIMEOUT = 3000;
     private static final long  SCHOOL_ID=208754666766336L;
     private Map<String, Object> param=new LinkedHashMap<>();
@@ -20,8 +21,17 @@ public class PuInfoServiceImpl implements PuInfoService {
         param.put("password",password);
         param.put("sid",SCHOOL_ID);
         param.put("device","pc");
-        String result=HttpClientUtil.doPost4Json(URL,param);
+        String result=HttpClientUtil.doPost4Json(LoginURL,param);
         return result;
+    }
+
+    @Override
+    public String getPuInfo(String username, String password) throws Exception {
+        String result=this.Login(username,password);
+        JSONObject jsonObject=new JSONObject(result);
+        JSONObject data=jsonObject.getJSONObject("data");
+        String AuthHeader= "Bear %s:%s".formatted(data.getStr("token"), SCHOOL_ID);
+        return HttpClientUtil.doPost(InfoURL,null,AuthHeader);
     }
     //    @Override
 //    public String  getSchoolList() throws Exception {
