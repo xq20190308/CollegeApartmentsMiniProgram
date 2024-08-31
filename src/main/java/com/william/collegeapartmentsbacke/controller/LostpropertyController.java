@@ -55,19 +55,19 @@ public class LostpropertyController {
 //        return Result.success(itemdata);
 //    }
 
-@PostMapping("/updateStatus")
-public Result updateStatus(@RequestBody Itemdata itemdata) {
-    try {
-        lostpropertyService.updateItemdata(itemdata);
-        return Result.success();
-    } catch (IllegalArgumentException e) {
+    @PostMapping("/updateStatus")
+    public Result updateStatus(@RequestBody Itemdata itemdata) {
+        try {
+            lostpropertyService.updateItemdata(itemdata);
+            return Result.success();
+        } catch (IllegalArgumentException e) {
         log.error("Invalid argument for update status", e);
         return Result.error("Invalid argument for update status");
-    } catch (Exception e) {
+        } catch (Exception e) {
         log.error("Failed to update status", e);
         return Result.error("Failed to update status");
+        }
     }
-}
 
    @PostMapping("/updateData/{id}")
     public Result updateData(@PathVariable("id") Integer id, Integer solve)

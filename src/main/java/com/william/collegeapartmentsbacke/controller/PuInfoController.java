@@ -43,6 +43,16 @@ public class PuInfoController {
         }
     }
 
+    @NoNeedLogin
+    @RequestMapping("getActivityInfo")
+    public String getActivityInfo(@RequestBody PuUser puUser)
+    {
+        try {
+            return puInfoService.getActivityInfo(puUser.getUsername(),puUser.getPassword(),puUser.getRequestPage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 //    @RequestMapping("getActivityInfo")
 //    public String getActivityInfo()
 //    {

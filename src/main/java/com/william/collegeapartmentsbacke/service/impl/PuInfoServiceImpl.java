@@ -11,6 +11,7 @@ import java.util.Map;
 public class PuInfoServiceImpl implements PuInfoService {
     private static final String LoginURL= "https://apis.pocketuni.net/uc/user/login";
     private static final String InfoURL="https://apis.pocketuni.net/apis/user/pc-info";
+    private static final String ActivityURL="https://apis.pocketuni.net/apis/activity/list";
     private static final int TIMEOUT = 3000;
     private static final long  SCHOOL_ID=208754666766336L;
     private Map<String, Object> param=new LinkedHashMap<>();
@@ -31,6 +32,38 @@ public class PuInfoServiceImpl implements PuInfoService {
         JSONObject data=jsonObject.getJSONObject("data");
         String AuthHeader= "Bear %s:%s".formatted(data.getStr("token"), SCHOOL_ID);
         return HttpClientUtil.doPost(InfoURL,null,AuthHeader);
+    }
+
+    @Override
+    public String getActivityInfo(String username, String password,Integer page) throws Exception {
+        String result=this.Login(username,password);
+        JSONObject jsonObject=new JSONObject(result);
+        JSONObject data=jsonObject.getJSONObject("data");
+        String AuthHeader= "Bear %s:%s".formatted(data.getStr("token"), SCHOOL_ID);
+        param.put("sort",0);
+        param.put("page",page);
+        param.put("limit",10);
+        param.put("puType",0);
+        JSONObject response=new JSONObject(HttpClientUtil.doPost4Json(ActivityURL,param,AuthHeader));
+        JSONObject Data=response.getJSONObject("data");
+        JSONObject pageInfo=Data.getJSONObject("pageInfo");
+        if(response.getStr("code").equals("0"))
+        {
+            System.out.println(Data.getStr("list"));
+//            StringBuilder list= new StringBuilder(Data.getStr("list"));
+//            for(int i=2;i<=pageInfo.getInt("total");i++)
+//            {
+//                param.put("page",i);
+//                response =new JSONObject(HttpClientUtil.doPost4Json(ActivityURL,param,AuthHeader));
+//                Data= response.getJSONObject("data");
+//                list.append(Data.getStr("list"));
+//            }
+//            list = new StringBuilder("{" + list + "}");
+//            JSONObject newline=new JSONObject(list.toString());
+            return Data.getStr("list");
+        }
+        else
+            return "error";
     }
     //    @Override
 //    public String  getSchoolList() throws Exception {
