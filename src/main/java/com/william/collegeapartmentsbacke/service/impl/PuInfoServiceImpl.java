@@ -12,6 +12,7 @@ public class PuInfoServiceImpl implements PuInfoService {
     private static final String LoginURL= "https://apis.pocketuni.net/uc/user/login";
     private static final String InfoURL="https://apis.pocketuni.net/apis/user/pc-info";
     private static final String ActivityURL="https://apis.pocketuni.net/apis/activity/list";
+    private static final String JoinURL="https://apis.pocketuni.net/apis/activity/join";
     private static final int TIMEOUT = 3000;
     private static final long  SCHOOL_ID=208754666766336L;
     private Map<String, Object> param=new LinkedHashMap<>();
@@ -50,58 +51,19 @@ public class PuInfoServiceImpl implements PuInfoService {
         if(response.getStr("code").equals("0"))
         {
             System.out.println(Data.getStr("list"));
-//            StringBuilder list= new StringBuilder(Data.getStr("list"));
-//            for(int i=2;i<=pageInfo.getInt("total");i++)
-//            {
-//                param.put("page",i);
-//                response =new JSONObject(HttpClientUtil.doPost4Json(ActivityURL,param,AuthHeader));
-//                Data= response.getJSONObject("data");
-//                list.append(Data.getStr("list"));
-//            }
-//            list = new StringBuilder("{" + list + "}");
-//            JSONObject newline=new JSONObject(list.toString());
             return Data.getStr("list");
         }
         else
             return "error";
     }
-    //    @Override
-//    public String  getSchoolList() throws Exception {
-//        URL url=new URL(URL);
-//        HttpURLConnection connection= (HttpURLConnection) url.openConnection();
-//        connection.setRequestMethod("GET");
-//        connection.setConnectTimeout(TIMEOUT);
-//        if (connection.getResponseCode()==200){
-//            BufferedReader reader=new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//            String line;
-//            StringBuilder result=new StringBuilder();
-//            while ((line=reader.readLine())!=null){
-//                result.append(line);
-//            }
-//            reader.close();
-//            return result.toString();
-//        }
-//        else
-//            return "error";
-//    }
-//
-//    @Override
-//    public String Get_sid()
-//    {
-//        try {
-//            List<String> schoolList= Collections.singletonList(this.getSchoolList());//获取学校列表;
-//            System.out.println(this.getSchoolList());
-//            System.out.println(schoolList);
-//            List<String> match=schoolList.stream().filter(s->s.contains(SCHOOL_ID)).toList();
-//            match.forEach(System.out::println);
-//            return match.get(0);
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//
-//    @Override
-//    public String FindSchool(List<String> schoolList, String schoolName) {
-//        return "";
-//    }
+
+    @Override
+    public String joinActivity(String username, String password,long activityId) throws Exception {
+        String result=this.Login(username,password);
+        JSONObject jsonObject=new JSONObject(result);
+        JSONObject data=jsonObject.getJSONObject("data");
+        String AuthHeader= "Bear %s:%s".formatted(data.getStr("token"), SCHOOL_ID);
+        param.put("activityId",activityId);
+        return HttpClientUtil.doPost4Json(JoinURL,param,AuthHeader);
+    }
 }

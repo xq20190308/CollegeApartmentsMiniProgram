@@ -53,13 +53,14 @@ public class PuInfoController {
             throw new RuntimeException(e);
         }
     }
-//    @RequestMapping("getActivityInfo")
-//    public String getActivityInfo()
-//    {
-//        try {
-//            return puInfoService.getActivityInfo();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    @NoNeedLogin
+    @RequestMapping("joinActivity")
+    public String joinActivity(@RequestBody PuUser puUser)
+    {
+        try {
+            return puInfoService.joinActivity(puUser.getUsername(),puUser.getPassword(),puUser.getActivityId());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
