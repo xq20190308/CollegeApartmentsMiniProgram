@@ -9,6 +9,8 @@ import java.util.List;
 public interface QuestionnaireAnswerService {
     Integer addQuestionnaireAnswer(QuestionnaireAnswer questionnaireAnswer);
 
+    Integer addAnswerAndCount(QuestionnaireAnswer questionnaireAnswer);
+
     QuestionnaireAnswer getAnswerByUseridAndNaireId(String userid, Integer naireid);
 
     AnswerCountDTO answerSummery(Integer naireid);
