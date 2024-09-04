@@ -71,6 +71,7 @@ public class QuestionnaireController {
         questionnaireService.deleteById(id);
 //        int i=1/0;
         questionService.deleteByQuestionnaireId(id);
+
         return Result.success();
     }
 

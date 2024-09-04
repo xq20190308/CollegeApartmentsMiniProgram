@@ -14,4 +14,6 @@ public interface QuestionnaireAnswerService {
     QuestionnaireAnswer getAnswerByUseridAndNaireId(String userid, Integer naireid);
 
     AnswerCountDTO answerSummery(Integer naireid);
+
+    void deleteAnswer(Integer naireid);
 }
