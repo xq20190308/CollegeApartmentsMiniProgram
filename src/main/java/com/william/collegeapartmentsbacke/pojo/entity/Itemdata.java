@@ -17,4 +17,5 @@ public class Itemdata {
     private String filepath;
     private Integer status;
     private Integer solve;
+    private String content;
 }

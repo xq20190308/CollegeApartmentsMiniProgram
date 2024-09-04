@@ -19,7 +19,7 @@ class QuestionnaireTests {
     @Autowired
     private QuestionnaireServiceImpl questionnaireService;
 
-    //注入mapper接口的Bean
+    //注入mapper接口的Beanfm
     @MockBean
     private QuestionnaireMapper questionnaireMapper;
 

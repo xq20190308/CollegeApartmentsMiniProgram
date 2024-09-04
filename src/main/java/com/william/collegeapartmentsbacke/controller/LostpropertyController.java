@@ -1,15 +1,17 @@
 package com.william.collegeapartmentsbacke.controller;
+import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.entity.Itemdata;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.service.FileService;
 import com.william.collegeapartmentsbacke.service.LostpropertyService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping("/api")
 public class LostpropertyController {
@@ -32,7 +34,7 @@ public class LostpropertyController {
             lostpropertyService.saveSubmit(itemdata);
             return Result.success();
     }
-
+    @NoNeedLogin
     @GetMapping("/Getdata/{category}")
     public Result SelectData(@PathVariable("category") String category)
     {
@@ -54,16 +56,23 @@ public class LostpropertyController {
 //    }
 
     @PostMapping("/updateStatus")
-    public Result updateStatus(@RequestBody Itemdata itemdata)
-    {
-        lostpropertyService.updateItemdata(itemdata);
-        return Result.success();
+    public Result updateStatus(@RequestBody Itemdata itemdata) {
+        try {
+            lostpropertyService.updateItemdata(itemdata);
+            return Result.success();
+        } catch (IllegalArgumentException e) {
+        log.error("Invalid argument for update status", e);
+        return Result.error("Invalid argument for update status");
+        } catch (Exception e) {
+        log.error("Failed to update status", e);
+        return Result.error("Failed to update status");
+        }
     }
 
-    @DeleteMapping("/deleteData/{id}")
-    public Result deleteData(@PathVariable ("id") Integer id)
+   @PostMapping("/updateData/{id}")
+    public Result updateData(@PathVariable("id") Integer id, Integer solve)
     {
-           lostpropertyService.deleteItemdata(id);
-           return Result.success();
+        lostpropertyService.updateSolve(id,solve);
+        return Result.success();
     }
 }
