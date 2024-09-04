@@ -33,13 +33,12 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
 
     //插入的同时返回插入的id
-    @Override
     @Transactional
-    public Integer addQuestionnaireAnswer(QuestionnaireAnswer questionnaireAnswer) {
+    protected Integer addQuestionnaireAnswer(QuestionnaireAnswer questionnaireAnswer) {
         questionnaireAnswer.setSubmitTime(LocalDateTime.now().now());
         questionnaireAnswerMapper.insertSelective(questionnaireAnswer);
         Integer ansId = questionnaireAnswerMapper.getNewestId();
-        answerSummery(questionnaireAnswer.getQuestionnaireId());
+//        answerSummery(questionnaireAnswer.getQuestionnaireId());
         return ansId;
     }
 
@@ -58,11 +57,12 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         List<AnswerCount> answerCountListBefore = praseAnswerCountsFromSatatistics(naireId);
         //如果之前没有统计过，则创建新的统计，初始化每个选项为0
         if(answerCountListBefore.size() == 0){
-            answerCountListBefore = initAnsCntList(questionMapper.selectByQuestionnaireId(questionnaireAnswer.getQuestionnaireId()));
+            answerCountListBefore = initAnsCntList(questionMapper.selectByQuestionnaireId(naireId));
         }
+        log.info("anserCntBefore" + answerCountListBefore.toString());
         //对本次回答进行解析，统计每个选项的数量
         List<AnswerCount> curAnswerCountList = praseAnswerAndSum(answerDTO, answerCountListBefore);
-
+        log.info("anserCntNow" + curAnswerCountList);
         answerStatisticsMapper.batchInsert(transferCountToStaticistics(curAnswerCountList, naireId));
 
         return ansId;
@@ -76,98 +76,111 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
 
     /**
-     * @param naireid
-     */
+     * @param naireId     */
     @Override
-    public AnswerCountDTO answerSummery(Integer naireid) {
+    public AnswerCountDTO answerSummery(Integer naireId) {
+
+        //对数据库中的数据进行解析
+        List<AnswerCount> answerCountListBefore = praseAnswerCountsFromSatatistics(naireId);
+        //如果之前没有统计过，则创建新的统计，初始化每个选项为0
+        if(answerCountListBefore.size() == 0){
+            answerCountListBefore = initAnsCntList(questionMapper.selectByQuestionnaireId(naireId));
+        }
         AnswerCountDTO answerCountDTO = new AnswerCountDTO();
-        //从数据库取的回答情况List
-        List<AnswerDTO> answerDTOList = questionnaireAnswerMapper.getAnswerByNaireId(naireid);
-        //存储问题列表
-        List<Question> questionList = questionMapper.selectByQuestionnaireId(naireid);
-        //初始化：存储问题回答情况统计
-        List<AnswerCount> answerCountList = initAnsCntList(questionList);
-        //输出查看初始化情况
-        log.info(answerCountList.toString());
-        //接下来统计每个问题的回答情况
-
-        for (int i = 0; i < answerCountList.size(); i++) {
-            //取出每个人第i个问题的回答，统计
-            AnswerCount currAnswerCount = answerCountList.get(i);
-            if (currAnswerCount.getAnswerType() == 3)
-                continue;
-            else if (currAnswerCount.getAnswerType() == 2) {
-                for (AnswerDTO answerDTO : answerDTOList) {
-                    JSONArray choiceArray = new JSONArray(answerDTO.getAnswer());
-                    Object mulQuestionIAnswer = choiceArray.get(i);
-
-                    if (mulQuestionIAnswer instanceof JSONArray) {
-                        for (Object obj : (JSONArray) mulQuestionIAnswer) {
-                            if (obj instanceof String) {
-                                String choiceStr = (String) obj;
-                                Integer choiceInt = Integer.parseInt(choiceStr);
-                                currAnswerCount.incrementChoiceAtIndex(choiceInt);
-                            }
-                        }
-                    }
-                }
-            } else if (currAnswerCount.getAnswerType() == 1)//单选题处理
-            {
-
-                for (AnswerDTO answerDTO : answerDTOList) {
-                    JSONArray choiceArray = new JSONArray(answerDTO.getAnswer());
-                    Object questionIAnswer = choiceArray.get(i);
-
-
-                    if (questionIAnswer instanceof String) {
-                        String choiceStr = (String) questionIAnswer;
-                        Integer choiceInt = Integer.parseInt(choiceStr);
-                        currAnswerCount.incrementChoiceAtIndex(choiceInt);
-                    }
-                }
-            }
-        }
-
-        log.info("用户回答如下");
-        for (AnswerDTO answer : answerDTOList) {
-            String answerText = answer.getAnswer();
-            log.info(answerText);
-        }
-
-        log.info("统计如下：");
-        for (AnswerCount answerCount : answerCountList) {
-            log.info(answerCount.toString());
-        }
-
-//        log.info("往数据库存储的统计如下");
-        List<AnswerStatistics> answerStatisticsList = new ArrayList<>();
-        for (AnswerCount answerCount : answerCountList) {
-            //跳过问答题
-            if (answerCount.getAnswerType() == 3)
-                continue;
-            AnswerStatistics answerStatistics = new AnswerStatistics();
-            answerStatistics.setNaireId(naireid);
-            answerStatistics.setQuestionId(answerCount.getQuestionId());
-            answerStatistics.setAnswerType(answerCount.getAnswerType());
-            StringBuffer sb = new StringBuffer();
-            for (Integer choiceCount : answerCount.getChoiceSumList()) {
-                // 如果不是第一个元素，则添加逗号作为分隔符
-                if (sb.length() > 0) {
-                    sb.append(",");
-                }
-                // 将当前计数添加到 StringBuilder 中
-                sb.append(choiceCount);
-            }
-            answerStatistics.setChoiceCount(sb.toString());
-            answerStatisticsList.add(answerStatistics);
-        }
-//        log.info(answerStatisticsList.toString());
-        answerStatisticsMapper.batchInsert(answerStatisticsList);
-
-        //生成返回给前端的数据
-        answerCountDTO.setNumOfAnswers(answerDTOList.size());
-        answerCountDTO.setAnswerCountList(answerCountList);
+        answerCountDTO.setNumOfAnswers(answerCountListBefore.size());
+        answerCountDTO.setAnswerCountList(answerCountListBefore);
+        log.info(answerCountDTO.toString());
         return answerCountDTO;
+
+//
+//        AnswerCountDTO answerCountDTO = new AnswerCountDTO();
+//        //从数据库取的回答情况List
+//        List<AnswerDTO> answerDTOList = questionnaireAnswerMapper.getAnswerByNaireId(naireid);
+//        //存储问题列表
+//        List<Question> questionList = questionMapper.selectByQuestionnaireId(naireid);
+//        //初始化：存储问题回答情况统计
+//        List<AnswerCount> answerCountList = initAnsCntList(questionList);
+//        //输出查看初始化情况
+//        log.info(answerCountList.toString());
+//        //接下来统计每个问题的回答情况
+//
+//        for (int i = 0; i < answerCountList.size(); i++) {
+//            //取出每个人第i个问题的回答，统计
+//            AnswerCount currAnswerCount = answerCountList.get(i);
+//            if (currAnswerCount.getAnswerType() == 3)
+//                continue;
+//            else if (currAnswerCount.getAnswerType() == 2) {
+//                for (AnswerDTO answerDTO : answerDTOList) {
+//                    JSONArray choiceArray = new JSONArray(answerDTO.getAnswer());
+//                    Object mulQuestionIAnswer = choiceArray.get(i);
+//
+//                    if (mulQuestionIAnswer instanceof JSONArray) {
+//                        for (Object obj : (JSONArray) mulQuestionIAnswer) {
+//                            if (obj instanceof String) {
+//                                String choiceStr = (String) obj;
+//                                Integer choiceInt = Integer.parseInt(choiceStr);
+//                                currAnswerCount.incrementChoiceAtIndex(choiceInt);
+//                            }
+//                        }
+//                    }
+//                }
+//            } else if (currAnswerCount.getAnswerType() == 1)//单选题处理
+//            {
+//
+//                for (AnswerDTO answerDTO : answerDTOList) {
+//                    JSONArray choiceArray = new JSONArray(answerDTO.getAnswer());
+//                    Object questionIAnswer = choiceArray.get(i);
+//
+//
+//                    if (questionIAnswer instanceof String) {
+//                        String choiceStr = (String) questionIAnswer;
+//                        Integer choiceInt = Integer.parseInt(choiceStr);
+//                        currAnswerCount.incrementChoiceAtIndex(choiceInt);
+//                    }
+//                }
+//            }
+//        }
+//
+//        log.info("用户回答如下");
+//        for (AnswerDTO answer : answerDTOList) {
+//            String answerText = answer.getAnswer();
+//            log.info(answerText);
+//        }
+//
+//        log.info("统计如下：");
+//        for (AnswerCount answerCount : answerCountList) {
+//            log.info(answerCount.toString());
+//        }
+//
+////        log.info("往数据库存储的统计如下");
+//        List<AnswerStatistics> answerStatisticsList = new ArrayList<>();
+//        for (AnswerCount answerCount : answerCountList) {
+//            //跳过问答题
+//            if (answerCount.getAnswerType() == 3)
+//                continue;
+//            AnswerStatistics answerStatistics = new AnswerStatistics();
+//            answerStatistics.setNaireId(naireid);
+//            answerStatistics.setQuestionId(answerCount.getQuestionId());
+//            answerStatistics.setAnswerType(answerCount.getAnswerType());
+//            StringBuffer sb = new StringBuffer();
+//            for (Integer choiceCount : answerCount.getChoiceSumList()) {
+//                // 如果不是第一个元素，则添加逗号作为分隔符
+//                if (sb.length() > 0) {
+//                    sb.append(",");
+//                }
+//                // 将当前计数添加到 StringBuilder 中
+//                sb.append(choiceCount);
+//            }
+//            answerStatistics.setChoiceCount(sb.toString());
+//            answerStatisticsList.add(answerStatistics);
+//        }
+////        log.info(answerStatisticsList.toString());
+//        answerStatisticsMapper.batchInsert(answerStatisticsList);
+//
+//        //生成返回给前端的数据
+//        answerCountDTO.setNumOfAnswers(answerDTOList.size());
+//        answerCountDTO.setAnswerCountList(answerCountList);
+//        return answerCountDTO;
     }
 
     @Override

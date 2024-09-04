@@ -7,7 +7,7 @@ import com.william.collegeapartmentsbacke.pojo.entity.QuestionnaireAnswer;
 import java.util.List;
 
 public interface QuestionnaireAnswerService {
-    Integer addQuestionnaireAnswer(QuestionnaireAnswer questionnaireAnswer);
+//    Integer addQuestionnaireAnswer(QuestionnaireAnswer questionnaireAnswer);
 
     Integer addAnswerAndCount(QuestionnaireAnswer questionnaireAnswer);
 
