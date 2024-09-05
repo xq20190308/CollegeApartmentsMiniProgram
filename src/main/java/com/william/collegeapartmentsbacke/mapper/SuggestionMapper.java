@@ -13,11 +13,11 @@ import java.util.List;
 @Mapper
 public interface SuggestionMapper {
    //查询草稿
-   @Select("select * from coap.adviseDraft where stu_id=#{id} order by id desc ")
+   @Select("select * from coap.advise_draft where stu_id=#{id} order by id desc ")
    List<Suggestion> Draftfindall(String id);
 
 
-   @Select("select * from coap.adviseDraft where id=#{id} order by id desc ")
+   @Select("select * from coap.advise_draft where id=#{id} order by id desc ")
    Boolean Draftselect(Integer id);
 
    //获取提交
@@ -33,20 +33,20 @@ public interface SuggestionMapper {
    Integer selectLast();
 
    //保存草稿
-   @Update("insert into coap.adviseDraft (id,stu_id,describes,category,pushtime,contactobject,path) values(#{id},#{stu_id},#{describes},#{category},#{pushtime},#{contactobject},#{path});")
+   @Update("insert into coap.advise_draft (id,stu_id,describes,category,pushtime,contactobject,path) values(#{id},#{stu_id},#{describes},#{category},#{pushtime},#{contactobject},#{path});")
    @Transactional
    void savedaft(Suggestion suggestion);
 
    //编辑草稿
-   @Update("update coap.adviseDraft set describes=#{describes},category=#{category},pushtime=#{pushtime},contactobject=#{contactobject},path#{path}, where id=#{id}")
+   @Update("update coap.advise_draft set describes=#{describes},category=#{category},pushtime=#{pushtime},contactobject=#{contactobject},path#{path}, where id=#{id}")
    @Transactional
    void updatedaft(Suggestion suggestion);
 
 
-   @Delete("delete from coap.adviseDraft where id=#{id}")
+   @Delete("delete from coap.advise_draft where id=#{id}")
    void delete(long id);
 
-   @Select("select count(*) from coap.adviseDraft")
+   @Select("select count(*) from coap.advise_draft")
    int Count();
 
    @Update("insert into  coap.Filedata (id,user_id,name,type,path,data) values(#{id},#{userid},#{name},#{type},#{path},#{data})")

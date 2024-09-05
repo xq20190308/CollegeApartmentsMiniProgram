@@ -27,17 +27,17 @@ public class HygieneServicelmpl implements HygieneService {
 
     @Override
     public String getDynamicUpdateSql(Hygiene hygiene, String dromaticSql) {
-        return "UPDATE coap.hygiene SET " + dromaticSql+"Rank = #{hygiene.Rank}  WHERE Dormitoryid = #{hygiene.Dormitoryid}" ;
+        return "UPDATE coap.hygiene_info SET " + dromaticSql+"Rank = #{hygiene.Rank}  WHERE dormitoryId = #{hygiene.dormitoryId}" ;
     }
 
     @Override
     public String selectHygieneByDormitoryid(String id) {
-        return "select * from coap.hygiene where " + " Dormitoryid = #{Dormitoryid}  LIMIT 1";
+        return "select * from coap.hygiene_info where " + " dormitoryId = #{dormitoryId}  LIMIT 1";
     }
 
     @Override
     public void upData(Set<Hygiene> hygieneList,String weeks) {
-        String []weekList=new String []{" ","First","Second","Third","Fourth","Fifth","Sixth","Seventh","Eighth","Ninth","Tenth","Eleventh","Twelfth","Thirteenth","Fourteenth","Fifteenth","Sixteenth","Seventh","Eighteenth","Nineteenth"};
+        String []weekList=new String []{" ","first","second","third","fourth","fifth","sixth","seventh","eighth","ninth","tenth","eleventh","twelfth","thirteenth","fourteenth","fifteenth","sixteenth","seventh","eighteenth","nineteenth"};
         String week=weekList[Integer.parseInt(weeks)];
         for (Hygiene hygiene : hygieneList) {
             hygieneMapper.insertHygiene(hygiene,week);
