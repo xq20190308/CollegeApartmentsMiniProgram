@@ -10,10 +10,10 @@ public class Questionnaire {
 
     private Integer id;
     private boolean anonymous;
-    private Integer type;
+    private String type;
     private String name;
     private String description;
     private String startTime;
     private String endTime;
-
+    private String isActive;
 }

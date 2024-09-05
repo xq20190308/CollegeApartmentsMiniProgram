@@ -58,7 +58,6 @@ public class QuestionnaireController {
         questionnaire.setDescription(questionnaireDto.getDescription());
         questionnaire.setStartTime(questionnaireDto.getStartTime());
         questionnaire.setEndTime(questionnaireDto.getEndTime());
-
         questionnaireService.totallyadd(questionnaire);
         log.info(questionnaire.toString());
         return Result.success();
