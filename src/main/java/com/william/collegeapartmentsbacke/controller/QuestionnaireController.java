@@ -144,7 +144,7 @@ public class QuestionnaireController {
 
 
         questionnaireAnswer.setUserid(userid);
-        Integer id =  questionnaireAnswerService.addAnswerAndCount(questionnaireAnswer);
+        Integer id =  questionnaireAnswerService.addAnswerAndCount(questionnaireAnswer,userid);
         log.info(id.toString());
         return Result.success();
     }

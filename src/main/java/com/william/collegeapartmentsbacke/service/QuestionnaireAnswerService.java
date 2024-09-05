@@ -9,7 +9,7 @@ import java.util.List;
 public interface QuestionnaireAnswerService {
 //    Integer addQuestionnaireAnswer(QuestionnaireAnswer questionnaireAnswer);
 
-    Integer addAnswerAndCount(QuestionnaireAnswer questionnaireAnswer);
+    Integer addAnswerAndCount(QuestionnaireAnswer questionnaireAnswer, String userid);
 
     QuestionnaireAnswer getAnswerByUseridAndNaireId(String userid, Integer naireid);
 

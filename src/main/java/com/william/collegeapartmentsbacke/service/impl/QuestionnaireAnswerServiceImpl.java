@@ -4,14 +4,13 @@ import cn.hutool.json.JSONArray;
 import com.william.collegeapartmentsbacke.mapper.AnswerStatisticsMapper;
 import com.william.collegeapartmentsbacke.mapper.QuestionMapper;
 import com.william.collegeapartmentsbacke.mapper.QuestionnaireAnswerMapper;
+import com.william.collegeapartmentsbacke.mapper.SimpleAnswerMapper;
 import com.william.collegeapartmentsbacke.pojo.dto.AnswerCountDTO;
 import com.william.collegeapartmentsbacke.pojo.dto.AnswerDTO;
-import com.william.collegeapartmentsbacke.pojo.entity.AnswerCount;
-import com.william.collegeapartmentsbacke.pojo.entity.AnswerStatistics;
-import com.william.collegeapartmentsbacke.pojo.entity.Question;
-import com.william.collegeapartmentsbacke.pojo.entity.QuestionnaireAnswer;
+import com.william.collegeapartmentsbacke.pojo.entity.*;
 import com.william.collegeapartmentsbacke.service.QuestionService;
 import com.william.collegeapartmentsbacke.service.QuestionnaireAnswerService;
+import com.william.collegeapartmentsbacke.service.SimpleAnswerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +29,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     private QuestionMapper questionMapper;
     @Autowired
     private AnswerStatisticsMapper answerStatisticsMapper;
+    @Autowired
+    private SimpleAnswerMapper simpleAnswerMapper;
 
 
     //插入的同时返回插入的id
@@ -44,7 +45,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
     @Override
     @Transactional
-    public Integer addAnswerAndCount(QuestionnaireAnswer questionnaireAnswer) {
+    public Integer addAnswerAndCount(QuestionnaireAnswer questionnaireAnswer, String userid) {
         //将当前回答插入数据库并得到ansId
         Integer ansId = addQuestionnaireAnswer(questionnaireAnswer);
         Integer naireId = questionnaireAnswer.getQuestionnaireId();
@@ -59,9 +60,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         if(answerCountListBefore.size() == 0){
             answerCountListBefore = initAnsCntList(questionMapper.selectByQuestionnaireId(naireId));
         }
-        log.info("anserCntBefore" + answerCountListBefore.toString());
+        log.info("anserCntBefore" + answerCountListBefore);
         //对本次回答进行解析，统计每个选项的数量
-        List<AnswerCount> curAnswerCountList = praseAnswerAndSum(answerDTO, answerCountListBefore);
+        List<AnswerCount> curAnswerCountList = praseAnswerAndSum(answerDTO, answerCountListBefore, userid,naireId);
         log.info("anserCntNow" + curAnswerCountList);
         answerStatisticsMapper.batchInsert(transferCountToStaticistics(curAnswerCountList, naireId));
 
@@ -200,7 +201,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             answerStatistics.setQuestionId(answerCount.getQuestionId());
             answerStatistics.setAnswerType(answerCount.getAnswerType());
             StringBuffer sb = new StringBuffer();
-            for (Integer choiceCount : answerCount.getChoiceSumList()) {
+            for (String choiceCount : answerCount.getChoiceSumList()) {
                 // 如果不是第一个元素，则添加逗号作为分隔符
                 if (sb.length() > 0) {
                     sb.append(",");
@@ -232,16 +233,16 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             //问答题处理办法
             answerCount.setAnswerType(question.getType());
             if (question.getType() == 3) {
-                ;
+                answerCount.setChoiceSumList(new ArrayList<>());
             }
             //选择题处理办法
             else {
                 //添加每个问题的选项数，默认每个选项0个人选
                 //先将问题的content转换为数组
                 JSONArray jsonArray = new JSONArray(question.getContent());
-                List<Integer> choiceList = new ArrayList<>();
+                List<String> choiceList = new ArrayList<>();
                 for (int i = 0; i < jsonArray.size(); i++) {
-                    choiceList.add(0);
+                    choiceList.add("0");
                 }
                 answerCount.setChoiceSumList(choiceList);
             }
@@ -265,25 +266,38 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         return answerCountList;
     }
 
-    private List<Integer> praseAnswerStatusticChoiceCount(AnswerStatistics answerStatistic) {
+    private List<String> praseAnswerStatusticChoiceCount(AnswerStatistics answerStatistic) {
 
         String choiceCountStr = answerStatistic.getChoiceCount();
         String[] choiceCountArray = choiceCountStr.split(",");
-        List<Integer> choiceCountList = new ArrayList<>();
+        List<String> choiceCountList = new ArrayList<>();
         for (String choiceCount : choiceCountArray) {
-            choiceCountList.add(Integer.parseInt(choiceCount));
+            choiceCountList.add(choiceCount);
         }
         return choiceCountList;
     }
 
 
-    private List<AnswerCount> praseAnswerAndSum(AnswerDTO answerDTO, List<AnswerCount> answerCountList) {
+    private List<AnswerCount> praseAnswerAndSum(AnswerDTO answerDTO, List<AnswerCount> answerCountList,String userid, Integer naireId) {
 
         for (int i = 0; i < answerCountList.size(); i++) {
             //取出每个人第i个问题的回答，统计
             AnswerCount currAnswerCount = answerCountList.get(i);
-            if (currAnswerCount.getAnswerType() == 3)
-                continue;
+            if (currAnswerCount.getAnswerType() == 3){
+                JSONArray choiceArray = new JSONArray(answerDTO.getAnswer());
+                Object simpleQuesAnswerObj = choiceArray.get(i);
+                if (simpleQuesAnswerObj instanceof String) {
+                    String simpleQuesAnsStr = (String) simpleQuesAnswerObj;
+                    currAnswerCount.getChoiceSumList().add(simpleQuesAnsStr);
+                    SimpleAnswer simpAnswer = new SimpleAnswer();
+                    simpAnswer.setNaireId(naireId);
+                    simpAnswer.setQuestionId(currAnswerCount.getQuestionId());
+                    simpAnswer.setUserid(userid);
+                    simpAnswer.setAnswer(simpleQuesAnsStr);
+                    simpleAnswerMapper.insert(simpAnswer);
+                }
+
+            }
             else if (currAnswerCount.getAnswerType() == 2) {
                     JSONArray choiceArray = new JSONArray(answerDTO.getAnswer());
                     Object mulQuestionIAnswer = choiceArray.get(i);
@@ -301,7 +315,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             {
                     JSONArray choiceArray = new JSONArray(answerDTO.getAnswer());
                     Object questionIAnswer = choiceArray.get(i);
-
 
                     if (questionIAnswer instanceof String) {
                         String choiceStr = (String) questionIAnswer;
