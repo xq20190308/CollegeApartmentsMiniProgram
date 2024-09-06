@@ -65,7 +65,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             AnswerCount answerCount = new AnswerCount();
             //问答题处理办法
             answerCount.setAnswerType(question.getType());
-            if(question.getType() == 3)
+            if(question.getType() == "3")
             {
                 ;
             }
@@ -92,9 +92,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         {
             //取出每个人第i个问题的回答，统计
             AnswerCount currAnswerCount = answerCountList.get(i);
-            if(currAnswerCount.getAnswerType() == 3)
+            if(currAnswerCount.getAnswerType().equals("3"))
                 continue;
-            else if(currAnswerCount.getAnswerType() == 2)
+            else if(currAnswerCount.getAnswerType().equals("2"))
             {
                 for (AnswerDTO answerDTO : answerDTOList) {
                     JSONArray choiceArray = new JSONArray(answerDTO.getAnswer());
@@ -111,7 +111,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                     }
                 }
             }
-            else if(currAnswerCount.getAnswerType() == 1)//单选题处理
+            else if(currAnswerCount.getAnswerType().equals("1"))//单选题处理
             {
 
                 for (AnswerDTO answerDTO : answerDTOList) {
@@ -144,7 +144,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         List<AnswerStatistics> answerStatisticsList = new ArrayList<>();
         for(AnswerCount answerCount : answerCountList) {
             //跳过问答题
-            if (answerCount.getAnswerType() == 3)
+            if (answerCount.getAnswerType().equals("3"))
                 continue;
             AnswerStatistics answerStatistics = new AnswerStatistics();
             answerStatistics.setNaireId(naireid);

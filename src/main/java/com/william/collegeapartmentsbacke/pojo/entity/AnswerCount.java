@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 public class AnswerCount {
     private Integer questionId;
-    private Integer answerType;
+    private String answerType;
     private List<Integer> choiceSumList;
 
 
