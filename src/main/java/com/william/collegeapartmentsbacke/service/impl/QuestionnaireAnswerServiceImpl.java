@@ -87,8 +87,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         if(answerCountListBefore.size() == 0){
             answerCountListBefore = initAnsCntList(questionMapper.selectByQuestionnaireId(naireId));
         }
+        Integer numOfAnswers = questionnaireAnswerMapper.getAnswerCountByNaireId(naireId);
+        log.info("" + numOfAnswers);
         AnswerCountDTO answerCountDTO = new AnswerCountDTO();
-        answerCountDTO.setNumOfAnswers(answerCountListBefore.size());
+        answerCountDTO.setNumOfAnswers(numOfAnswers);
         answerCountDTO.setAnswerCountList(answerCountListBefore);
         log.info(answerCountDTO.toString());
         return answerCountDTO;
@@ -277,7 +279,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         return choiceCountList;
     }
 
-
     private List<AnswerCount> praseAnswerAndSum(AnswerDTO answerDTO, List<AnswerCount> answerCountList,String userid, Integer naireId) {
 
         for (int i = 0; i < answerCountList.size(); i++) {
@@ -296,7 +297,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                     simpAnswer.setAnswer(simpleQuesAnsStr);
                     simpleAnswerMapper.insert(simpAnswer);
                 }
-
             }
             else if (currAnswerCount.getAnswerType() == 2) {
                     JSONArray choiceArray = new JSONArray(answerDTO.getAnswer());

@@ -69,7 +69,7 @@ public class QuestionnaireController {
         log.info("根据问卷id删除对应问卷及其所有问题");
         questionnaireService.deleteById(id);
 //        int i=1/0;
-        questionService.deleteByQuestionnaireId(id);
+//        questionService.deleteByQuestionnaireId(id);
 
         return Result.success();
     }

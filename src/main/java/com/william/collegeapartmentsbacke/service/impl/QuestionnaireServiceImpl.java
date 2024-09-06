@@ -24,7 +24,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     @Override
     public void deleteById(Integer id) {
-        questionnaireMapper.deleteById(id);
+        questionnaireMapper.updateIsActive(id,"0");
     }
 
     @Transactional
