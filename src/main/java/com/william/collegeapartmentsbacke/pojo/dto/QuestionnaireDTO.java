@@ -15,6 +15,7 @@ public class QuestionnaireDTO extends Questionnaire {
     private String description;
     private String startTime;
     private String endTime;
+    private String isActive;
     private List<Question> questionList;
 
 }
