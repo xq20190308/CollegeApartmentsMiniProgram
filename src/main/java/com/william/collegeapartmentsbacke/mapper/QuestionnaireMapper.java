@@ -10,9 +10,7 @@ import java.util.List;
 @Mapper
 public interface QuestionnaireMapper {
 
-    @Select("select * from coap.questionnaire where is_acti" +
-            "" +
-            "ve = '1'")
+    @Select("select * from coap.questionnaire where is_active = '1'")
     List<Questionnaire> selectAll();
 
     List<QuestionnaireVO> countById(@Param("list") List<String> idList);
