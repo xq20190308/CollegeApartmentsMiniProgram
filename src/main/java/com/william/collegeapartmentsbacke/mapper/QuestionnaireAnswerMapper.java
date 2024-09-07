@@ -36,4 +36,8 @@ public interface QuestionnaireAnswerMapper {
 
     @Delete("delete from coap.questionnaire_answer where questionnaire_id = #{naireId}")
     void deleteAnswerByNaireId(Integer naireId);
+
+    //根据问卷id查询回答数量
+    @Select("select count(id) from coap.questionnaire_answer where questionnaire_id = #{naireId}")
+    Integer getAnswerCountByNaireId(Integer naireId);
 }

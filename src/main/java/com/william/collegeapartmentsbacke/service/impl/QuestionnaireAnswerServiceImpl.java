@@ -8,9 +8,7 @@ import com.william.collegeapartmentsbacke.mapper.SimpleAnswerMapper;
 import com.william.collegeapartmentsbacke.pojo.dto.AnswerCountDTO;
 import com.william.collegeapartmentsbacke.pojo.dto.AnswerDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.*;
-import com.william.collegeapartmentsbacke.service.QuestionService;
 import com.william.collegeapartmentsbacke.service.QuestionnaireAnswerService;
-import com.william.collegeapartmentsbacke.service.SimpleAnswerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,17 +76,19 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
     /**
      * @param naireId     */
+
     @Override
     public AnswerCountDTO answerSummery(Integer naireId) {
 
         //对数据库中的数据进行解析
         List<AnswerCount> answerCountListBefore = praseAnswerCountsFromSatatistics(naireId);
-        Integer numOfAnswers = answerCountListBefore.size();
         //如果之前没有统计过，则创建新的统计，初始化每个选项为0
         if(answerCountListBefore.isEmpty()){
             log.info("answerCountListBefore is empty");
             answerCountListBefore = initAnsCntList(questionMapper.selectByQuestionnaireId(naireId));
         }
+        Integer numOfAnswers = questionnaireAnswerMapper.getAnswerCountByNaireId(naireId);
+        log.info("" + numOfAnswers);
         AnswerCountDTO answerCountDTO = new AnswerCountDTO();
         answerCountDTO.setNumOfAnswers(numOfAnswers);
         answerCountDTO.setAnswerCountList(answerCountListBefore);

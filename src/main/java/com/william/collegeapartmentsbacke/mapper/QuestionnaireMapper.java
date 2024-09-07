@@ -32,4 +32,8 @@ public interface QuestionnaireMapper {
 
     @Select("select LAST_INSERT_id()")
     Integer getNewestId();
+
+    //根据naireId修改问卷状态
+    @Update("update coap.questionnaire set is_active = #{isActive} where id = #{id}")
+    void updateIsActive(@Param("id") Integer naireId, @Param("isActive") String isActive);
 }
