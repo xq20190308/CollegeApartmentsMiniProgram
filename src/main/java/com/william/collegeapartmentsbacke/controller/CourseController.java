@@ -137,4 +137,16 @@ public class CourseController {
             return Result.error("error");
         }
     }
+
+    @NoNeedLogin
+    @RequestMapping("/getGrade/{term}")
+    public String SelectCourseByWeek(@PathVariable("term")String term,@RequestBody User user) {
+        coursemainService.setAccount(user.getUsername(), user.getPassword());
+        if(coursemainService.initialization())
+        {
+            return coursemainService.getGrade().setTerm(term).exec();
+        }
+        else
+            return"error";
+    }
 }
