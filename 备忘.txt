@@ -14,3 +14,5 @@ lostandFound接口对接
 GET http://william.fit:8080/api/getMydata/found
 
 后面头像要改成服务器上的图片
+
+测试一下服务器git的提交
