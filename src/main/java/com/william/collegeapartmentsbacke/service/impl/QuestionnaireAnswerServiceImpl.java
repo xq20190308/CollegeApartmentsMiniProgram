@@ -57,7 +57,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         //对数据库中的数据进行解析
         List<AnswerCount> answerCountListBefore = praseAnswerCountsFromSatatistics(naireId);
         //如果之前没有统计过，则创建新的统计，初始化每个选项为0
-        if(answerCountListBefore.size() == 0){
+        if(answerCountListBefore.isEmpty()){
             answerCountListBefore = initAnsCntList(questionMapper.selectByQuestionnaireId(naireId));
         }
         log.info("anserCntBefore" + answerCountListBefore);
@@ -83,12 +83,14 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
         //对数据库中的数据进行解析
         List<AnswerCount> answerCountListBefore = praseAnswerCountsFromSatatistics(naireId);
+        Integer numOfAnswers = answerCountListBefore.size();
         //如果之前没有统计过，则创建新的统计，初始化每个选项为0
-        if(answerCountListBefore.size() == 0){
+        if(answerCountListBefore.isEmpty()){
+            log.info("answerCountListBefore is empty");
             answerCountListBefore = initAnsCntList(questionMapper.selectByQuestionnaireId(naireId));
         }
         AnswerCountDTO answerCountDTO = new AnswerCountDTO();
-        answerCountDTO.setNumOfAnswers(answerCountListBefore.size());
+        answerCountDTO.setNumOfAnswers(numOfAnswers);
         answerCountDTO.setAnswerCountList(answerCountListBefore);
         log.info(answerCountDTO.toString());
         return answerCountDTO;
@@ -254,6 +256,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
     private List<AnswerCount> praseAnswerCountsFromSatatistics(Integer naireId) {
         List<AnswerStatistics> answerStatisticList = answerStatisticsMapper.selectByNaireId(naireId);
+        log.info("answerStatisticList.toString(){}",answerStatisticList.toString());
         List<AnswerCount> answerCountList = new ArrayList<>();
         for(AnswerStatistics answerStatistic:answerStatisticList){
             AnswerCount answerCount = new AnswerCount();
@@ -262,7 +265,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             answerCount.setQuestionId(answerStatistic.getQuestionId());
             answerCountList.add(answerCount);
         }
-
+        log.info("answerCountList.toString(){}",answerCountList.toString());
         return answerCountList;
     }
 
@@ -311,7 +314,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                             }
                         }
                     }
-            } else if (currAnswerCount.getAnswerType().equals("1"gi))//单选题处理
+            } else if (currAnswerCount.getAnswerType().equals("1"))//单选题处理
             {
                     JSONArray choiceArray = new JSONArray(answerDTO.getAnswer());
                     Object questionIAnswer = choiceArray.get(i);
