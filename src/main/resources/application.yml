@@ -87,6 +87,6 @@ localFileUrl : F:/back/static/
 mapFileUrl : /static/
 defaults:
   password: "123456"
-  userLevel: "2"
-  avatarUrl: "D:/back/static/default.jpg"
+  userLevel: "1"
+  avatarUrl: "https://william.fit:8082/static/2ff45385-e749-4205-ba16-02e1a0ea7ba6.jpg"
 

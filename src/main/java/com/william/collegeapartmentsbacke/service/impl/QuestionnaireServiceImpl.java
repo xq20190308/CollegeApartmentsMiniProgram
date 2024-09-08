@@ -2,7 +2,6 @@ package com.william.collegeapartmentsbacke.service.impl;
 
 import com.william.collegeapartmentsbacke.mapper.QuestionnaireMapper;
 import com.william.collegeapartmentsbacke.pojo.entity.Questionnaire;
-import com.william.collegeapartmentsbacke.pojo.vo.QuestionnaireVO;
 import com.william.collegeapartmentsbacke.service.QuestionnaireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     @Override
     public void deleteById(Integer id) {
-        questionnaireMapper.deleteById(id);
+        questionnaireMapper.updateIsActive(id,"0");
     }
 
     @Transactional
