@@ -75,4 +75,11 @@ public class LostpropertyController {
         lostpropertyService.updateSolve(id,solve);
         return Result.success();
     }
+
+    @DeleteMapping("/deleteData/{id}")
+    public Result deleteItem(@PathVariable("id") Integer id)
+    {
+        lostpropertyService.deleteItemdata(id);
+        return Result.success();
+    }
 }

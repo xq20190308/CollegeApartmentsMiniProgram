@@ -27,7 +27,7 @@ public class HygieneServicelmpl implements HygieneService {
 
     @Override
     public String getDynamicUpdateSql(Hygiene hygiene, String dromaticSql) {
-        return "UPDATE coap.hygiene_info SET " + dromaticSql+"Rank = #{hygiene.Rank}  WHERE dormitoryId = #{hygiene.dormitoryId}" ;
+        return "UPDATE coap.hygiene_info SET " + dromaticSql+"_rank = #{hygiene.Rank}  WHERE dormitoryId = #{hygiene.dormitory_id}" ;
     }
 
     @Override

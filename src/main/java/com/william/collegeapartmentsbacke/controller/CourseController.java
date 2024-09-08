@@ -137,4 +137,40 @@ public class CourseController {
             return Result.error("error");
         }
     }
+
+    @NoNeedLogin
+    @RequestMapping("/getGrade/{term}")
+    public String SelectCourseByWeek(@PathVariable("term")String term,@RequestBody User user) {
+        coursemainService.setAccount(user.getUsername(), user.getPassword());
+        if(coursemainService.initialization())
+        {
+            return coursemainService.getGrade().setTerm(term).exec();
+        }
+        else
+            return"error";
+    }
+
+    @NoNeedLogin
+    @RequestMapping("/getExamInfo")
+    public String SelectExamInfo(@RequestBody User user) {
+        coursemainService.setAccount(user.getUsername(), user.getPassword());
+        if(coursemainService.initialization())
+        {
+            return coursemainService.getExamInfo().exec();
+        }
+        else
+            return"error";
+    }
+
+    @NoNeedLogin
+    @RequestMapping("/getClassroom/{idleTime}")
+    public String SelectClassroom(@PathVariable("idleTime")String idleTime,@RequestBody User user) {
+        coursemainService.setAccount(user.getUsername(), user.getPassword());
+        if(coursemainService.initialization())
+        {
+            return coursemainService.getClassroom(idleTime).exec();
+        }
+        else
+            return"error";
+    }
 }

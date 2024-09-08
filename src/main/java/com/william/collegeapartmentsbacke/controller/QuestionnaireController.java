@@ -58,7 +58,6 @@ public class QuestionnaireController {
         questionnaire.setDescription(questionnaireDto.getDescription());
         questionnaire.setStartTime(questionnaireDto.getStartTime());
         questionnaire.setEndTime(questionnaireDto.getEndTime());
-
         questionnaireService.totallyadd(questionnaire);
         log.info(questionnaire.toString());
         return Result.success();
@@ -71,6 +70,7 @@ public class QuestionnaireController {
         questionnaireService.deleteById(id);
 //        int i=1/0;
         questionService.deleteByQuestionnaireId(id);
+
         return Result.success();
     }
 
@@ -143,7 +143,7 @@ public class QuestionnaireController {
 
 
         questionnaireAnswer.setUserid(userid);
-        Integer id =  questionnaireAnswerService.addQuestionnaireAnswer(questionnaireAnswer);
+        Integer id =  questionnaireAnswerService.addAnswerAndCount(questionnaireAnswer,userid);
         log.info(id.toString());
         return Result.success();
     }

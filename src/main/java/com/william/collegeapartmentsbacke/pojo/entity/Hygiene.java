@@ -12,7 +12,7 @@ public class Hygiene {
     private Integer id;
     private String weeks;
     @ExcelProperty("宿舍号")
-    private String Dormitoryid;
+    private String dormitory_id;
     @ExcelProperty("成绩")
-    private String Rank;
+    private String rank;
 }

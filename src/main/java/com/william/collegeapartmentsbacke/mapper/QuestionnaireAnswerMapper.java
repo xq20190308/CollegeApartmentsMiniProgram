@@ -30,4 +30,10 @@ public interface QuestionnaireAnswerMapper {
 
     @Select("select answer from coap.questionnaire_answer where questionnaire_id = #{naireId} ")
     List<AnswerDTO> getAnswerByNaireId(Integer naireId);
+
+    @Select("select answer from coap.questionnaire_answer where id = #{id} ")
+    AnswerDTO getAnswerById(Integer id);
+
+    @Delete("delete from coap.questionnaire_answer where questionnaire_id = #{naireId}")
+    void deleteAnswerByNaireId(Integer naireId);
 }
