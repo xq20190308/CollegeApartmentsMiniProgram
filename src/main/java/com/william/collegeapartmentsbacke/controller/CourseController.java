@@ -149,4 +149,28 @@ public class CourseController {
         else
             return"error";
     }
+
+    @NoNeedLogin
+    @RequestMapping("/getExamInfo")
+    public String SelectExamInfo(@RequestBody User user) {
+        coursemainService.setAccount(user.getUsername(), user.getPassword());
+        if(coursemainService.initialization())
+        {
+            return coursemainService.getExamInfo().exec();
+        }
+        else
+            return"error";
+    }
+
+    @NoNeedLogin
+    @RequestMapping("/getClassroom/{idleTime}")
+    public String SelectClassroom(@PathVariable("idleTime")String idleTime,@RequestBody User user) {
+        coursemainService.setAccount(user.getUsername(), user.getPassword());
+        if(coursemainService.initialization())
+        {
+            return coursemainService.getClassroom(idleTime).exec();
+        }
+        else
+            return"error";
+    }
 }
