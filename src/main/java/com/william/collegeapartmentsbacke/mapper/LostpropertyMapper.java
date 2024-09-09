@@ -10,7 +10,7 @@ import java.util.List;
 
 @Mapper
 public interface LostpropertyMapper {
-    @Update("insert into coap.lostproperty (stuid,category,name,pickLocation,pickTime,describes,contactobject,filepath,status,solve) values (#{stuid},#{category},#{name},#{pickLocation},#{pickTime},#{describes},#{contactobject},#{filepath},#{status},#{solve})")
+    @Update("insert into coap.lostproperty (stuid,category,name,pick_location,pick_time,describes,contact_object,file_path,status,solve) values (#{stuid},#{category},#{name},#{pick_location},#{pick_time},#{describes},#{contact_object},#{file_path},#{status},#{solve})")
     void saveSubmit(Itemdata itemdata);
 
     @Select("select * from coap.lostproperty where category=#{category} and status=1")
