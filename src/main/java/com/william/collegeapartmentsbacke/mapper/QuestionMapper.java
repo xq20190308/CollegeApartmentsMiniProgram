@@ -27,7 +27,7 @@ public interface QuestionMapper {
     List<Question> selectByQuestionnaireId(Integer questionnaireId);
 
     @Delete("delete from coap.question where questionnaire_id = #{questionnaireId}")
-    void deleteByQuestionnaire(Integer questionnaireId);
+    void deleteByQuestionnaireId(Integer questionnaireId);
 
     @Delete("delete from coap.question where id = #{id}")
     void deleteByQuestionId(Integer id);

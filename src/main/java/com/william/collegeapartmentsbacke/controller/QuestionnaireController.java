@@ -89,7 +89,7 @@ public class QuestionnaireController {
         questionnaire.setEndTime(questionnaireDto.getEndTime());
 
         log.info(questionnaire.toString());
-        questionService.deleteByQuestionnaireId(id);
+        questionService.deleteByNaireId(id);
         questionService.addQuestions(newquestionList,id);
         questionnaireService.totallyadd(questionnaire);
 

@@ -13,7 +13,9 @@ public interface QuestionService {
 
     List<Question> selectByQuestionnaireId(Integer questionnaireId);
 
-    void deleteByQuestionnaireId(Integer questionnaireId);
+    void modifyByQuestionnaireId(Integer questionnaireId);
+
+    void deleteByNaireId(Integer questionnaireId);
 
     void deleteByQuestionId(Integer questionId);
 
