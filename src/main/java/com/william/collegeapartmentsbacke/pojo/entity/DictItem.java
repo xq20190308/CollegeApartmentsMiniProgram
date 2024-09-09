@@ -3,6 +3,7 @@ package com.william.collegeapartmentsbacke.pojo.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,4 +21,8 @@ public class DictItem {
     private String dictValue;
     @TableField("list_class")
     private String listClass;
+
+    @TableField("status")
+    @JsonIgnore
+    private String status;
 }
