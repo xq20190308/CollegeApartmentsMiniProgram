@@ -35,6 +35,6 @@ public interface QuestionMapper {
     @Select("select LAST_INSERT_id()")
     Integer getNewestId();
 
-    @Update("update coap.questionnaire set is_active = '0'")
+    @Update("update coap.questionnaire set is_active = '0' where id = #{naireId}")
     void updateStatusToFalse(Integer naireId);
 }
