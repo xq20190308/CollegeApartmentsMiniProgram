@@ -34,8 +34,10 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public void deleteByQuestionnaireId(Integer quesionnaireId) {
-        questionMapper.updateStatusToFalse(quesionnaireId);
+    public void updateQuestions(List<Question> questionList) {
+        for (Question question : questionList){
+            questionMapper.updateQuestion(question);
+        }
     }
 
     @Override

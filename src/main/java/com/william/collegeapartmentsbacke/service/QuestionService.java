@@ -13,7 +13,8 @@ public interface QuestionService {
 
     List<Question> selectByQuestionnaireId(Integer questionnaireId);
 
-    void deleteByQuestionnaireId(Integer questionnaireId);
+    //更新一组问题
+    void updateQuestions(List<Question> questionList);
 
     void deleteByQuestionId(Integer questionId);
 
