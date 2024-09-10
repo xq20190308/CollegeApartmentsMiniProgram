@@ -15,7 +15,7 @@ import java.io.Serializable;
 @TableName("coap.question")
 public class Question implements Comparable<Question> {
     private Integer id;
-    private Integer type;
+    private String type;
     private String name;
     private String description;
     private String content;
@@ -27,6 +27,6 @@ public class Question implements Comparable<Question> {
      */
     @Override
     public int compareTo(Question o) {
-        return this.type - o.type;
+        return this.type.compareTo(o.type);
     }
 }

@@ -23,7 +23,7 @@ spring:
 httpport: 81
 server:
   port: 8081
-  ##  address: 192.168.0.4
+  #  address: 192.168.0.4
   ssl:
     key-store-password: 045u78eqn9l
     keyStoreType: PKCS12
@@ -37,7 +37,7 @@ spring:
 httpport: 82
 server:
   port: 8082
-#  address: 192.168.188.204
+#  address: 192.168.39.204
   ssl:
     key-store-password: 045u78eqn9l
     keyStoreType: PKCS12
@@ -83,5 +83,10 @@ zhrc:
   wechat:
     appid: wx3b5ec6e4e336f19e
     secret: adb45243c65766fca8e5c94454a39ef0
-localFileUrl : /www/static/
+localFileUrl : F:/back/static/
 mapFileUrl : /static/
+defaults:
+  password: "123456"
+  userLevel: "1"
+  avatarUrl: "https://william.fit:8082/static/2ff45385-e749-4205-ba16-02e1a0ea7ba6.jpg"
+

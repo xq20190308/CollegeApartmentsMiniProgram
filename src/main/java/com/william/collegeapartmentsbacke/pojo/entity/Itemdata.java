@@ -10,11 +10,12 @@ public class Itemdata {
     private String stuid;
     private String category;
     private String name;
-    private String pickLocation;
-    private String pickTime;
+    private String pick_location;
+    private String pick_time;
     private String describes;
-    private String contactobject;
-    private String filepath;
+    private String contact_object;
+    private String file_path;
     private Integer status;
     private Integer solve;
+    private String content;
 }

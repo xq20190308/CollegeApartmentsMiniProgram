@@ -10,17 +10,20 @@ import java.util.List;
 
 @Mapper
 public interface LostpropertyMapper {
-    @Update("insert into coap.lostproperty (stuid,category,name,pickLocation,pickTime,describes,contactobject,filepath,status,solve) values (#{stuid},#{category},#{name},#{pickLocation},#{pickTime},#{describes},#{contactobject},#{filepath},#{status},#{solve})")
+    @Update("insert into coap.lostproperty (stuid,category,name,pick_location,pick_time,describes,contact_object,file_path,status,solve) values (#{stuid},#{category},#{name},#{pick_location},#{pick_time},#{describes},#{contact_object},#{file_path},#{status},#{solve})")
     void saveSubmit(Itemdata itemdata);
 
     @Select("select * from coap.lostproperty where category=#{category} and status=1")
     List<Itemdata> selectAll(String category);
 
-    @Select("select * from coap.lostproperty where stuid=#{stuid} and status=1")
+    @Select("select * from coap.lostproperty where stuid=#{stuid}")
     List<Itemdata> selectUserAll(String stuid);
 
     @Update("update  coap.lostproperty set status=#{status} where id=#{id}")
     void updateAll(Itemdata itemdata);
+
+    @Update("update coap.lostproperty set solve=#{solve} where id=#{id}")
+    void updateSolve(Integer id,Integer solve);
 
     @Delete("delete from coap.lostproperty where id=#{id}")
     void deleteData(Integer id);

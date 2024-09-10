@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface QuestionnaireMapper {
 
-    @Select("select * from coap.questionnaire")
+    @Select("select * from coap.questionnaire where is_active = '1'")
     List<Questionnaire> selectAll();
 
     List<QuestionnaireVO> countById(@Param("list") List<String> idList);
@@ -32,4 +32,8 @@ public interface QuestionnaireMapper {
 
     @Select("select LAST_INSERT_id()")
     Integer getNewestId();
+
+    //根据naireId修改问卷状态
+    @Update("update coap.questionnaire set is_active = #{isActive} where id = #{id}")
+    void updateIsActive(@Param("id") Integer naireId, @Param("isActive") String isActive);
 }

@@ -24,20 +24,22 @@ public class LostpropertyServicelmpl implements LostpropertyService {
 
     @Override
     public List<Itemdata> getItemdata(String category) {
-        if(category.length()>=5)
-        {
-            return lostpropertyMapper.selectUserAll(category);
-        }
-        else
-            return lostpropertyMapper.selectAll(category);
+        return lostpropertyMapper.selectAll(category);
     }
 
     @Override
     public List<Itemdata> getUserItemdata(String stuid) {
         return lostpropertyMapper.selectUserAll(stuid);
     }
+
+    @Override
+    public void updateSolve(Integer id, Integer solve) {
+        lostpropertyMapper.updateSolve(id,solve);
+    }
+
     @Override
     public void updateItemdata(Itemdata itemdata) {
+
         lostpropertyMapper.updateAll(itemdata);
     }
     @Override

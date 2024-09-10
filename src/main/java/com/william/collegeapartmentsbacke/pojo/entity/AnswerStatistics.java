@@ -21,7 +21,7 @@ public class AnswerStatistics {
     private Integer id;
     private Integer naireId;
     private Integer questionId;
-    private Integer answerType;
+    private String answerType;
     private String choiceCount;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createAt;

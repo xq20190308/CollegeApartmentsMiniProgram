@@ -21,5 +21,5 @@ public interface FileMapper {
     String getLatestId();
 
     @Delete("Delete from coap.filedata where path=#{Url}")
-    String deletefile(String Url);
+    int deletefile(String Url);
 }

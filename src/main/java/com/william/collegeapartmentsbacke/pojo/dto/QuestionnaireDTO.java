@@ -10,11 +10,12 @@ import java.util.List;
 public class QuestionnaireDTO extends Questionnaire {
     private Integer id;
     private Boolean anonymous;
-    private Integer type;
+    private String type;
     private String name;
     private String description;
     private String startTime;
     private String endTime;
+    private String isActive;
     private List<Question> questionList;
 
 }

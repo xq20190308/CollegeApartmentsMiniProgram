@@ -30,4 +30,14 @@ public interface QuestionnaireAnswerMapper {
 
     @Select("select answer from coap.questionnaire_answer where questionnaire_id = #{naireId} ")
     List<AnswerDTO> getAnswerByNaireId(Integer naireId);
+
+    @Select("select answer from coap.questionnaire_answer where id = #{id} ")
+    AnswerDTO getAnswerById(Integer id);
+
+    @Delete("delete from coap.questionnaire_answer where questionnaire_id = #{naireId}")
+    void deleteAnswerByNaireId(Integer naireId);
+
+    //根据问卷id查询回答数量
+    @Select("select count(id) from coap.questionnaire_answer where questionnaire_id = #{naireId}")
+    Integer getAnswerCountByNaireId(Integer naireId);
 }

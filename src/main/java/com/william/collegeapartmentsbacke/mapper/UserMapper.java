@@ -30,6 +30,9 @@ public interface UserMapper {
     @Select("select openid from coap.user where userid = #{username}")
     String findOpenidByUsername(String username);
 
+    @Select("select * from coap.user where id = #{id}")
+    User getUserById(Long id);
+
     @Select("select userid from coap.user where class_id = #{classId}")
     List<String> findUserByClassId(String classId);
 
