@@ -34,6 +34,7 @@ public class LostpropertyController {
             lostpropertyService.saveSubmit(itemdata);
             return Result.success();
     }
+
     @NoNeedLogin
     @GetMapping("/Getdata/{category}")
     public Result SelectData(@PathVariable("category") String category)
@@ -75,7 +76,7 @@ public class LostpropertyController {
         lostpropertyService.updateSolve(id,solve);
         return Result.success();
     }
-
+    @NoNeedLogin
     @DeleteMapping("/deleteData/{id}")
     public Result deleteItem(@PathVariable("id") Integer id)
     {
