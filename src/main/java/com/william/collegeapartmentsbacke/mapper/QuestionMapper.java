@@ -27,7 +27,7 @@ public interface QuestionMapper {
     List<Question> selectByQuestionnaireId(Integer questionnaireId);
 
     @Delete("delete from coap.question where questionnaire_id = #{questionnaireId}")
-    void deleteByQuestionnaire(Integer questionnaireId);
+    void deleteByQuestionnaireId(Integer questionnaireId);
 
     @Delete("delete from coap.question where id = #{id}")
     void deleteByQuestionId(Integer id);
@@ -35,6 +35,4 @@ public interface QuestionMapper {
     @Select("select LAST_INSERT_id()")
     Integer getNewestId();
 
-    @Update("update coap.question set type = #{type}, name = #{name}, description = #{description}, content = #{content} where id = #{id}")
-    void updateQuestion(Question question);
 }

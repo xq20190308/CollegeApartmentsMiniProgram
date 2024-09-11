@@ -89,8 +89,8 @@ public class QuestionnaireController {
         questionnaire.setEndTime(questionnaireDto.getEndTime());
 
         log.info(questionnaire.toString());
-        questionService.updateQuestions(newquestionList);
-//        questionService.addQuestions(newquestionList,id);
+        questionService.deleteByQuestionnaireId(id);
+        questionService.addQuestions(newquestionList,id);
         questionnaireService.totallyadd(questionnaire);
 
         return Result.success(questionnaire);
