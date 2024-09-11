@@ -83,7 +83,7 @@ zhrc:
   wechat:
     appid: wx3b5ec6e4e336f19e
     secret: adb45243c65766fca8e5c94454a39ef0
-localFileUrl : F:/back/static/
+localFileUrl : /www/static/
 mapFileUrl : /static/
 defaults:
   password: "123456"
