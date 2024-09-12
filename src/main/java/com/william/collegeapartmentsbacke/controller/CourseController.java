@@ -21,7 +21,7 @@ import java.util.*;
 public class CourseController {
     @Autowired
     private CoursemainService coursemainService;
-    Course [][]Resultcourse=new Course[5][7];
+    Course [][]Resultcourse=new Course[7][5];
     //获取课程表信息
     @NoNeedLogin
     @RequestMapping ("/obtainCourse")
@@ -31,9 +31,10 @@ public class CourseController {
         // 初始化结果课程表
         for (int i = 0; i < Resultcourse.length; i++) {
             for (int j = 0; j < Resultcourse[i].length; j++) {
-                Resultcourse[i][j] = new Course("0","0","0","0","0","0","0","0"); // 初始化课程对象
+                Resultcourse[i][j] = new Course("1","1","1","","","","",""); // 初始化课程对象
             }
         }
+        log.info(Arrays.deepToString(Resultcourse));
         // 判断是否成功登录
         if(coursemainService.initialization())
         {
@@ -121,10 +122,12 @@ public class CourseController {
             String jsonString=coursemainService.getTable().exec();
             // 解析JSON数据为课程对象列表
             List<Course> CourseList= JSONObject.parseArray(jsonString,Course.class);
+//            log.info("CourseList:"+CourseList);
             // 将课程对象填充到结果课程表中
             for(Course course:CourseList)
             {
-                Resultcourse[(course.getKcsj().charAt(2)-'0')/2 ][(course.getKcsj().charAt(0)-'0')-1]=course;
+//                Resultcourse[(course.getKcsj().charAt(2)-'0')/2 ][(course.getKcsj().charAt(0)-'0')-1]=course;
+                Resultcourse[(course.getKcsj().charAt(0)-'0')-1][(course.getKcsj().charAt(2)-'0')/2 ]=course;
             }
             // 打印课程表
             System.out.println(Arrays.deepToString(Resultcourse));
