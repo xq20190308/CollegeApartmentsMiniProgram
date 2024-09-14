@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
         List<ContactInfoVO> contactInfoVOs = new ArrayList<>();
         for (User user : users) {
             Character letter = PinyinUtil.getFirstLetter(user.getTrueName());
-            ContactInfoVO currContactInfo = new ContactInfoVO(user.getTrueName(),user.getUserid(),user.getPhone(),letter);
+            ContactInfoVO currContactInfo = new ContactInfoVO(user.getTrueName(),user.getUserid(),user.getPhone(),letter,user.getDormitory());
             contactInfoVOs.add(currContactInfo);
         }
 

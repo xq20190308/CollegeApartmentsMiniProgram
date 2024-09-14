@@ -32,7 +32,7 @@ public class FileController {
     private FileMapper fileMapper;
     @Autowired
     private DefaultConfig defaultConfig;
-
+    //ruoyi用
     @PostMapping(value = "/updateAvatar")
     @NoNeedLogin
     public AjaxResult updateAvatar(MultipartFile file, String userid, HttpServletRequest request) {

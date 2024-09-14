@@ -23,4 +23,5 @@ public class ContactInfoVO implements Serializable {
     private String userId;
     private String phoneNumber;
     private Character nameInitialLetter;
+    private String dormitory;
 }
