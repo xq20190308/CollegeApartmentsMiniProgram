@@ -34,7 +34,6 @@ public class CourseController {
                 Resultcourse[i][j] = new Course("1","1","1","","","","",""); // 初始化课程对象
             }
         }
-        log.info(Arrays.deepToString(Resultcourse));
         // 判断是否成功登录
         if(coursemainService.initialization())
         {
@@ -122,12 +121,10 @@ public class CourseController {
             String jsonString=coursemainService.getTable().exec();
             // 解析JSON数据为课程对象列表
             List<Course> CourseList= JSONObject.parseArray(jsonString,Course.class);
-//            log.info("CourseList:"+CourseList);
             // 将课程对象填充到结果课程表中
             for(Course course:CourseList)
             {
-//                Resultcourse[(course.getKcsj().charAt(2)-'0')/2 ][(course.getKcsj().charAt(0)-'0')-1]=course;
-                Resultcourse[(course.getKcsj().charAt(0)-'0')-1][(course.getKcsj().charAt(2)-'0')/2 ]=course;
+                Resultcourse[(course.getKcsj().charAt(2)-'0')/2 ][(course.getKcsj().charAt(0)-'0')-1]=course;
             }
             // 打印课程表
             System.out.println(Arrays.deepToString(Resultcourse));
