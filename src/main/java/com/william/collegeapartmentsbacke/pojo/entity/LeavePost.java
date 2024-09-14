@@ -1,8 +1,6 @@
 package com.william.collegeapartmentsbacke.pojo.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,6 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("coap.leave_post")
 public class LeavePost implements Serializable {
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     private String userId;
     private String trueName;
@@ -21,8 +20,8 @@ public class LeavePost implements Serializable {
     private String endTime;
     private String reviewerId;
     private String status;
-    @TableField(fill = FieldFill.INSERT)
+//    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createdAt;
-    @TableField(fill = FieldFill.UPDATE)
+//    @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updatedAt;
 }

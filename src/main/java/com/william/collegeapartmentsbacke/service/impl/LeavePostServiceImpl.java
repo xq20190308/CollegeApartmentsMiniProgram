@@ -25,6 +25,11 @@ public class LeavePostServiceImpl implements LeavePostService {
     }
 
     @Override
+    public int updateLeavePost(LeavePost leavePost) {
+        return leavePostMapper.updateById(leavePost);
+    }
+
+    @Override
     public List<LeavePost> getByReviewerId(String reviewerId) {
         QueryWrapper<LeavePost> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("reviewer_id",reviewerId);
@@ -35,6 +40,8 @@ public class LeavePostServiceImpl implements LeavePostService {
     public List<LeavePost> getByUserId(String userId) {
         QueryWrapper<LeavePost> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id",userId);
+        //按照创建时间降序
+        queryWrapper.orderByAsc("created_at");
         return leavePostMapper.selectList(queryWrapper);
     }
 }

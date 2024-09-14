@@ -9,6 +9,8 @@ public interface LeavePostService {
 
     public int insertLeavePost(LeavePost leavePost);
 
+    int updateLeavePost(LeavePost leavePost);
+
     public List<LeavePost> getByReviewerId(String reviewerId);
 
     public List<LeavePost> getByUserId(String userId);
