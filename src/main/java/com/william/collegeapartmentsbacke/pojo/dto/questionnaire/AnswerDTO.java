@@ -1,4 +1,4 @@
-package com.william.collegeapartmentsbacke.pojo.dto;
+package com.william.collegeapartmentsbacke.pojo.dto.questionnaire;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

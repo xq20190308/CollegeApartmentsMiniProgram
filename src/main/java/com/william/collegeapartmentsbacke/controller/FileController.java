@@ -4,9 +4,8 @@ import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.config.DefaultConfig;
 import com.william.collegeapartmentsbacke.mapper.FileMapper;
 import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.Uploadfile;
-import com.william.collegeapartmentsbacke.pojo.entity.User;
+import com.william.collegeapartmentsbacke.pojo.entity.userInfo.User;
 import com.william.collegeapartmentsbacke.service.FileService;
 import com.william.collegeapartmentsbacke.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
 import java.util.List;
 
 //文件上传

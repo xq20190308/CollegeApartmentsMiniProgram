@@ -3,7 +3,6 @@ package com.william.collegeapartmentsbacke.service;
 
 import com.william.collegeapartmentsbacke.pojo.dto.NoticeDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Notice;
-import com.william.collegeapartmentsbacke.pojo.entity.Permission;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

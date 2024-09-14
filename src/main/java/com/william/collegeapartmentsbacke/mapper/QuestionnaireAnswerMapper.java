@@ -1,7 +1,7 @@
 package com.william.collegeapartmentsbacke.mapper;
 
-import com.william.collegeapartmentsbacke.pojo.dto.AnswerDTO;
-import com.william.collegeapartmentsbacke.pojo.entity.QuestionnaireAnswer;
+import com.william.collegeapartmentsbacke.pojo.dto.questionnaire.AnswerDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.QuestionnaireAnswer;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

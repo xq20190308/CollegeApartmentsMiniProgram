@@ -1,12 +1,10 @@
-package com.william.collegeapartmentsbacke.pojo.entity;
+package com.william.collegeapartmentsbacke.pojo.entity.questionnaire;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 @Data
 @Builder

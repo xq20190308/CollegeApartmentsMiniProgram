@@ -2,8 +2,8 @@ package com.william.collegeapartmentsbacke.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.william.collegeapartmentsbacke.mapper.SimpleAnswerMapper;
-import com.william.collegeapartmentsbacke.pojo.entity.SimpleAnswer;
-import com.william.collegeapartmentsbacke.service.SimpleAnswerService;
+import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.SimpleAnswer;
+import com.william.collegeapartmentsbacke.service.questionnaire.SimpleAnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

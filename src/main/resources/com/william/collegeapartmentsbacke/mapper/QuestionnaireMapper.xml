@@ -10,7 +10,7 @@
 
 
 
-    <select id="countById" resultType="com.william.collegeapartmentsbacke.pojo.vo.QuestionnaireVO" parameterType="list">
+    <select id="countById" resultType="com.william.collegeapartmentsbacke.pojo.vo.questionnaire.QuestionnaireVO" parameterType="list">
         SELECT coap.questionnaire, count(*) as cnt
         FROM user_paper
         WHERE questionnaire

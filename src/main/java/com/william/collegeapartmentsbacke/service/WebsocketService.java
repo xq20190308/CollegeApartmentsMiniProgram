@@ -1,6 +1,6 @@
 package com.william.collegeapartmentsbacke.service;
 
-import com.william.collegeapartmentsbacke.pojo.entity.ClientMessage;
+import com.william.collegeapartmentsbacke.pojo.entity.websocket.ClientMessage;
 import com.william.collegeapartmentsbacke.pojo.dto.MessageDTO;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;

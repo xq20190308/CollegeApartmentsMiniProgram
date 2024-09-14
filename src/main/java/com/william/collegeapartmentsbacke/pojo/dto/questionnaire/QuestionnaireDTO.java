@@ -1,7 +1,7 @@
-package com.william.collegeapartmentsbacke.pojo.dto;
+package com.william.collegeapartmentsbacke.pojo.dto.questionnaire;
 
-import com.william.collegeapartmentsbacke.pojo.entity.Question;
-import com.william.collegeapartmentsbacke.pojo.entity.Questionnaire;
+import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.Question;
+import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.Questionnaire;
 import lombok.Data;
 
 import java.util.List;

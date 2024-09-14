@@ -1,6 +1,6 @@
 package com.william.collegeapartmentsbacke.mapper;
 
-import com.william.collegeapartmentsbacke.pojo.entity.ClientMessage;
+import com.william.collegeapartmentsbacke.pojo.entity.websocket.ClientMessage;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

@@ -2,11 +2,8 @@ package com.william.collegeapartmentsbacke;
 
 import com.william.collegeapartmentsbacke.controller.DictController;
 import com.william.collegeapartmentsbacke.mapper.DictMapper;
-import com.william.collegeapartmentsbacke.mapper.QuestionnaireMapper;
-import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.DictItem;
 import com.william.collegeapartmentsbacke.service.DictService;
-import com.william.collegeapartmentsbacke.service.impl.QuestionnaireServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

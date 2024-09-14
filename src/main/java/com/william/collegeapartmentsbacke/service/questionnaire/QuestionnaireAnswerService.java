@@ -1,10 +1,7 @@
-package com.william.collegeapartmentsbacke.service;
+package com.william.collegeapartmentsbacke.service.questionnaire;
 
-import com.william.collegeapartmentsbacke.pojo.dto.AnswerCountDTO;
-import com.william.collegeapartmentsbacke.pojo.entity.AnswerCount;
-import com.william.collegeapartmentsbacke.pojo.entity.QuestionnaireAnswer;
-
-import java.util.List;
+import com.william.collegeapartmentsbacke.pojo.dto.questionnaire.AnswerCountDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.QuestionnaireAnswer;
 
 public interface QuestionnaireAnswerService {
 //    Integer addQuestionnaireAnswer(QuestionnaireAnswer questionnaireAnswer);

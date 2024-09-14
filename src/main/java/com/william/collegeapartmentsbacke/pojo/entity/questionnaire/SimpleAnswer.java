@@ -1,4 +1,4 @@
-package com.william.collegeapartmentsbacke.pojo.entity;
+package com.william.collegeapartmentsbacke.pojo.entity.questionnaire;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

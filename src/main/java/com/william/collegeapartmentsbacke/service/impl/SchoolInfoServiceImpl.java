@@ -2,8 +2,8 @@ package com.william.collegeapartmentsbacke.service.impl;
 
 import com.william.collegeapartmentsbacke.mapper.SchoolInfoMapper;
 import com.william.collegeapartmentsbacke.mapper.basicInfo.*;
-import com.william.collegeapartmentsbacke.pojo.entity.StuClassInfoDTO;
-import com.william.collegeapartmentsbacke.pojo.entity.UserSchoolInfo;
+import com.william.collegeapartmentsbacke.pojo.entity.userInfo.StuClassInfoDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.userInfo.UserSchoolInfo;
 import com.william.collegeapartmentsbacke.pojo.entity.basicInfo.*;
 import com.william.collegeapartmentsbacke.pojo.vo.basicInfo.*;
 import com.william.collegeapartmentsbacke.service.SchoolnfoService;

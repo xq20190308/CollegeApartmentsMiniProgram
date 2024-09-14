@@ -1,6 +1,6 @@
 package com.william.collegeapartmentsbacke.mapper;
 
-import com.william.collegeapartmentsbacke.pojo.entity.AnswerStatistics;
+import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.AnswerStatistics;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -1,15 +1,9 @@
-package com.william.collegeapartmentsbacke.service.impl;
+package com.william.collegeapartmentsbacke.service.questionnaire.impl;
 
-import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.william.collegeapartmentsbacke.mapper.QuestionMapper;
-import com.william.collegeapartmentsbacke.pojo.entity.Question;
-import com.william.collegeapartmentsbacke.pojo.entity.Questionnaire;
-import com.william.collegeapartmentsbacke.service.QuestionService;
-import io.micrometer.core.instrument.Meter;
+import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.Question;
+import com.william.collegeapartmentsbacke.service.questionnaire.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
