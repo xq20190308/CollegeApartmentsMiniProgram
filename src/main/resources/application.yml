@@ -64,6 +64,7 @@ spring:
       max-request-size: 1GB
   datasource: #主数据库
     url: jdbc:mysql://121.41.36.101:13308
+    TimeZone: Asia/Shanghai
     username: root
     password: CollegeApartments!@#123
     driver-class-name: com.mysql.cj.jdbc.Driver
