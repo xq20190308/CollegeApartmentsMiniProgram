@@ -59,7 +59,7 @@ public class CourseController {
             // 将课程对象填充到结果课程表中
             for(Course course:CourseList)
             {
-                Resultcourse[(course.getKcsj().charAt(2)-'0')/2 ][(course.getKcsj().charAt(0)-'0')-1]=course;
+                Resultcourse[ (course.getKcsj().charAt(0)-'0')-1][(course.getKcsj().charAt(2)-'0')/2]=course;
             }
             // 打印课程表
             System.out.println(Arrays.deepToString(Resultcourse));
@@ -124,10 +124,13 @@ public class CourseController {
             // 将课程对象填充到结果课程表中
             for(Course course:CourseList)
             {
-                Resultcourse[(course.getKcsj().charAt(2)-'0')/2 ][(course.getKcsj().charAt(0)-'0')-1]=course;
+                Resultcourse[ (course.getKcsj().charAt(0)-'0')-1][(course.getKcsj().charAt(2)-'0')/2]=course;
             }
             // 打印课程表
-            System.out.println(Arrays.deepToString(Resultcourse));
+            for (int i = 0; i < Resultcourse.length; i++) {
+                System.out.println(Arrays.deepToString(Resultcourse[i]));
+            }
+
             // 返回成功结果，包含课程表
             return Result.success(Resultcourse);
         }
