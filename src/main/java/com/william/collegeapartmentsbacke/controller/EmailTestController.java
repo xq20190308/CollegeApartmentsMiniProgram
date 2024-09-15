@@ -40,7 +40,7 @@ public class EmailTestController {
         // 发件人邮箱和名称
         helper.setFrom(senderEmail, "william");
         // 收件人邮箱
-        helper.setTo("1844118046@qq.com");
+        helper.setTo("2092107214@qq.com");
         // 邮件标题
         helper.setSubject("Hello,EmailTest");
         // 邮件正文，第二个参数表示是否是HTML正文
