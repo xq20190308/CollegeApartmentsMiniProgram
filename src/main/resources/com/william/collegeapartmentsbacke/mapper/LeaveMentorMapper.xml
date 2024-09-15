@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.william.collegeapartmentsbacke.mapper.LeaveMentorMapper">
+
+    <!-- 批量插入统计结果 -->
+    <insert id="addLeaveMentors" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO coap.leave_mentor (post_id,user_id,course_name,course_time,mentor_id)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.postId}, #{item.userId}, #{item.courseName}, #{item.courseTime},#{item.mentorId})
+        </foreach>
+    </insert>
+
+</mapper>
