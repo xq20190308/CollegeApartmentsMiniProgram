@@ -50,5 +50,10 @@ public class EmailTestController {
         javaMailSender.send(message);
     }
 
+    @NoNeedLogin
+    @RequestMapping("/send2")
+    public void sendEmail2(String to, String subject, String content) throws MessagingException, UnsupportedEncodingException {
+    }
+
 
 }
