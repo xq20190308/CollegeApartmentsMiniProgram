@@ -63,6 +63,28 @@ public class EmailTestController {
 
         return Result.success("发送成功");
     }
+    @NoNeedLogin
+    @RequestMapping("/sendText")
+    public Result sendTextEmail(String[] tos, String subject, String content) {
+        // 日志信息过滤敏感数据
+        logger.info("发送邮件：to {}, subject {}, files", Arrays.toString(tos), subject);
+
+        // 输入参数验证
+        if (tos == null || tos.length == 0 || subject == null || subject.isEmpty() || content == null || content.isEmpty()) {
+            return Result.error("参数错误");
+        }
+
+        try {
+            // 发送邮件
+            mailService.commonEmail(new ToEmail(tos, subject, content,null));
+//            mailService.sendMimeMail(new ToEmail(tos, subject, content, files));
+        } catch (MailException e) {
+            logger.error("发送邮件失败", e);
+            return Result.error("发送失败：" + e.getMessage());
+        }
+
+        return Result.success("发送成功");
+    }
 
 
 //    @NoNeedLogin

@@ -38,6 +38,9 @@ public class ToEmail implements Serializable {
 
     private MultipartFile[] multipartFiles;//邮件附件
 
-    public ToEmail(String mail, String html邮件, String content) {
-    }
+//    public ToEmail(String mail, String html邮件, String content) {
+//    }
+//
+//    public ToEmail(String[] tos, String subject, String content) {
+//    }
 }
