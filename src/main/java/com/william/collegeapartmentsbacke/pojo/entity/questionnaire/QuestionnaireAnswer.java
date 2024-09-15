@@ -1,7 +1,6 @@
-package com.william.collegeapartmentsbacke.pojo.entity;
+package com.william.collegeapartmentsbacke.pojo.entity.questionnaire;
 
 
-import cn.hutool.core.date.DateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

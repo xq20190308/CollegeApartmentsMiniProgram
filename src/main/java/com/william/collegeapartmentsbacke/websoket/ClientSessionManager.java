@@ -1,6 +1,6 @@
 package com.william.collegeapartmentsbacke.websoket;
 
-import com.william.collegeapartmentsbacke.pojo.entity.ClientSessionBean;
+import com.william.collegeapartmentsbacke.pojo.entity.websocket.ClientSessionBean;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;

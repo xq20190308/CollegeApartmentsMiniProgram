@@ -1,6 +1,6 @@
-package com.william.collegeapartmentsbacke.pojo.dto;
+package com.william.collegeapartmentsbacke.pojo.dto.questionnaire;
 
-import com.william.collegeapartmentsbacke.pojo.entity.AnswerCount;
+import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.AnswerCount;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

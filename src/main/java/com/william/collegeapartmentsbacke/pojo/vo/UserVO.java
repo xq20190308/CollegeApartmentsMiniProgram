@@ -1,7 +1,7 @@
 package com.william.collegeapartmentsbacke.pojo.vo;
 
-import com.william.collegeapartmentsbacke.pojo.entity.Permission;
-import com.william.collegeapartmentsbacke.pojo.entity.StuClassInfoDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.userInfo.Permission;
+import com.william.collegeapartmentsbacke.pojo.entity.userInfo.StuClassInfoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

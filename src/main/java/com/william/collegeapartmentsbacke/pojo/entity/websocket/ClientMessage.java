@@ -1,4 +1,4 @@
-package com.william.collegeapartmentsbacke.pojo.entity;
+package com.william.collegeapartmentsbacke.pojo.entity.websocket;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

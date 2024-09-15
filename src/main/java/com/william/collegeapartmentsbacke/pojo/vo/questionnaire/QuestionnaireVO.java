@@ -1,4 +1,4 @@
-package com.william.collegeapartmentsbacke.pojo.vo;
+package com.william.collegeapartmentsbacke.pojo.vo.questionnaire;
 
 import lombok.Data;
 

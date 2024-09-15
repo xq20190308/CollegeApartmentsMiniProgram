@@ -1,14 +1,14 @@
-package com.william.collegeapartmentsbacke.service.impl;
+package com.william.collegeapartmentsbacke.service.questionnaire.impl;
 
 import cn.hutool.json.JSONArray;
 import com.william.collegeapartmentsbacke.mapper.AnswerStatisticsMapper;
 import com.william.collegeapartmentsbacke.mapper.QuestionMapper;
 import com.william.collegeapartmentsbacke.mapper.QuestionnaireAnswerMapper;
 import com.william.collegeapartmentsbacke.mapper.SimpleAnswerMapper;
-import com.william.collegeapartmentsbacke.pojo.dto.AnswerCountDTO;
-import com.william.collegeapartmentsbacke.pojo.dto.AnswerDTO;
-import com.william.collegeapartmentsbacke.pojo.entity.*;
-import com.william.collegeapartmentsbacke.service.QuestionnaireAnswerService;
+import com.william.collegeapartmentsbacke.pojo.dto.questionnaire.AnswerCountDTO;
+import com.william.collegeapartmentsbacke.pojo.dto.questionnaire.AnswerDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.*;
+import com.william.collegeapartmentsbacke.service.questionnaire.QuestionnaireAnswerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package com.william.collegeapartmentsbacke.mapper;
 
 import com.william.collegeapartmentsbacke.pojo.dto.schoolInfo.SchoolInfo;
-import com.william.collegeapartmentsbacke.pojo.entity.UserSchoolInfo;
+import com.william.collegeapartmentsbacke.pojo.entity.userInfo.UserSchoolInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

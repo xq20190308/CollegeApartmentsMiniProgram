@@ -19,7 +19,7 @@
         updated_at =  CURRENT_TIMESTAMP
     </insert>
 
-    <select id="selectByNaireId" resultType="com.william.collegeapartmentsbacke.pojo.entity.AnswerStatistics">
+    <select id="selectByNaireId" resultType="com.william.collegeapartmentsbacke.pojo.entity.questionnaire.AnswerStatistics">
         select * from coap.answer_statistics where naire_id = #{naireId}
         order by question_id
     </select>

@@ -1,8 +1,7 @@
 package com.william.collegeapartmentsbacke.controller;
 
-import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
-import com.william.collegeapartmentsbacke.pojo.entity.StuClassInfoDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.userInfo.StuClassInfoDTO;
 import com.william.collegeapartmentsbacke.pojo.vo.basicInfo.TotalSchoolInfoVO;
 import com.william.collegeapartmentsbacke.service.SchoolnfoService;
 import com.william.collegeapartmentsbacke.service.UserService;
@@ -11,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @Author: William

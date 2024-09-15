@@ -1,13 +1,11 @@
 package com.william.collegeapartmentsbacke.mapper;
 
-import com.william.collegeapartmentsbacke.pojo.entity.Question;
-import com.william.collegeapartmentsbacke.pojo.entity.Questionnaire;
+import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.Question;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.*;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

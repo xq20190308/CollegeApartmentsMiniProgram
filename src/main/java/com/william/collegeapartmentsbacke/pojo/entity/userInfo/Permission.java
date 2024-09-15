@@ -1,8 +1,7 @@
-package com.william.collegeapartmentsbacke.pojo.entity;
+package com.william.collegeapartmentsbacke.pojo.entity.userInfo;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import org.springframework.data.relational.core.mapping.Table;
 
 @Data
 @TableName("coap.user_permission")

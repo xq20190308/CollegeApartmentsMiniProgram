@@ -1,7 +1,7 @@
 package com.william.collegeapartmentsbacke.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.william.collegeapartmentsbacke.pojo.entity.SimpleAnswer;
+import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.SimpleAnswer;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

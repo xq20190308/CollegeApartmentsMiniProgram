@@ -1,7 +1,7 @@
 package com.william.collegeapartmentsbacke.mapper;
 
-import com.william.collegeapartmentsbacke.pojo.entity.Permission;
-import com.william.collegeapartmentsbacke.pojo.entity.User;
+import com.william.collegeapartmentsbacke.pojo.entity.userInfo.Permission;
+import com.william.collegeapartmentsbacke.pojo.entity.userInfo.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;

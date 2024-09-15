@@ -1,7 +1,6 @@
-package com.william.collegeapartmentsbacke.service;
+package com.william.collegeapartmentsbacke.service.questionnaire;
 
-import com.william.collegeapartmentsbacke.pojo.entity.SimpleAnswer;
-import org.springframework.stereotype.Service;
+import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.SimpleAnswer;
 
 import java.util.List;
 

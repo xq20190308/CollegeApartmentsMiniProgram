@@ -1,4 +1,4 @@
-package com.william.collegeapartmentsbacke.pojo.entity;
+package com.william.collegeapartmentsbacke.pojo.entity.userInfo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

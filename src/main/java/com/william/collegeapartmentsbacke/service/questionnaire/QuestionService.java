@@ -1,7 +1,6 @@
-package com.william.collegeapartmentsbacke.service;
+package com.william.collegeapartmentsbacke.service.questionnaire;
 
-import com.william.collegeapartmentsbacke.pojo.entity.Question;
-import com.william.collegeapartmentsbacke.pojo.entity.Questionnaire;
+import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.Question;
 
 import java.util.List;
 

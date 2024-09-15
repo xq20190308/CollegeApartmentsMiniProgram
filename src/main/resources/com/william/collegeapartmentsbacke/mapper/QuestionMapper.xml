@@ -6,7 +6,7 @@
 <mapper namespace="com.william.collegeapartmentsbacke.mapper.QuestionMapper">
 
 
-    <select id="selectById" resultType="com.william.collegeapartmentsbacke.pojo.entity.Question" parameterType="list">
+    <select id="selectById" resultType="com.william.collegeapartmentsbacke.pojo.entity.questionnaire.Question" parameterType="list">
         SELECT *
         FROM coap.question
         WHERE id
