@@ -4,21 +4,17 @@ import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.ToEmail;
 import com.william.collegeapartmentsbacke.service.MailService;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
+import com.william.collegeapartmentsbacke.service.impl.MailServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
 /**
@@ -32,8 +28,6 @@ import java.util.Arrays;
 public class EmailTestController {
 
     Logger logger = LoggerFactory.getLogger(EmailTestController.class);
-    @Autowired
-    private JavaMailSender javaMailSender;
 
     @Autowired
     private MailService mailService;
