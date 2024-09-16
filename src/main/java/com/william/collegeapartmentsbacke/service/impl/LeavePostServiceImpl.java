@@ -1,19 +1,43 @@
 package com.william.collegeapartmentsbacke.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.william.collegeapartmentsbacke.common.properties.WeChatProperties;
+import com.william.collegeapartmentsbacke.mapper.DictMapper;
 import com.william.collegeapartmentsbacke.mapper.LeavePostMapper;
+import com.william.collegeapartmentsbacke.mapper.UserMapper;
+import com.william.collegeapartmentsbacke.pojo.dto.SubscribeDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.DictItem;
 import com.william.collegeapartmentsbacke.pojo.entity.LeavePost;
+import com.william.collegeapartmentsbacke.pojo.entity.Result;
+import com.william.collegeapartmentsbacke.service.DictService;
 import com.william.collegeapartmentsbacke.service.LeavePostService;
+import com.william.collegeapartmentsbacke.service.SubsribehttpService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Slf4j
 @Service
 public class LeavePostServiceImpl implements LeavePostService {
 
     @Autowired
     private LeavePostMapper leavePostMapper;
+    @Autowired
+    private SubsribehttpService wxCommonService;
+    @Autowired
+    private WeChatProperties weChatProperties;
+    @Autowired
+    private DictService dictService;
+    @Autowired
+    private UserMapper userMapper;
+
     @Override
     public List<LeavePost> getAllLeavePosts() {
         return leavePostMapper.selectList(null);
@@ -25,8 +49,35 @@ public class LeavePostServiceImpl implements LeavePostService {
     }
 
     @Override
-    public int updateLeavePost(LeavePost leavePost) {
-        return leavePostMapper.updateById(leavePost);
+    public Result updateLeavePost(LeavePost leavePost) {
+        if (leavePostMapper.updateById(leavePost)>0){
+            String dict_type = "fun_leave_post_status";
+            String status = dictService.getDictItem(dict_type,leavePost.getStatus());
+            // 获取当前时间
+            LocalDateTime now = LocalDateTime.now();
+            // 定义日期时间格式
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            // 格式化当前时间
+            String formattedNow = now.format(formatter);
+            // 输出日志
+            log.info("更新now: {}", formattedNow);
+
+            String userId = leavePost.getUserId();
+            String templateId = "boxg-cojQ07hdlJYJup5R6JzE8sfp815eCgdmwYiPMM";
+            SubscribeDTO subscribeDTO = new SubscribeDTO();
+            subscribeDTO.setTemplateId(templateId);
+            subscribeDTO.setUserid(userId);
+            subscribeDTO.setPage("pages/home/home");
+            subscribeDTO.setData("{\"thing1\":{\"value\":\"审核结果通知\"},\"phrase3\":{\"value\":\""+status+"\"},\"time4\":{\"value\":\""+formattedNow+"\"}}");
+            //请求 微信接口 获取 accessToken
+            String accessToken = wxCommonService.refreshAccessToken(weChatProperties.getAppid(),weChatProperties.getSecret());
+            if(accessToken==null) return Result.error("获得access_token失败");
+            log.info("向{}发订阅{}消息{}：{}",subscribeDTO.getUserid(),subscribeDTO.getTemplateId(), subscribeDTO.getPage(),subscribeDTO.getData());
+            String openid=userMapper.findOpenidByUsername(subscribeDTO.getUserid());
+            String result = wxCommonService.sendSubscribeMessage(accessToken,openid, subscribeDTO.getTemplateId(), subscribeDTO.getPage(),subscribeDTO.getData());
+            return Result.success(JSONObject.parseObject(result));
+        }
+        return Result.error("更新失败");
     }
 
     @Override

@@ -48,7 +48,7 @@ public class SubscribeController {
             //请求 微信接口 获取 accessToken
             String accessToken = wxCommonService.refreshAccessToken(weChatProperties.getAppid(),weChatProperties.getSecret());
             if(accessToken==null) return Result.error("获得access_token失败");
-            log.info("向{}发订阅消息{}：{}",subscribeDTO.getUserid(),subscribeDTO.getTemplateId(),subscribeDTO.getData());
+            log.info("向{}发订阅{}消息{}：{}",subscribeDTO.getUserid(),subscribeDTO.getTemplateId(), subscribeDTO.getPage(),subscribeDTO.getData());
             String openid=userMapper.findOpenidByUsername(subscribeDTO.getUserid());
             String result = wxCommonService.sendSubscribeMessage(accessToken,openid, subscribeDTO.getTemplateId(), subscribeDTO.getPage(),subscribeDTO.getData());
             if (!Objects.equals(JSONObject.parseObject(result).getString("errcode"), "0")) return Result.error(result);

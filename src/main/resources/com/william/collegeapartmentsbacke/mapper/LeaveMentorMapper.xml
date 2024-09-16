@@ -6,10 +6,10 @@
 
     <!-- 批量插入统计结果 -->
     <insert id="addLeaveMentors" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO coap.leave_mentor (post_id,user_id,course_name,course_time,mentor_id)
+        INSERT INTO coap.leave_mentor (post_id,user_id,course_name,course_s_time,course_e_time,mentor_id)
         VALUES
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.postId}, #{item.userId}, #{item.courseName}, #{item.courseTime},#{item.mentorId})
+            (#{item.postId}, #{item.userId}, #{item.courseName}, #{item.courseSTime}, #{item.courseETime},#{item.mentorId})
         </foreach>
     </insert>
 

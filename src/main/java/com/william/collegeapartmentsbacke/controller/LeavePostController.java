@@ -1,5 +1,6 @@
 package com.william.collegeapartmentsbacke.controller;
 
+import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.LeavePost;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+
+import static com.william.collegeapartmentsbacke.pojo.entity.AjaxResult.success;
 
 @RestController
 @RequestMapping("/leavePosts")
@@ -47,9 +50,11 @@ public class LeavePostController {
         log.info("新增请假申请{}",leavePost);
         return Result.success(leavePostService.insertLeavePost(leavePost));
     }
-    @RequestMapping("/reviewLeavePost")
-    public Result reviewLeavePost(){
-        return Result.success();
+    @PostMapping("/reviewLeavePost")
+    @NoNeedLogin
+    public AjaxResult reviewLeavePost(@RequestBody LeavePost leavePost){
+        log.info("审核申请{}",leavePost);
+        return success(leavePostService.updateLeavePost(leavePost));
     }
 
     @PostMapping("/uploadFiles")
