@@ -1,5 +1,6 @@
 package com.william.collegeapartmentsbacke.controller;
 
+import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.userInfo.StuClassInfoDTO;
 import com.william.collegeapartmentsbacke.pojo.vo.basicInfo.TotalSchoolInfoVO;
@@ -7,9 +8,7 @@ import com.william.collegeapartmentsbacke.service.SchoolnfoService;
 import com.william.collegeapartmentsbacke.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author: William
@@ -29,6 +28,15 @@ public class SchoolInfoController {
     @Autowired
     private UserService userService;
 
+
+    @GetMapping("/getClassinfo")
+    @NoNeedLogin
+    public Result getClassInfoByUserId(@RequestParam("userid") String userid) {
+        StuClassInfoDTO stuClassInfo = schoolnfoService.getStuClassInfoByUserIdBetter(userid);
+        log.info("stuClassInfo:{}", stuClassInfo);
+        log.info("查询某人班级信息：stuClassInfo:{}", stuClassInfo);
+        return Result.success(stuClassInfo);
+    }
 
     @RequestMapping("/get-classinfo")
     public Result getClassInfoByUserIdBetter(@RequestHeader("Authorization") String token) {
