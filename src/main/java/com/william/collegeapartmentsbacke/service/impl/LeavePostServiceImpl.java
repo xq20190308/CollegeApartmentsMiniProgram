@@ -10,8 +10,10 @@ import com.william.collegeapartmentsbacke.pojo.dto.SubscribeDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.DictItem;
 import com.william.collegeapartmentsbacke.pojo.entity.LeavePost;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
+import com.william.collegeapartmentsbacke.pojo.entity.ToEmail;
 import com.william.collegeapartmentsbacke.service.DictService;
 import com.william.collegeapartmentsbacke.service.LeavePostService;
+import com.william.collegeapartmentsbacke.service.MailService;
 import com.william.collegeapartmentsbacke.service.SubsribehttpService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,8 @@ public class LeavePostServiceImpl implements LeavePostService {
     private DictService dictService;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private MailService mailService;
 
     @Override
     public List<LeavePost> getAllLeavePosts() {
@@ -45,7 +49,19 @@ public class LeavePostServiceImpl implements LeavePostService {
 
     @Override
     public int insertLeavePost(LeavePost leavePost) {
-        return leavePostMapper.insert(leavePost);
+        int result = leavePostMapper.insert(leavePost);
+        if(result>0){
+            //给审核人发邮件
+            String reviewerId = leavePost.getReviewerId();
+            //获取邮箱
+//            String email = userMapper.getUserByUserid(reviewerId).getEmail();
+            String email = "1844118046@qq.com";
+            ToEmail toEmail = new ToEmail(new String[]{"1844118046@qq.com"}, "新的通知", "有新提交的请假条，请登录后查看");
+
+            Result result1 = mailService.commonEmail(toEmail);
+            log.info("发邮件{}",result1.toString());
+        }
+        return result;
     }
 
     @Override
