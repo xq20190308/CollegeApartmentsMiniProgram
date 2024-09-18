@@ -23,8 +23,6 @@ public interface ClientMessageMapper {
     @Update("update coap.client_message set status = #{status}")
     void updateMessageStatusByMessageId(Integer messageId,Integer status);
 
-
-
     @Select("select * from coap.client_message where message_id = #{id}")
     ClientMessage getClientMessageById(Integer id);
 

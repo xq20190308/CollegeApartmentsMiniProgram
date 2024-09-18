@@ -1,7 +1,11 @@
 package com.william.collegeapartmentsbacke.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.william.collegeapartmentsbacke.mapper.SuggestionMapper;
+import com.william.collegeapartmentsbacke.pojo.dto.PageDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.PageResults;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.Suggestion;
 import com.william.collegeapartmentsbacke.pojo.entity.Uploadfile;
@@ -55,9 +59,15 @@ public class SuggesitionServicelmpl implements SuggestionService {
 
    //查询用户投诉
     @Override
-    public List<Suggestion> Selectfindall()
+    public PageResults<Suggestion> Selectfindall(PageDTO pagePara)
     {
-        return suggestionmapper.findall();
+        Page<PageDTO>page=new Page<>(pagePara.getNowPage() == null ? 1 : pagePara.getNowPage(), pagePara.getEachPageCount() == null ? 10 : pagePara.getEachPageCount());
+        IPage<Suggestion> queryResult = suggestionmapper.findAll(page,pagePara);
+        PageDTO pageResult = new PageDTO(queryResult.getCurrent(), queryResult.getSize(), queryResult.getTotal(), queryResult.getPages());
+        PageResults<Suggestion> result = new PageResults<>();
+        result.setList(queryResult.getRecords());
+        result.setPage(pageResult);
+        return result;
     }
 
     //保存草稿

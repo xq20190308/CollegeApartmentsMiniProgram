@@ -1,5 +1,8 @@
 package com.william.collegeapartmentsbacke.controller;
 
+import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
+import com.william.collegeapartmentsbacke.pojo.dto.PageDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.PageResults;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.Suggestion;
 import com.william.collegeapartmentsbacke.pojo.entity.Uploadfile;
@@ -77,9 +80,16 @@ public class SuggestionController {
 //        return suggestionService.Selectfile(id);
 //    }
     //管理员获取投诉列表
-    @GetMapping("/manageSuggestions")
-    public List<Suggestion> Selectfindall() {
-        return suggestionService.Selectfindall();
+    @NoNeedLogin
+    @GetMapping("/manageSuggestions/{page}")
+    public List<Suggestion> Selectfindall(@PathVariable("page")long page) {
+        PageDTO pageDTO= new PageDTO();
+        pageDTO.setNowPage(page);
+        PageResults<Suggestion> pageResults=suggestionService.Selectfindall(pageDTO);
+        List<Suggestion> list = pageResults.getList();
+        System.out.println("查询数据：" + list);
+        System.out.println("查询总数：" +list.size());
+        return list;
     }
 
     //删除文件
