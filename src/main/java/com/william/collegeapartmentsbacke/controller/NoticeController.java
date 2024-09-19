@@ -1,6 +1,8 @@
 package com.william.collegeapartmentsbacke.controller;
 
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.dto.NoticeDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Notice;
@@ -38,14 +40,15 @@ public class NoticeController {
         String typeName,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_st,
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime publish_time_ed,
-        Boolean isActive) throws IOException {
-
+        Boolean isActive,Integer pageNum) throws IOException {
+        PageHelper.startPage(pageNum,10);
         List<Notice> noticeList = noticeService.list(id,keyword,typeName,publish_time_st,publish_time_ed,isActive);
 
 //        log.info("查询全部通知{}",typeName,isActive);
 //        log.info(noticeList.toString());
         //返回结果
-        return Result.success(noticeList);
+        PageInfo<Notice> pageInfo = new PageInfo<>(noticeList);
+        return Result.success(pageInfo);
     }
 
 

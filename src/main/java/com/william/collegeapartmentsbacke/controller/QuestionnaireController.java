@@ -1,5 +1,8 @@
 package com.william.collegeapartmentsbacke.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.dto.questionnaire.AnswerCountDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.QuestionnaireAnswer;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
@@ -38,10 +41,12 @@ public class QuestionnaireController {
 
     //问卷部分
     @RequestMapping(value = "/selectAll", method = RequestMethod.GET)
-    Result selectAll() {
+    Result selectAll(Integer pageNum) {
         log.info("查询所有问卷");
+        PageHelper.startPage(pageNum,10);
         List<Questionnaire> questionnaireList = questionnaireService.selectAll();
-        return Result.success(questionnaireList);
+        PageInfo pageInfo = new PageInfo<>(questionnaireList);
+        return Result.success(pageInfo);
     }
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Result add(@RequestBody QuestionnaireDTO questionnaireDto) {
