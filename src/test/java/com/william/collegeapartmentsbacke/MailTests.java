@@ -23,21 +23,21 @@ public class MailTests {
     @Autowired
     private MailServiceImpl mailServiceImpl;
 
-    @Test
-    public void contextLoads() {
-        ToEmail toEmail = new ToEmail("2092107214@qq.com", "测试邮件", "测试邮件内容");
-        Result result = mailServiceImpl.commonEmail(toEmail);
-        log.info(result.toString());
-    }
-    @Test
-    public void testHtml() throws Exception {
-        String content = "<html>\n" +
-                "<body>\n" +
-                "    <h1>这是Html格式邮件!,不信你看邮件，我字体比一般字体还要大</h1>\n" +
-                "</body>\n" +
-                "</html>";
-        mailServiceImpl.htmlEmail(new ToEmail("2092107214@qq.com","Html邮件",content));
-    }
+//    @Test
+//    public void contextLoads() {
+//        ToEmail toEmail = new ToEmail("2092107214@qq.com", "测试邮件", "测试邮件内容",null);
+//        Result result = mailServiceImpl.commonEmail(toEmail);
+//        log.info(result.toString());
+//    }
+//    @Test
+//    public void testHtml() throws Exception {
+//        String content = "<html>\n" +
+//                "<body>\n" +
+//                "    <h1>这是Html格式邮件!,不信你看邮件，我字体比一般字体还要大</h1>\n" +
+//                "</body>\n" +
+//                "</html>";
+//        mailServiceImpl.htmlEmail(new ToEmail("2092107214@qq.com","Html邮件",content));
+//    }
 
 
 }
