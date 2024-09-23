@@ -66,6 +66,7 @@ public class SuggesitionServicelmpl implements SuggestionService {
         PageDTO pageResult = new PageDTO(queryResult.getCurrent(), queryResult.getSize(), queryResult.getTotal(), queryResult.getPages());
         PageResults<Suggestion> result = new PageResults<>();
         result.setList(queryResult.getRecords());
+        result.setPageCount(pageResult.getPageCount());
         result.setPage(pageResult);
         return result;
     }

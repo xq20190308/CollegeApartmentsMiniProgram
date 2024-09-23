@@ -9,6 +9,9 @@ import java.util.List;
 @Data
 public class PageResults<T> {
 
+    @JsonProperty("查询总页数")
+    private long pageCount;
+
     @JsonProperty("存储查询出来的数据")
     private List<T> list;
 
