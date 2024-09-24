@@ -59,4 +59,5 @@ public class SubscribeController {
             item.put("value", value);
             return item;
         }
+
 }

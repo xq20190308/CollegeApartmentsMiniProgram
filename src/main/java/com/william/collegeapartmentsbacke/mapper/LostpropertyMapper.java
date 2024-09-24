@@ -1,5 +1,8 @@
 package com.william.collegeapartmentsbacke.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.william.collegeapartmentsbacke.pojo.dto.PageDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Itemdata;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,7 +17,7 @@ public interface LostpropertyMapper {
     void saveSubmit(Itemdata itemdata);
 
     @Select("select * from coap.lostproperty where category=#{category} and status=1")
-    List<Itemdata> selectAll(String category);
+    IPage<Itemdata> selectAll(String category, Page<PageDTO> page, PageDTO pagePara);
 
     @Select("select * from coap.lostproperty where stuid=#{stuid}")
     List<Itemdata> selectUserAll(String stuid);

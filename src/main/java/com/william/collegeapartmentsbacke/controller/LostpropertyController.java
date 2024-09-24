@@ -1,10 +1,14 @@
 package com.william.collegeapartmentsbacke.controller;
 import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
+import com.william.collegeapartmentsbacke.pojo.dto.PageDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Itemdata;
+import com.william.collegeapartmentsbacke.pojo.entity.PageResults;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
+import com.william.collegeapartmentsbacke.pojo.entity.Suggestion;
 import com.william.collegeapartmentsbacke.service.FileService;
 import com.william.collegeapartmentsbacke.service.LostpropertyService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,11 +40,17 @@ public class LostpropertyController {
     }
 
     @NoNeedLogin
-    @GetMapping("/Getdata/{category}")
-    public Result SelectData(@PathVariable("category") String category)
+    @GetMapping("/Getdata/{category}/{page}")
+    public Result SelectData(@PathVariable("category") String category, @PathVariable("page") long page, HttpServletResponse response)
     {
-        List<Itemdata> itemdata= lostpropertyService.getItemdata(category);
-        return Result.success(itemdata);
+        PageDTO pageDTO= new PageDTO();
+        pageDTO.setNowPage(page);
+        PageResults<Itemdata> pageResults=lostpropertyService.getItemData(category,pageDTO);
+        List<Itemdata> list = pageResults.getList();
+        response.setHeader("totalPage", String.valueOf(pageResults.getPageCount()));
+        System.out.println("查询数据：" + list);
+        System.out.println("查询总数：" +list.size());
+        return Result.success(list);
     }
 
     @GetMapping("/getMydata/{id}")
