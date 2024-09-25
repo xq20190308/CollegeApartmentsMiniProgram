@@ -4,6 +4,7 @@ import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.common.constant.JwtClaimsConstant;
 import com.william.collegeapartmentsbacke.common.properties.JwtProperties;
 import com.william.collegeapartmentsbacke.common.utils.JwtUtil;
+import com.william.collegeapartmentsbacke.config.DefaultConfig;
 import com.william.collegeapartmentsbacke.pojo.entity.*;
 import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.userInfo.Permission;
@@ -40,6 +41,8 @@ public class UserController {
     private FileService fileService;
     @Autowired
     private SchoolnfoService schoolnfoService;
+    @Autowired
+    private DefaultConfig defaultConfig;
 
     @NoNeedLogin
     @RequestMapping(value = "loginInnerTest", method = RequestMethod.POST)
@@ -70,7 +73,7 @@ public class UserController {
         String avatarUrl = user.getAvatarUrl();
         if(avatarUrl == null || "".equals(avatarUrl)){
 //            返回默认头像
-            avatarUrl =  "https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg";
+            avatarUrl =  defaultConfig.getAvatarUrl();
         }
         //后面会改成服务器上的图片
         StuClassInfoDTO stuClassInfo = schoolnfoService.getStuClassInfoByUserIdBetter(user.getUserid());
@@ -207,9 +210,10 @@ public class UserController {
         StuClassInfoDTO stuClassInfo = schoolnfoService.getStuClassInfoByUserIdBetter(user.getUserid());
         Permission permission = userService.getPermissionByUserid(user.getUserid());
         String avatarUrl = user.getAvatarUrl();
+        log.info("avatarUrl:{}",avatarUrl);
         if(avatarUrl == null || "".equals(avatarUrl)){
 //            返回默认头像
-            avatarUrl =  "https://william.fit:8082/static/default.jpg";
+            avatarUrl =  defaultConfig.getAvatarUrl();
         }
         UserVO userVO = UserVO.builder()
                 .id(user.getId())
@@ -217,7 +221,7 @@ public class UserController {
                 .trueName(user.getTrueName())
                 .userid(user.getUserid())
                 .phone(user.getPhone())
-                .avatarUrl(user.getAvatarUrl())
+                .avatarUrl(avatarUrl)
                 .dormitory(user.getDormitory())
                 .classInfo(stuClassInfo)
                 .email("无")
@@ -267,7 +271,7 @@ public class UserController {
         //暂时返回网络头像,其实应该在User表的avatar存一个默认File的id
        if(avatarUrl == null || "".equals(avatarUrl)){
 //            返回默认头像
-           return Result.success("https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg");
+           return Result.success(defaultConfig.getAvatarUrl());
        }else
        {
            log.info("avatar : {}",avatarUrl);
