@@ -18,4 +18,7 @@ import org.springframework.stereotype.Component;
 public class MailProperties {
     private String host;
     private String username;
+    private String port;
+    private String password;
+
 }

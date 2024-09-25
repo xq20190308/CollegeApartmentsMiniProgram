@@ -46,11 +46,8 @@ fileService中SaveFile没有捕获错误，直接返回null,下次改改
         SpringSecurity                          王克帅
         请假                                    张晨冉
     任务分配
-        测试
-        数据库设计
-        做PPT，报告
-        服务器文件管理
 
+9.15：可以用池，缓存，域名 来提高邮件发送的速度
 
 lostandFound接口对接
 GET http://william.fit:8080/api/getMydata/found

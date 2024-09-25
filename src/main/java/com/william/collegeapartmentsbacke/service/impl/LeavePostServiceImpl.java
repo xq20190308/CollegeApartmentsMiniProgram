@@ -56,7 +56,7 @@ public class LeavePostServiceImpl implements LeavePostService {
             //获取邮箱
 //            String email = userMapper.getUserByUserid(reviewerId).getEmail();
             String email = "1844118046@qq.com";
-            ToEmail toEmail = new ToEmail(new String[]{"1844118046@qq.com"}, "新的通知", "有新提交的请假条，请登录后查看");
+            ToEmail toEmail = new ToEmail(new String[]{"1844118046@qq.com"}, "新的通知", "有新提交的请假条，请登录后查看",null);
 
             Result result1 = mailService.commonEmail(toEmail);
             log.info("发邮件{}",result1.toString());
