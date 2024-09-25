@@ -36,7 +36,7 @@ spring:
 httpport: 80
 server:
   port: 8080
-  ##  address: 192.168.0.4
+#    address: 192.168.0.4
   ssl:
     key-store-password: 045u78eqn9l
     keyStoreType: PKCS12
@@ -64,7 +64,7 @@ spring:
 httpport: 82
 server:
   port: 8082
-#  address: 192.168.39.204
+#  address: 192.168.96.204
   ssl:
     key-store-password: 045u78eqn9l
     keyStoreType: PKCS12
@@ -120,5 +120,5 @@ mapFileUrl : /static/
 defaults:
   password: "123456"
   userLevel: "1"
-  avatarUrl: "https://william.fit:8082/static/2ff45385-e749-4205-ba16-02e1a0ea7ba6.jpg"
+  avatarUrl: "http://william.fit:82/static/default/defaultAvatar.jpg"
 
