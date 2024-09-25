@@ -116,7 +116,7 @@ zhrc:
     appid: wx3b5ec6e4e336f19e
     secret: adb45243c65766fca8e5c94454a39ef0
 localFileUrl : /www/static/
-mapFileUrl : /static/am""
+mapFileUrl : /static/
 defaults:
   password: "123456"
   userLevel: "1"
