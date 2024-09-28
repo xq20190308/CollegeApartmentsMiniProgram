@@ -1,5 +1,7 @@
 package com.william.collegeapartmentsbacke.service;
 
+import com.william.collegeapartmentsbacke.pojo.dto.PageDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.PageResults;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.Suggestion;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,7 +18,7 @@ public interface SuggestionService {
     List<Suggestion> SelectDraftfindall(String stu_id);
 
 
-    List<Suggestion> Selectfindall();
+    PageResults<Suggestion> Selectfindall(PageDTO pagePara);
 
     String Savedaft(Suggestion suggestion);
 

@@ -1,11 +1,11 @@
 package com.william.collegeapartmentsbacke.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.william.collegeapartmentsbacke.pojo.dto.PageDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Uploadfile;
 import com.william.collegeapartmentsbacke.pojo.entity.Suggestion;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -19,10 +19,6 @@ public interface SuggestionMapper {
 
    @Select("select * from coap.advise_draft where id=#{id} order by id desc ")
    Boolean Draftselect(Integer id);
-
-   //获取提交
-   @Select("select * from coap.advise")
-   List<Suggestion> findall();
 
    //提交
    @Update("insert into coap.advise (id,describes,category,pushtime,contactobject,path,status) values(#{id},#{describes},#{category},#{pushtime},#{contactobject},#{path},#{status});")
@@ -58,4 +54,7 @@ public interface SuggestionMapper {
 
    @Update("update coap.advise set status=#{status} where id=#{id}")
    void updataStatus(Suggestion suggestion);
+
+   @Select("select id,stu_id,describes,category,contactobject,pushtime,path,status from coap.advise")
+   IPage<Suggestion> findAll(Page<PageDTO> page, PageDTO pagePara);
 }
