@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.entity.Course;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
-import com.william.collegeapartmentsbacke.pojo.entity.User;
+import com.william.collegeapartmentsbacke.pojo.entity.userInfo.User;
 import com.william.collegeapartmentsbacke.service.CoursemainService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.*;
 public class CourseController {
     @Autowired
     private CoursemainService coursemainService;
-    Course [][]Resultcourse=new Course[5][7];
+    Course [][]Resultcourse=new Course[7][5];
     //获取课程表信息
     @NoNeedLogin
     @RequestMapping ("/obtainCourse")
@@ -31,7 +31,7 @@ public class CourseController {
         // 初始化结果课程表
         for (int i = 0; i < Resultcourse.length; i++) {
             for (int j = 0; j < Resultcourse[i].length; j++) {
-                Resultcourse[i][j] = new Course("0","0","0","0","0","0","0","0"); // 初始化课程对象
+                Resultcourse[i][j] = new Course("1","1","1","","","","",""); // 初始化课程对象
             }
         }
         // 判断是否成功登录
@@ -59,7 +59,7 @@ public class CourseController {
             // 将课程对象填充到结果课程表中
             for(Course course:CourseList)
             {
-                Resultcourse[(course.getKcsj().charAt(0)-'0')-1][(course.getKcsj().charAt(2)-'0')/2 ]=course;
+                Resultcourse[ (course.getKcsj().charAt(0)-'0')-1][(course.getKcsj().charAt(2)-'0')/2]=course;
             }
             // 打印课程表
             System.out.println(Arrays.deepToString(Resultcourse));
@@ -124,10 +124,13 @@ public class CourseController {
             // 将课程对象填充到结果课程表中
             for(Course course:CourseList)
             {
-                Resultcourse[(course.getKcsj().charAt(0)-'0')-1][(course.getKcsj().charAt(2)-'0')/2 ]=course;
+                Resultcourse[ (course.getKcsj().charAt(0)-'0')-1][(course.getKcsj().charAt(2)-'0')/2]=course;
             }
             // 打印课程表
-            System.out.println(Arrays.deepToString(Resultcourse));
+            for (int i = 0; i < Resultcourse.length; i++) {
+                System.out.println(Arrays.deepToString(Resultcourse[i]));
+            }
+
             // 返回成功结果，包含课程表
             return Result.success(Resultcourse);
         }

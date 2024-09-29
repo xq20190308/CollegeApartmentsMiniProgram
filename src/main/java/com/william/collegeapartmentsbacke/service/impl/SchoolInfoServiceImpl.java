@@ -2,8 +2,8 @@ package com.william.collegeapartmentsbacke.service.impl;
 
 import com.william.collegeapartmentsbacke.mapper.SchoolInfoMapper;
 import com.william.collegeapartmentsbacke.mapper.basicInfo.*;
-import com.william.collegeapartmentsbacke.pojo.entity.StuClassInfoDTO;
-import com.william.collegeapartmentsbacke.pojo.entity.UserSchoolInfo;
+import com.william.collegeapartmentsbacke.pojo.entity.userInfo.StuClassInfoDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.userInfo.UserSchoolInfo;
 import com.william.collegeapartmentsbacke.pojo.entity.basicInfo.*;
 import com.william.collegeapartmentsbacke.pojo.vo.basicInfo.*;
 import com.william.collegeapartmentsbacke.service.SchoolnfoService;
@@ -43,11 +43,18 @@ public class SchoolInfoServiceImpl implements SchoolnfoService {
     @Override
     public StuClassInfoDTO getStuClassInfoByUserIdBetter(String userId) {
         UserSchoolInfo userSchoolInfo = schoolInfoMapper.selectUserSchoolInfoByUserId(userId);
-        String campusName = campusInfoMapper.getCampusNameById(userSchoolInfo.getCampusId());
-        String gradeName = gradeInfoMapper.getGeadeNameById(userSchoolInfo.getGradeId());
-        String collegeName = collegeInfoMapper.getCollegeNameById(userSchoolInfo.getCollegeId());
-        String majorName = majorInfoMapper.getMajorNameById(userSchoolInfo.getMajorId());
-        String className = classInfoMapper.getClassNameById(userSchoolInfo.getClassId());
+        String campusName = "";
+        String gradeName = "";
+        String collegeName = "";
+        String majorName = "";
+        String className = "";
+        if(userSchoolInfo!=null){
+            campusName = campusInfoMapper.getCampusNameById(userSchoolInfo.getCampusId());
+            gradeName = gradeInfoMapper.getGeadeNameById(userSchoolInfo.getGradeId());
+            collegeName = collegeInfoMapper.getCollegeNameById(userSchoolInfo.getCollegeId());
+            majorName = majorInfoMapper.getMajorNameById(userSchoolInfo.getMajorId());
+            className = classInfoMapper.getClassNameById(userSchoolInfo.getClassId());
+        }
 
         StuClassInfoDTO stuClassInfoDTO = StuClassInfoDTO.builder()
                 .campusName(campusName)

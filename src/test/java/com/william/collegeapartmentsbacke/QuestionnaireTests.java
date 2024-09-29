@@ -1,8 +1,8 @@
 package com.william.collegeapartmentsbacke;
 
 import com.william.collegeapartmentsbacke.mapper.QuestionnaireMapper;
-import com.william.collegeapartmentsbacke.pojo.entity.Questionnaire;
-import com.william.collegeapartmentsbacke.service.impl.QuestionnaireServiceImpl;
+import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.Questionnaire;
+import com.william.collegeapartmentsbacke.service.questionnaire.impl.QuestionnaireServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,13 +1,11 @@
 package com.william.collegeapartmentsbacke.mapper;
 
-import com.william.collegeapartmentsbacke.pojo.entity.Question;
-import com.william.collegeapartmentsbacke.pojo.entity.Questionnaire;
+import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.Question;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.*;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,7 +25,7 @@ public interface QuestionMapper {
     List<Question> selectByQuestionnaireId(Integer questionnaireId);
 
     @Delete("delete from coap.question where questionnaire_id = #{questionnaireId}")
-    void deleteByQuestionnaire(Integer questionnaireId);
+    void deleteByQuestionnaireId(Integer questionnaireId);
 
     @Delete("delete from coap.question where id = #{id}")
     void deleteByQuestionId(Integer id);
@@ -35,6 +33,4 @@ public interface QuestionMapper {
     @Select("select LAST_INSERT_id()")
     Integer getNewestId();
 
-    @Update("update coap.questionnaire set is_active = '0'")
-    void updateStatusToFalse(Integer naireId);
 }

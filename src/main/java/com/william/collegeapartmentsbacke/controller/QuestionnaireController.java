@@ -1,15 +1,15 @@
 package com.william.collegeapartmentsbacke.controller;
 
-import com.william.collegeapartmentsbacke.pojo.dto.AnswerCountDTO;
-import com.william.collegeapartmentsbacke.pojo.entity.QuestionnaireAnswer;
+import com.william.collegeapartmentsbacke.pojo.dto.questionnaire.AnswerCountDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.QuestionnaireAnswer;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
-import com.william.collegeapartmentsbacke.pojo.dto.QuestionnaireDTO;
-import com.william.collegeapartmentsbacke.pojo.entity.Question;
-import com.william.collegeapartmentsbacke.pojo.entity.Questionnaire;
-import com.william.collegeapartmentsbacke.pojo.vo.QuestionnaireAwswerVO;
-import com.william.collegeapartmentsbacke.service.QuestionService;
-import com.william.collegeapartmentsbacke.service.QuestionnaireAnswerService;
-import com.william.collegeapartmentsbacke.service.QuestionnaireService;
+import com.william.collegeapartmentsbacke.pojo.dto.questionnaire.QuestionnaireDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.Question;
+import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.Questionnaire;
+import com.william.collegeapartmentsbacke.pojo.vo.questionnaire.QuestionnaireAwswerVO;
+import com.william.collegeapartmentsbacke.service.questionnaire.QuestionService;
+import com.william.collegeapartmentsbacke.service.questionnaire.QuestionnaireAnswerService;
+import com.william.collegeapartmentsbacke.service.questionnaire.QuestionnaireService;
 import com.william.collegeapartmentsbacke.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +69,7 @@ public class QuestionnaireController {
         log.info("根据问卷id删除对应问卷及其所有问题");
         questionnaireService.deleteById(id);
 //        int i=1/0;
-        questionService.deleteByQuestionnaireId(id);
+//        questionService.deleteByQuestionnaireId(id);
 
         return Result.success();
     }

@@ -9,8 +9,8 @@ import com.william.collegeapartmentsbacke.common.utils.HttpClientUtil;
 import com.william.collegeapartmentsbacke.common.utils.JwtUtil;
 import com.william.collegeapartmentsbacke.mapper.UserMapper;
 import com.william.collegeapartmentsbacke.pojo.dto.UserLoginDTO;
-import com.william.collegeapartmentsbacke.pojo.entity.Permission;
-import com.william.collegeapartmentsbacke.pojo.entity.User;
+import com.william.collegeapartmentsbacke.pojo.entity.userInfo.Permission;
+import com.william.collegeapartmentsbacke.pojo.entity.userInfo.User;
 import com.william.collegeapartmentsbacke.service.UserService;
 import com.william.collegeapartmentsbacke.common.properties.WeChatProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
         List<ContactInfoVO> contactInfoVOs = new ArrayList<>();
         for (User user : users) {
             Character letter = PinyinUtil.getFirstLetter(user.getTrueName());
-            ContactInfoVO currContactInfo = new ContactInfoVO(user.getTrueName(),user.getUserid(),user.getPhone(),letter);
+            ContactInfoVO currContactInfo = new ContactInfoVO(user.getTrueName(),user.getUserid(),user.getPhone(),letter,user.getDormitory());
             contactInfoVOs.add(currContactInfo);
         }
 

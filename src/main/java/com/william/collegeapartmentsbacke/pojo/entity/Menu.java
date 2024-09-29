@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Data
 @TableName("coap.menu")
 public class Menu implements Serializable {
-    private Long id;
+    private Integer id;
     private String name;
     private String imgPath;
     private String pagePath;

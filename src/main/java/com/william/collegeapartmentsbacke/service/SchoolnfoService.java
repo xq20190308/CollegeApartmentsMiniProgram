@@ -1,6 +1,6 @@
 package com.william.collegeapartmentsbacke.service;
 
-import com.william.collegeapartmentsbacke.pojo.entity.StuClassInfoDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.userInfo.StuClassInfoDTO;
 import com.william.collegeapartmentsbacke.pojo.vo.basicInfo.TotalSchoolInfoVO;
 
 /**
