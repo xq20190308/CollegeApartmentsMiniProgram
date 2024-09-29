@@ -2,6 +2,7 @@ package com.william.collegeapartmentsbacke.controller;
 
 import cn.hutool.json.JSONObject;
 import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
+import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.userInfo.PuUser;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.service.PuInfoService;
@@ -17,16 +18,16 @@ public class PuInfoController {
     PuInfoService puInfoService;
     @NoNeedLogin
     @RequestMapping("login")
-    public Result login(@RequestBody PuUser puUser)
+    public AjaxResult login(@RequestBody PuUser puUser)
     {
         try {
             String response=puInfoService.Login(puUser.getUsername(),puUser.getPassword());
             JSONObject jsonObject=new JSONObject(response);
             JSONObject data=jsonObject.getJSONObject("data");
             if(jsonObject.getStr("code").equals("0"))
-                return Result.success(data.getStr("token"));
+                return AjaxResult.success(data.getStr("token"));
             else
-                return Result.error("用户名或密码错误");
+                return AjaxResult.error("用户名或密码错误");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

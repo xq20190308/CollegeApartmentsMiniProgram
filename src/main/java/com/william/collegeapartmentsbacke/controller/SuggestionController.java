@@ -2,6 +2,7 @@ package com.william.collegeapartmentsbacke.controller;
 
 import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.dto.PageDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.PageResults;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.Suggestion;
@@ -33,45 +34,45 @@ public class SuggestionController {
 
     //用户查询全部草稿
     @GetMapping("/selectDraft/{stu_id}")
-    public Result SelectDraftfindall(@PathVariable("stu_id") String stu_id) {
+    public AjaxResult SelectDraftfindall(@PathVariable("stu_id") String stu_id) {
         log.info("SelectDraftfindall");
         List<Suggestion> suggestions = suggestionService.SelectDraftfindall(stu_id);
         log.info(suggestions.toString());
-        return Result.success(suggestions);
+        return AjaxResult.success(suggestions);
     }
 
     //用户提交投诉
     @PostMapping("/suggestions")
-    public Result SubmitSuggestion(@RequestBody Suggestion suggestion) {
+    public AjaxResult SubmitSuggestion(@RequestBody Suggestion suggestion) {
         suggestionService.SubmitSuggestion(suggestion);
         log.info("SubmitSuggestion");
-        return Result.success();
+        return AjaxResult.success();
     }
 
     //用户编辑保存投诉
     @PostMapping("/suggestionsDraft")
-    public Result Savedaft(@RequestBody Suggestion suggestion) {
+    public AjaxResult Savedaft(@RequestBody Suggestion suggestion) {
         String msg=suggestionService.Savedaft(suggestion);
-        return Result.success(msg);
+        return AjaxResult.success(msg);
     }
 
     //删除投诉
     @DeleteMapping("/deleteSuggestions/{id}")
-    public Result deleteSuggestion(@PathVariable("id") long id) {
+    public AjaxResult deleteSuggestion(@PathVariable("id") long id) {
         suggestionService.deleteSuggestion(id);
         if (suggestionService.deleteSuggestion(id)) {
-            return Result.success();
+            return AjaxResult.success();
         }
         else
-            return Result.error("Draft is empty");
+            return AjaxResult.error("Draft is empty");
     }
 
     //上传文件
     @NoNeedLogin
     @PostMapping("/upload")
-    public Result upload(@RequestHeader("Authorization")String token,@RequestParam("files")List<MultipartFile>files, HttpServletRequest request) {
+    public AjaxResult upload(@RequestHeader("Authorization")String token,@RequestParam("files")List<MultipartFile>files, HttpServletRequest request) {
        String userid = userService.getUseridFromToken(token);
-       return Result.success(fileService.Savefile(userid,files,request));
+       return AjaxResult.success(fileService.Savefile(userid,files,request));
     }
 
 //    //获取文件
@@ -96,15 +97,15 @@ public class SuggestionController {
 
     //删除文件
     @DeleteMapping("/deleteFiles/{Filename}")
-    public Result deleteSuggestion(@PathVariable String Filename) {
-        return Result.success(fileService.DeletefileByUrl(Filename));
+    public AjaxResult deleteSuggestion(@PathVariable String Filename) {
+        return AjaxResult.success(fileService.DeletefileByUrl(Filename));
     }
 
     @PostMapping("/updateState")
-    public Result updateStatus(@RequestBody Suggestion suggestion)
+    public AjaxResult updateStatus(@RequestBody Suggestion suggestion)
     {
         suggestionService.updataStatus(suggestion);
-        return Result.success();
+        return AjaxResult.success();
     }
 
 //    @PostMapping ("/faceback{id}")
