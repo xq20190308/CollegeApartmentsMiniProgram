@@ -60,7 +60,7 @@ public class FileServiceImpl implements FileService {
                     // 读取文件字节
                     byte[] b = file.getBytes();
                     // 创建文件上传对象
-                    Uploadfile loadFile = new Uploadfile(ID,userid,filename, filetype, Path, b);
+                    Uploadfile loadFile = new Uploadfile(userid,filename, filetype, Path, b);
                     // 将文件保存到服务器
                     file.transferTo(new File(localFileUrl + filename));
                     // 保存文件信息到数据库

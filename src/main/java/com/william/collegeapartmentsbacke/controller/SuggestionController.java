@@ -67,6 +67,7 @@ public class SuggestionController {
     }
 
     //上传文件
+    @NoNeedLogin
     @PostMapping("/upload")
     public Result upload(@RequestHeader("Authorization")String token,@RequestParam("files")List<MultipartFile>files, HttpServletRequest request) {
        String userid = userService.getUseridFromToken(token);

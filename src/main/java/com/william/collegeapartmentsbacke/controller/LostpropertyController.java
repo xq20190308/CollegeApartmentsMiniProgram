@@ -25,6 +25,7 @@ public class LostpropertyController {
     @Autowired
     private FileService fileService;
 
+    @NoNeedLogin
     @PostMapping("/uploadItem")
     public Result saveFile(@RequestHeader("Authorization")String token, @RequestParam("file") List<MultipartFile> file, HttpServletRequest request)
     {
