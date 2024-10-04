@@ -1,12 +1,15 @@
 package com.william.collegeapartmentsbacke.controller;
 
+import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
+import com.william.collegeapartmentsbacke.pojo.dto.PageDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.PageResults;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.Suggestion;
-import com.william.collegeapartmentsbacke.pojo.entity.Uploadfile;
 import com.william.collegeapartmentsbacke.service.FileService;
 import com.william.collegeapartmentsbacke.service.SuggestionService;
 import com.william.collegeapartmentsbacke.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,7 +29,7 @@ public class SuggestionController {
     private UserService userService;
 
     @Autowired
-    private FileService fileService;;
+    private FileService fileService;
 
     //用户查询全部草稿
     @GetMapping("/selectDraft/{stu_id}")
@@ -77,9 +80,17 @@ public class SuggestionController {
 //        return suggestionService.Selectfile(id);
 //    }
     //管理员获取投诉列表
-    @GetMapping("/manageSuggestions")
-    public List<Suggestion> Selectfindall() {
-        return suggestionService.Selectfindall();
+    @NoNeedLogin
+    @GetMapping("/manageSuggestions/{page}")
+    public List<Suggestion> Selectfindall(@PathVariable("page")long page, HttpServletResponse response) {
+        PageDTO pageDTO= new PageDTO();
+        pageDTO.setNowPage(page);
+        PageResults<Suggestion> pageResults=suggestionService.Selectfindall(pageDTO);
+        List<Suggestion> list = pageResults.getList();
+        response.setHeader("totalPage", pageResults.getPageCount() +"");
+        System.out.println("查询数据：" + list);
+        System.out.println("查询总数：" +list.size());
+        return list;
     }
 
     //删除文件
