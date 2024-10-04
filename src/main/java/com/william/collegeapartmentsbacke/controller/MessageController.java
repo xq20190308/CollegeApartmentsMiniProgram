@@ -1,5 +1,6 @@
 package com.william.collegeapartmentsbacke.controller;
 
+import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.dto.MessageDTO;
 import com.william.collegeapartmentsbacke.pojo.vo.ClientMessageVO;
@@ -31,7 +32,7 @@ public class MessageController {
     private WebsocketService websocketService;
 
     @RequestMapping(value = "/history",method = RequestMethod.GET)
-    Result getHistoryMessage(@RequestHeader("Authorization") String token){
+    AjaxResult getHistoryMessage(@RequestHeader("Authorization") String token){
         String userId = userService.getUseridFromToken(token);
         List<MessageDTO> messageDTOList = websocketService.getHistoryMessageListByUserId(userId);
         List<ClientMessageVO> clientMessageVOS = new ArrayList<>();
@@ -45,7 +46,7 @@ public class MessageController {
             clientMessageVOS.add(messageVO);
         }
 
-        return Result.success(clientMessageVOS);
+        return AjaxResult.success(clientMessageVOS);
     }
 
 }

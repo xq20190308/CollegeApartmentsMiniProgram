@@ -3,6 +3,7 @@ package com.william.collegeapartmentsbacke.controller;
 
 import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.dto.NoticeDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.Notice;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.service.NoticeService;
@@ -32,7 +33,7 @@ public class NoticeController {
     //查询全部通知
     @NoNeedLogin
     @GetMapping
-    public Result list(
+    public AjaxResult list(
         Integer id,
         String keyword,
         String typeName,
@@ -45,22 +46,8 @@ public class NoticeController {
 //        log.info("查询全部通知{}",typeName,isActive);
 //        log.info(noticeList.toString());
         //返回结果
-        return Result.success(noticeList);
+        return AjaxResult.success(noticeList);
     }
-
-
-    //发布通知
-//    @PostMapping
-//    public Result addNotice(Notice notice){
-//        log.info("新增Notice");
-//        Boolean addSuccess = noticeService.addNotice(notice);
-//
-//        if(addSuccess)
-//            return Result.success();
-//        else
-//            return Result.error("已存在相同标题或相同内容的通知");
-//    }
-
 
 
 

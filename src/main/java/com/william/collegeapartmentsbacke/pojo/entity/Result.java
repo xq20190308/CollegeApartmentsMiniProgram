@@ -1,15 +1,8 @@
 package com.william.collegeapartmentsbacke.pojo.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
-
-import java.util.HashMap;
 
 @Data
 @AllArgsConstructor

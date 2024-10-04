@@ -1,6 +1,7 @@
 package com.william.collegeapartmentsbacke.controller;
 
 import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
+import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.userInfo.StuClassInfoDTO;
 import com.william.collegeapartmentsbacke.pojo.vo.basicInfo.TotalSchoolInfoVO;
@@ -31,27 +32,27 @@ public class SchoolInfoController {
 
     @GetMapping("/getClassinfo")
     @NoNeedLogin
-    public Result getClassInfoByUserId(@RequestParam("userid") String userid) {
+    public AjaxResult getClassInfoByUserId(@RequestParam("userid") String userid) {
         StuClassInfoDTO stuClassInfo = schoolnfoService.getStuClassInfoByUserIdBetter(userid);
         log.info("stuClassInfo:{}", stuClassInfo);
         log.info("查询某人班级信息：stuClassInfo:{}", stuClassInfo);
-        return Result.success(stuClassInfo);
+        return AjaxResult.success(stuClassInfo);
     }
 
     @RequestMapping("/get-classinfo")
-    public Result getClassInfoByUserIdBetter(@RequestHeader("Authorization") String token) {
+    public AjaxResult getClassInfoByUserIdBetter(@RequestHeader("Authorization") String token) {
         String userId = userService.getUseridFromToken(token);
         StuClassInfoDTO stuClassInfo = schoolnfoService.getStuClassInfoByUserIdBetter(userId);
         log.info("stuClassInfo:{}", stuClassInfo);
         log.info("查询某人班级信息：stuClassInfo:{}", stuClassInfo);
-        return Result.success(stuClassInfo);
+        return AjaxResult.success(stuClassInfo);
     }
 
     @RequestMapping(value = "/infos")
-    public Result getSchoolInfoBetter(){
+    public AjaxResult getSchoolInfoBetter(){
         TotalSchoolInfoVO totalSchoolInfoVO =  schoolnfoService.getAllSchoolInfo();
         log.info("查询所有校区-年级-学院-专业-班级等：totalSchoolInfoVO:{}", totalSchoolInfoVO);
-        return Result.success(totalSchoolInfoVO);
+        return AjaxResult.success(totalSchoolInfoVO);
     }
 
 }
