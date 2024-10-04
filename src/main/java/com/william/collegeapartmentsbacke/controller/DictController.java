@@ -2,20 +2,13 @@ package com.william.collegeapartmentsbacke.controller;
 
 
 import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
-import com.william.collegeapartmentsbacke.pojo.dto.NoticeDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.DictItem;
-import com.william.collegeapartmentsbacke.pojo.entity.Notice;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.service.DictService;
-import com.william.collegeapartmentsbacke.service.NoticeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 

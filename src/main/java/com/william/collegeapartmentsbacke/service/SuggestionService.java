@@ -2,10 +2,7 @@ package com.william.collegeapartmentsbacke.service;
 
 import com.william.collegeapartmentsbacke.pojo.dto.PageDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.PageResults;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.Suggestion;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 

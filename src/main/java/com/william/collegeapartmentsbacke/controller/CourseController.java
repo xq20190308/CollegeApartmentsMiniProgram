@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.Course;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.userInfo.User;
 import com.william.collegeapartmentsbacke.service.CoursemainService;
 import lombok.extern.slf4j.Slf4j;

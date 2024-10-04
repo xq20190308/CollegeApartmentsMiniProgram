@@ -2,7 +2,6 @@ package com.william.collegeapartmentsbacke.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.william.collegeapartmentsbacke.mapper.FileMapper;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.Uploadfile;
 import com.william.collegeapartmentsbacke.service.FileService;
 import com.william.collegeapartmentsbacke.service.UserService;

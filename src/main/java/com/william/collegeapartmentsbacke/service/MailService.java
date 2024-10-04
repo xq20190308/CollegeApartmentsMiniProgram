@@ -1,6 +1,6 @@
 package com.william.collegeapartmentsbacke.service;
 
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
+import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.ToEmail;
 import jakarta.mail.MessagingException;
 
@@ -11,7 +11,7 @@ import jakarta.mail.MessagingException;
  * @Version: 1.0
  */
 public interface MailService {
-    Result commonEmail(ToEmail toEmail);
-    Result htmlEmail(ToEmail toEmail) throws MessagingException;
-    Result sendMimeMail(ToEmail toEmail);
+    AjaxResult commonEmail(ToEmail toEmail);
+    AjaxResult htmlEmail(ToEmail toEmail) throws MessagingException;
+    AjaxResult sendMimeMail(ToEmail toEmail);
 }

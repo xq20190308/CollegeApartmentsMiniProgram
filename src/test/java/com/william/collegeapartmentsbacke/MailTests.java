@@ -1,9 +1,6 @@
 package com.william.collegeapartmentsbacke;
 
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
-import com.william.collegeapartmentsbacke.pojo.entity.ToEmail;
 import com.william.collegeapartmentsbacke.service.impl.MailServiceImpl;
-import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

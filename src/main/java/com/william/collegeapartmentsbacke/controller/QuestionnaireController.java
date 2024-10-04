@@ -3,7 +3,6 @@ package com.william.collegeapartmentsbacke.controller;
 import com.william.collegeapartmentsbacke.pojo.dto.questionnaire.AnswerCountDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.QuestionnaireAnswer;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.dto.questionnaire.QuestionnaireDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.Question;
 import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.Questionnaire;
@@ -39,7 +38,7 @@ public class QuestionnaireController {
 
     //问卷部分
     @RequestMapping(value = "/selectAll", method = RequestMethod.GET)
-    AjaxResult selectAll() {
+    public AjaxResult selectAll() {
         log.info("查询所有问卷");
         List<Questionnaire> questionnaireList = questionnaireService.selectAll();
         return AjaxResult.success(questionnaireList);
@@ -129,7 +128,7 @@ public class QuestionnaireController {
 
     //提交问卷部分
     @RequestMapping(value = "/useranswer/submit",method = RequestMethod.POST)
-    public Result addQuestionnaireAnswer(@RequestHeader("Authorization") String token ,
+    public AjaxResult addQuestionnaireAnswer(@RequestHeader("Authorization") String token ,
                                          @RequestBody QuestionnaireAnswer questionnaireAnswer) {
         log.info("token: {}",token);
         String userid = userService.getUseridFromToken(token);
@@ -139,36 +138,36 @@ public class QuestionnaireController {
 
         QuestionnaireAnswer testAnswer = questionnaireAnswerService.getAnswerByUseridAndNaireId(userid,naireId);
         if(testAnswer != null) {
-            return Result.error("您已填写过该问卷");
+            return AjaxResult.error("您已填写过该问卷");
         }
 
 
         questionnaireAnswer.setUserid(userid);
         Integer id =  questionnaireAnswerService.addAnswerAndCount(questionnaireAnswer,userid);
         log.info(id.toString());
-        return Result.success();
+        return AjaxResult.success();
     }
 
     //查询每个用户的答卷
     @RequestMapping(value = "/useranswer/getmyanswer", method = RequestMethod.GET)
-    public Result findQuestionnaireAnswer(@RequestHeader("Authorization") String token, @RequestParam Integer questionnaireId) {
+    public AjaxResult findQuestionnaireAnswer(@RequestHeader("Authorization") String token, @RequestParam Integer questionnaireId) {
         String userid = userService.getUseridFromToken(token);
         QuestionnaireAnswer questionnaireAnswer = questionnaireAnswerService.getAnswerByUseridAndNaireId(userid,questionnaireId);
         //如果根据问卷id和userid查询不到填写情况
         if(questionnaireAnswer == null){
-            return Result.error("您还没有填写该问卷");
+            return AjaxResult.error("您还没有填写该问卷");
         }
         log.info(questionnaireAnswer.toString());
         QuestionnaireAwswerVO questionnaireAwswerVO = QuestionnaireAwswerVO.builder()
                 .answer(questionnaireAnswer.getAnswer())
                 .build();
-        return Result.success(questionnaireAwswerVO);
+        return AjaxResult.success(questionnaireAwswerVO);
     }
 
 
     @RequestMapping(value = "/useranswer/anssum",method = RequestMethod.GET)
-    public Result AnsSum(@RequestHeader("Authorization") String token, @RequestParam Integer questionnaireId) {
+    public AjaxResult AnsSum(@RequestHeader("Authorization") String token, @RequestParam Integer questionnaireId) {
         AnswerCountDTO answerCountList = questionnaireAnswerService.answerSummery(questionnaireId);
-        return Result.success(answerCountList);
+        return AjaxResult.success(answerCountList);
     }
 }

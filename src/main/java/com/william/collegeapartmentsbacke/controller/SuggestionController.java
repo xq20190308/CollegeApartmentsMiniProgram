@@ -4,7 +4,6 @@ import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.dto.PageDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.PageResults;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.Suggestion;
 import com.william.collegeapartmentsbacke.service.FileService;
 import com.william.collegeapartmentsbacke.service.SuggestionService;

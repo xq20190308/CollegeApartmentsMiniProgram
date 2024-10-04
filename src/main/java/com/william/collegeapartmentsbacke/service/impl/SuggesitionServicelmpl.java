@@ -1,29 +1,20 @@
 package com.william.collegeapartmentsbacke.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.william.collegeapartmentsbacke.mapper.SuggestionMapper;
 import com.william.collegeapartmentsbacke.pojo.dto.PageDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.PageResults;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.Suggestion;
-import com.william.collegeapartmentsbacke.pojo.entity.Uploadfile;
 import com.william.collegeapartmentsbacke.service.SuggestionService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @Service

@@ -1,6 +1,6 @@
 package com.william.collegeapartmentsbacke.service.impl;
 import com.william.collegeapartmentsbacke.common.properties.MailProperties;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
+import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.ToEmail;
 import com.william.collegeapartmentsbacke.service.MailService;
 import jakarta.mail.MessagingException;
@@ -35,7 +35,7 @@ public class MailServiceImpl implements MailService  {
     private MailProperties mailProperties;
 
     @Override
-    public Result commonEmail(ToEmail toEmail) {
+    public AjaxResult commonEmail(ToEmail toEmail) {
         //创建简单邮件消息
         SimpleMailMessage message = new SimpleMailMessage();
         //谁发的
@@ -48,15 +48,15 @@ public class MailServiceImpl implements MailService  {
         message.setText(toEmail.getContent());
         try {
             mailSender.send(message);
-            return Result.success("给" + toEmail.getTos() + "普通邮件发送成功");
+            return AjaxResult.success("给" + toEmail.getTos() + "普通邮件发送成功");
         } catch (MailException e) {
             e.printStackTrace();
-            return Result.error("普通邮件发送失败");
+            return AjaxResult.error("普通邮件发送失败");
         }
     }
 
     @Override
-    public Result htmlEmail(ToEmail toEmail) throws MessagingException {
+    public AjaxResult htmlEmail(ToEmail toEmail) throws MessagingException {
         //创建一个MINE消息
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper minehelper = new MimeMessageHelper(message, true);
@@ -70,16 +70,16 @@ public class MailServiceImpl implements MailService  {
         minehelper.setText(toEmail.getContent(), true);
         try {
             mailSender.send(message);
-            return Result.success("给" + toEmail.getTos() + "html邮件发送成功");
+            return AjaxResult.success("给" + toEmail.getTos() + "html邮件发送成功");
         } catch (MailException e) {
             e.printStackTrace();
-            return Result.error("html邮件发送失败");
+            return AjaxResult.error("html邮件发送失败");
         }
     }
 
     @Override
     //构建复杂邮件信息类(带附件)
-    public Result sendMimeMail(ToEmail toEmail) {
+    public AjaxResult sendMimeMail(ToEmail toEmail) {
         try {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mailSender.createMimeMessage(), true);//true表示支持复杂类型
 
@@ -101,7 +101,7 @@ public class MailServiceImpl implements MailService  {
             }
             mailSender.send(messageHelper.getMimeMessage());//正式发送邮件
             logger.info("发送邮件成功：{}->{}", mailProperties.getUsername(), toEmail.getTos());
-            return Result.success("附件发送成功");
+            return AjaxResult.success("附件发送成功");
         } catch (Exception e) {
             throw new RuntimeException(e);//发送失败
         }

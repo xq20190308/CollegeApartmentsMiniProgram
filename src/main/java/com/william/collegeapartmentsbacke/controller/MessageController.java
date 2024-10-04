@@ -1,7 +1,6 @@
 package com.william.collegeapartmentsbacke.controller;
 
 import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.dto.MessageDTO;
 import com.william.collegeapartmentsbacke.pojo.vo.ClientMessageVO;
 import com.william.collegeapartmentsbacke.service.UserService;

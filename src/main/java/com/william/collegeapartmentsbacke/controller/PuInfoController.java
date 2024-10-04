@@ -4,7 +4,6 @@ import cn.hutool.json.JSONObject;
 import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.userInfo.PuUser;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.service.PuInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -5,19 +5,15 @@ import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.dto.NoticeDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.Notice;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.service.NoticeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.william.collegeapartmentsbacke.common.utils.HttpClientUtil.doPost;
 
@@ -54,31 +50,31 @@ public class NoticeController {
 
 
     @PostMapping
-    public Result addNotice(@RequestBody NoticeDTO noticeDTO){
+    public AjaxResult addNotice(@RequestBody NoticeDTO noticeDTO){
         log.info("新增Notice");
         Boolean addSuccess = noticeService.addNotice(noticeDTO);
         if(addSuccess) {
             log.info("添加成功");
-            return Result.success();
+            return AjaxResult.success();
         }
         else {
-            return Result.error("已存在相同标题或相同内容的通知");
+            return AjaxResult.error("已存在相同标题或相同内容的通知");
         }
     }
 
     @PostMapping("/modify")
-    public Result modifyNotice(@RequestBody Notice notice){
+    public AjaxResult modifyNotice(@RequestBody Notice notice){
 //        log.info("更新数据 Notice:{}",notice.toString());
         noticeService.modifyNotice(notice);
-        return Result.success();
+        return AjaxResult.success();
     }
 
     @DeleteMapping("/{ids}")
-    public Result deleteNotice(@PathVariable List<Integer> ids)
+    public AjaxResult deleteNotice(@PathVariable List<Integer> ids)
     {
 //        log.info("彻底删除操作, ids:{}",ids);
         noticeService.deleteNotice(ids);
-        return Result.success();
+        return AjaxResult.success();
     }
 
 }
