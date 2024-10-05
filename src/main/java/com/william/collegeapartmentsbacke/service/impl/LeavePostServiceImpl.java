@@ -3,13 +3,11 @@ package com.william.collegeapartmentsbacke.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.william.collegeapartmentsbacke.common.properties.WeChatProperties;
-import com.william.collegeapartmentsbacke.mapper.DictMapper;
 import com.william.collegeapartmentsbacke.mapper.LeavePostMapper;
 import com.william.collegeapartmentsbacke.mapper.UserMapper;
 import com.william.collegeapartmentsbacke.pojo.dto.SubscribeDTO;
-import com.william.collegeapartmentsbacke.pojo.entity.DictItem;
+import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.LeavePost;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.ToEmail;
 import com.william.collegeapartmentsbacke.service.DictService;
 import com.william.collegeapartmentsbacke.service.LeavePostService;
@@ -19,9 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -58,14 +54,14 @@ public class LeavePostServiceImpl implements LeavePostService {
             String email = "1844118046@qq.com";
             ToEmail toEmail = new ToEmail(new String[]{"1844118046@qq.com"}, "新的通知", "有新提交的请假条，请登录后查看",null);
 
-            Result result1 = mailService.commonEmail(toEmail);
+            AjaxResult result1 = mailService.commonEmail(toEmail);
             log.info("发邮件{}",result1.toString());
         }
         return result;
     }
 
     @Override
-    public Result updateLeavePost(LeavePost leavePost) {
+    public AjaxResult updateLeavePost(LeavePost leavePost) {
         if (leavePostMapper.updateById(leavePost)>0){
             String dict_type = "fun_leave_post_status";
             String status = dictService.getDictItem(dict_type,leavePost.getStatus());
@@ -87,13 +83,13 @@ public class LeavePostServiceImpl implements LeavePostService {
             subscribeDTO.setData("{\"thing1\":{\"value\":\"审核结果通知\"},\"phrase3\":{\"value\":\""+status+"\"},\"time4\":{\"value\":\""+formattedNow+"\"}}");
             //请求 微信接口 获取 accessToken
             String accessToken = wxCommonService.refreshAccessToken(weChatProperties.getAppid(),weChatProperties.getSecret());
-            if(accessToken==null) return Result.error("获得access_token失败");
+            if(accessToken==null) return AjaxResult.error("获得access_token失败");
             log.info("向{}发订阅{}消息{}：{}",subscribeDTO.getUserid(),subscribeDTO.getTemplateId(), subscribeDTO.getPage(),subscribeDTO.getData());
             String openid=userMapper.findOpenidByUsername(subscribeDTO.getUserid());
             String result = wxCommonService.sendSubscribeMessage(accessToken,openid, subscribeDTO.getTemplateId(), subscribeDTO.getPage(),subscribeDTO.getData());
-            return Result.success(JSONObject.parseObject(result));
+            return AjaxResult.success(JSONObject.parseObject(result));
         }
-        return Result.error("更新失败");
+        return AjaxResult.error("更新失败");
     }
 
     @Override

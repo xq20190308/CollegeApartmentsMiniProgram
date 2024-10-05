@@ -2,7 +2,6 @@ package com.william.collegeapartmentsbacke.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.william.collegeapartmentsbacke.mapper.FileMapper;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.Uploadfile;
 import com.william.collegeapartmentsbacke.service.FileService;
 import com.william.collegeapartmentsbacke.service.UserService;
@@ -60,7 +59,7 @@ public class FileServiceImpl implements FileService {
                     // 读取文件字节
                     byte[] b = file.getBytes();
                     // 创建文件上传对象
-                    Uploadfile loadFile = new Uploadfile(ID,userid,filename, filetype, Path, b);
+                    Uploadfile loadFile = new Uploadfile(userid,filename, filetype, Path, b);
                     // 将文件保存到服务器
                     file.transferTo(new File(localFileUrl + filename));
                     // 保存文件信息到数据库

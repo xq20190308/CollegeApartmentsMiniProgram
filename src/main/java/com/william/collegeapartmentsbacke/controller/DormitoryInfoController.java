@@ -1,8 +1,7 @@
 package com.william.collegeapartmentsbacke.controller;
 
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
+import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.vo.basicInfo.TotalDormitoryInfoVO;
-import com.william.collegeapartmentsbacke.pojo.vo.basicInfo.TotalSchoolInfoVO;
 import com.william.collegeapartmentsbacke.service.DormitoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,9 @@ public class DormitoryInfoController {
     @Autowired
     private DormitoryService dormitoryService;
     @RequestMapping(value = "/infos")
-    public Result getDormitoryInfo(){
+    public AjaxResult getDormitoryInfo(){
         TotalDormitoryInfoVO totalDormitoryInfoVO =  dormitoryService.getAllDormitoryInfo();
         log.info("totalDormitoryInfoVO:{}", totalDormitoryInfoVO);
-        return Result.success(totalDormitoryInfoVO);
+        return AjaxResult.success(totalDormitoryInfoVO);
     }
 }

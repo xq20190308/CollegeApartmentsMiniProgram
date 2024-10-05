@@ -2,8 +2,8 @@ package com.william.collegeapartmentsbacke.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
+import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.Course;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.entity.userInfo.User;
 import com.william.collegeapartmentsbacke.service.CoursemainService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ public class CourseController {
     //获取课程表信息
     @NoNeedLogin
     @RequestMapping ("/obtainCourse")
-    public Result test(@RequestBody User user) {
+    public AjaxResult test(@RequestBody User user) {
         // 设置用户账号和密码
         coursemainService.setAccount(user.getUsername(), user.getPassword());
         // 初始化结果课程表
@@ -64,35 +64,35 @@ public class CourseController {
             // 打印课程表
             System.out.println(Arrays.deepToString(Resultcourse));
             // 返回成功结果，包含课程表
-            return Result.success(Resultcourse);
+            return AjaxResult.success(Resultcourse);
         }
         else
         {
             // 返回错误结果
-            return Result.error("error");
+            return AjaxResult.error("error");
         }
     }
 
     //进行强智系统的登录初始化
     @RequestMapping("/Login")
-    public Result loginInital(@RequestBody User user) {
+    public AjaxResult loginInital(@RequestBody User user) {
         coursemainService.setAccount(user.getUsername(), user.getPassword());
         if(coursemainService.initialization())
         {
             Map<String,String> account=new HashMap<>();
             account.put("password",user.getPassword());
             account.put("username",user.getUsername());
-            return Result.success(account);
+            return AjaxResult.success(account);
         }
         else
         {
-            return Result.error("password invalid");
+            return AjaxResult.error("password invalid");
         }
 
     }
     @NoNeedLogin
     @RequestMapping("/SelectCourse/{id}")
-    public Result SelectCourse(@PathVariable("id")String id,@RequestBody User user) {
+    public AjaxResult SelectCourse(@PathVariable("id")String id,@RequestBody User user) {
         // 设置用户账号和密码
         coursemainService.setAccount(user.getUsername(), user.getPassword());
         // 初始化结果课程表
@@ -132,12 +132,12 @@ public class CourseController {
             }
 
             // 返回成功结果，包含课程表
-            return Result.success(Resultcourse);
+            return AjaxResult.success(Resultcourse);
         }
         else
         {
             // 返回错误结果
-            return Result.error("error");
+            return AjaxResult.error("error");
         }
     }
 
@@ -155,25 +155,25 @@ public class CourseController {
 
     @NoNeedLogin
     @RequestMapping("/getExamInfo")
-    public String SelectExamInfo(@RequestBody User user) {
+    public AjaxResult SelectExamInfo(@RequestBody User user) {
         coursemainService.setAccount(user.getUsername(), user.getPassword());
         if(coursemainService.initialization())
         {
-            return coursemainService.getExamInfo().exec();
+            return AjaxResult.success(coursemainService.getExamInfo().exec());
         }
         else
-            return"error";
+            return AjaxResult.error("error");
     }
 
     @NoNeedLogin
     @RequestMapping("/getClassroom/{idleTime}")
-    public String SelectClassroom(@PathVariable("idleTime")String idleTime,@RequestBody User user) {
+    public AjaxResult SelectClassroom(@PathVariable("idleTime")String idleTime,@RequestBody User user) {
         coursemainService.setAccount(user.getUsername(), user.getPassword());
         if(coursemainService.initialization())
         {
-            return coursemainService.getClassroom(idleTime).exec();
+            return AjaxResult.success(coursemainService.getClassroom(idleTime).exec());
         }
         else
-            return"error";
+            return AjaxResult.error("error");
     }
 }

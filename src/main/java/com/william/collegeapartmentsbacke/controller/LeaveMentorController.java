@@ -1,7 +1,7 @@
 package com.william.collegeapartmentsbacke.controller;
 
+import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.LeaveMentor;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.service.LeaveMentorService;
 import com.william.collegeapartmentsbacke.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,23 +18,23 @@ public class LeaveMentorController {
     private UserService userService;
 
     @RequestMapping("/getAllLeaveMentors")
-    public Result getAllLeaveMentors() {
-        return Result.success(leaveMentorService.getAllLeaveMentors());
+    public AjaxResult getAllLeaveMentors() {
+        return AjaxResult.success(leaveMentorService.getAllLeaveMentors());
     }
 
     @RequestMapping("/getByPostId")
-    public Result getByUserId(@RequestParam("postId") String postId) {
-        return Result.success(leaveMentorService.getByPostId(postId));
+    public AjaxResult getByUserId(@RequestParam("postId") String postId) {
+        return AjaxResult.success(leaveMentorService.getByPostId(postId));
     }
 
     //插入多条数据
     @RequestMapping("/addLeaveMentors")
-    public Result addLeaveMentors(@RequestHeader("Authorization") String token, @RequestBody List<LeaveMentor> list,@RequestParam String postId) {
+    public AjaxResult addLeaveMentors(@RequestHeader("Authorization") String token, @RequestBody List<LeaveMentor> list,@RequestParam String postId) {
         String userId = userService.getUseridFromToken(token);
         for (LeaveMentor leaveMentor : list) {
             leaveMentor.setUserId(userId);
             leaveMentor.setPostId(postId);
         }
-        return Result.success(leaveMentorService.addLeaveMentors(list));
+        return AjaxResult.success(leaveMentorService.addLeaveMentors(list));
     }
 }

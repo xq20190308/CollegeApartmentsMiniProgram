@@ -1,16 +1,14 @@
 package com.william.collegeapartmentsbacke.controller;
 
 import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
+import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.ToEmail;
 import com.william.collegeapartmentsbacke.service.MailService;
-import com.william.collegeapartmentsbacke.service.impl.MailServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,13 +35,13 @@ public class EmailTestController {
 
     @NoNeedLogin
     @RequestMapping("/send")
-    public Result sendEmail(String[] tos, String subject, String content, MultipartFile[] files) {
+    public AjaxResult sendEmail(String[] tos, String subject, String content, MultipartFile[] files) {
         // 日志信息过滤敏感数据
         logger.info("发送邮件：to {}, subject {}, files", Arrays.toString(tos), subject);
 
         // 输入参数验证
         if (tos == null || tos.length == 0 || subject == null || subject.isEmpty() || content == null || content.isEmpty()) {
-            return Result.error("参数错误");
+            return AjaxResult.error("参数错误");
         }
 
         try {
@@ -52,20 +50,20 @@ public class EmailTestController {
             mailService.sendMimeMail(new ToEmail(tos, subject, content, files));
         } catch (MailException e) {
             logger.error("发送邮件失败", e);
-            return Result.error("发送失败：" + e.getMessage());
+            return AjaxResult.error("发送失败：" + e.getMessage());
         }
 
-        return Result.success("发送成功");
+        return AjaxResult.success("发送成功");
     }
     @NoNeedLogin
     @RequestMapping("/sendText")
-    public Result sendTextEmail(String[] tos, String subject, String content) {
+    public AjaxResult sendTextEmail(String[] tos, String subject, String content) {
         // 日志信息过滤敏感数据
         logger.info("发送邮件：to {}, subject {}, files", Arrays.toString(tos), subject);
 
         // 输入参数验证
         if (tos == null || tos.length == 0 || subject == null || subject.isEmpty() || content == null || content.isEmpty()) {
-            return Result.error("参数错误");
+            return AjaxResult.error("参数错误");
         }
 
         try {
@@ -74,10 +72,10 @@ public class EmailTestController {
 //            mailService.sendMimeMail(new ToEmail(tos, subject, content, files));
         } catch (MailException e) {
             logger.error("发送邮件失败", e);
-            return Result.error("发送失败：" + e.getMessage());
+            return AjaxResult.error("发送失败：" + e.getMessage());
         }
 
-        return Result.success("发送成功");
+        return AjaxResult.success("发送成功");
     }
 
 

@@ -6,8 +6,6 @@ import com.william.collegeapartmentsbacke.mapper.LostpropertyMapper;
 import com.william.collegeapartmentsbacke.pojo.dto.PageDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.Itemdata;
 import com.william.collegeapartmentsbacke.pojo.entity.PageResults;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
-import com.william.collegeapartmentsbacke.pojo.entity.Suggestion;
 import com.william.collegeapartmentsbacke.service.LostpropertyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

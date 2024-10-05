@@ -3,7 +3,6 @@ package com.william.collegeapartmentsbacke.controller;
 import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.LeavePost;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.service.FileService;
 import com.william.collegeapartmentsbacke.service.LeavePostService;
 import com.william.collegeapartmentsbacke.service.UserService;
@@ -31,24 +30,24 @@ public class LeavePostController {
     private UserService userService;
 
     @RequestMapping("/getAllLeavePosts")
-    public Result getAllLeavePosts(){
-        return Result.success(leavePostService.getAllLeavePosts());
+    public AjaxResult getAllLeavePosts(){
+        return AjaxResult.success(leavePostService.getAllLeavePosts());
     }
 
     @RequestMapping("/getByReviewerId")
-    public Result getByReviewerId(@RequestParam("reviewerId") String reviewerId){
-        return Result.success(leavePostService.getByReviewerId(reviewerId));
+    public AjaxResult getByReviewerId(@RequestParam("reviewerId") String reviewerId){
+        return AjaxResult.success(leavePostService.getByReviewerId(reviewerId));
     }
 
     @RequestMapping("/getByUserId")
-    public Result getByUserId(@RequestParam("userId") String userId){
-        return Result.success(leavePostService.getByUserId(userId));
+    public AjaxResult getByUserId(@RequestParam("userId") String userId){
+        return AjaxResult.success(leavePostService.getByUserId(userId));
     }
 
     @PostMapping("/addLeavePost")
-    public Result addLeavePost(@RequestBody LeavePost leavePost){
+    public AjaxResult addLeavePost(@RequestBody LeavePost leavePost){
         log.info("新增请假申请{}",leavePost);
-        return Result.success(leavePostService.insertLeavePost(leavePost));
+        return AjaxResult.success(leavePostService.insertLeavePost(leavePost));
     }
     @PostMapping("/reviewLeavePost")
     @NoNeedLogin
@@ -58,10 +57,10 @@ public class LeavePostController {
     }
 
     @PostMapping("/uploadFiles")
-    public Result upload(@RequestHeader("Authorization")String token, @RequestParam("files") List<MultipartFile> files, HttpServletRequest request) {
+    public AjaxResult upload(@RequestHeader("Authorization")String token, @RequestParam("files") List<MultipartFile> files, HttpServletRequest request) {
         String userid = userService.getUseridFromToken(token);
         String savefile = fileService.Savefile(userid, files, request);
         log.info("fileUrl : {}", savefile);
-        return Result.success(savefile);
+        return AjaxResult.success(savefile);
     }
 }

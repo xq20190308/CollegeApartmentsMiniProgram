@@ -24,8 +24,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
         //windows本地文件目录
-       registry.addResourceHandler(mapFileUrl+"**").addResourceLocations("file:"+localFileUrl);
-
+        registry.addResourceHandler(mapFileUrl+"**").addResourceLocations("file:"+localFileUrl);
     }
 
     //配置跨域

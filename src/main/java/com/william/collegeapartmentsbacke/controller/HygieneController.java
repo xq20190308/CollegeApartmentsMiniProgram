@@ -1,7 +1,7 @@
 package com.william.collegeapartmentsbacke.controller;
 
 import com.william.collegeapartmentsbacke.pojo.dto.HygieneDTO;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
+import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.Hygiene;
 import com.william.collegeapartmentsbacke.service.HygieneService;
 import lombok.SneakyThrows;
@@ -26,9 +26,9 @@ public class HygieneController {
         return p;
     }
     @GetMapping("/SelectRank/{id}")
-    public Result SelesctRank(@PathVariable String id) {
+    public AjaxResult SelesctRank(@PathVariable String id) {
         HygieneDTO Rank=hygieneService.SelectRank(id);
         log.info(Rank.toString());
-        return Result.success(Rank);
+        return AjaxResult.success(Rank);
     }
 }

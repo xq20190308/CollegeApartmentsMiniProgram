@@ -1,8 +1,8 @@
 package com.william.collegeapartmentsbacke.controller;
 
 import com.william.collegeapartmentsbacke.pojo.dto.questionnaire.AnswerCountDTO;
+import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.QuestionnaireAnswer;
-import com.william.collegeapartmentsbacke.pojo.entity.Result;
 import com.william.collegeapartmentsbacke.pojo.dto.questionnaire.QuestionnaireDTO;
 import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.Question;
 import com.william.collegeapartmentsbacke.pojo.entity.questionnaire.Questionnaire;
@@ -38,13 +38,13 @@ public class QuestionnaireController {
 
     //问卷部分
     @RequestMapping(value = "/selectAll", method = RequestMethod.GET)
-    Result selectAll() {
+    public AjaxResult selectAll() {
         log.info("查询所有问卷");
         List<Questionnaire> questionnaireList = questionnaireService.selectAll();
-        return Result.success(questionnaireList);
+        return AjaxResult.success(questionnaireList);
     }
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Result add(@RequestBody QuestionnaireDTO questionnaireDto) {
+    public AjaxResult add(@RequestBody QuestionnaireDTO questionnaireDto) {
         log.info("添加问卷");
         Integer questionnaireId = questionnaireService.simpleAdd();
         List<Question> questionList = questionnaireDto.getQuestionList();
@@ -60,22 +60,22 @@ public class QuestionnaireController {
         questionnaire.setEndTime(questionnaireDto.getEndTime());
         questionnaireService.totallyadd(questionnaire);
         log.info(questionnaire.toString());
-        return Result.success();
+        return AjaxResult.success();
     }
 
     @RequestMapping(value = "/deleteById/{id}", method = RequestMethod.DELETE)
     @Transactional
-    public Result deleteById(@PathVariable("id") Integer id) {
+    public AjaxResult deleteById(@PathVariable("id") Integer id) {
         log.info("根据问卷id删除对应问卷及其所有问题");
         questionnaireService.deleteById(id);
 //        int i=1/0;
 //        questionService.deleteByQuestionnaireId(id);
 
-        return Result.success();
+        return AjaxResult.success();
     }
 
     @RequestMapping(value = "/updateQuestionnaireById/{id}", method = RequestMethod.POST)
-    public Result updateQuestionnaireById(@PathVariable("id") Integer id,@RequestBody QuestionnaireDTO questionnaireDto) {
+    public AjaxResult updateQuestionnaireById(@PathVariable("id") Integer id,@RequestBody QuestionnaireDTO questionnaireDto) {
         log.info("根据id修改问卷");
         List<Question> newquestionList = questionnaireDto.getQuestionList();
         Questionnaire questionnaire = new Questionnaire();
@@ -93,32 +93,32 @@ public class QuestionnaireController {
         questionService.addQuestions(newquestionList,id);
         questionnaireService.totallyadd(questionnaire);
 
-        return Result.success(questionnaire);
+        return AjaxResult.success(questionnaire);
     }
 
 
 
     //问题部分
     @RequestMapping(value = "/question/selectByQuestionId", method = RequestMethod.GET)
-    public Result selectQuestionById(@RequestParam("id") Integer questionId) {
+    public AjaxResult selectQuestionById(@RequestParam("id") Integer questionId) {
         log.info("根据id查询问题");
         Question questionList =  questionService.selectQuestionById(questionId);
-        return Result.success(questionList);
+        return AjaxResult.success(questionList);
     }
 
     @RequestMapping(value = "/question/selectByQuestionnaireId/{id}",method = RequestMethod.GET)
-    public Result selectByQuestionnaireId(@PathVariable("id") Integer questionnaireId) {
+    public AjaxResult selectByQuestionnaireId(@PathVariable("id") Integer questionnaireId) {
         log.info("根据问卷id查询其所有问题");
         List<Question> questionList = questionService.selectByQuestionnaireId(questionnaireId);
-        return Result.success(questionList);
+        return AjaxResult.success(questionList);
     }
 
 
     @RequestMapping(value = "/question/deleteByQuestionId/{id}", method = RequestMethod.DELETE)
-    public Result deleteByQuestionId(@PathVariable("id") Integer questionId) {
+    public AjaxResult deleteByQuestionId(@PathVariable("id") Integer questionId) {
         log.info("根据问题id删除对应一个问题");
         questionService.deleteByQuestionId(questionId);
-        return Result.success();
+        return AjaxResult.success();
     }
 
 
@@ -128,7 +128,7 @@ public class QuestionnaireController {
 
     //提交问卷部分
     @RequestMapping(value = "/useranswer/submit",method = RequestMethod.POST)
-    public Result addQuestionnaireAnswer(@RequestHeader("Authorization") String token ,
+    public AjaxResult addQuestionnaireAnswer(@RequestHeader("Authorization") String token ,
                                          @RequestBody QuestionnaireAnswer questionnaireAnswer) {
         log.info("token: {}",token);
         String userid = userService.getUseridFromToken(token);
@@ -138,36 +138,36 @@ public class QuestionnaireController {
 
         QuestionnaireAnswer testAnswer = questionnaireAnswerService.getAnswerByUseridAndNaireId(userid,naireId);
         if(testAnswer != null) {
-            return Result.error("您已填写过该问卷");
+            return AjaxResult.error("您已填写过该问卷");
         }
 
 
         questionnaireAnswer.setUserid(userid);
         Integer id =  questionnaireAnswerService.addAnswerAndCount(questionnaireAnswer,userid);
         log.info(id.toString());
-        return Result.success();
+        return AjaxResult.success();
     }
 
     //查询每个用户的答卷
     @RequestMapping(value = "/useranswer/getmyanswer", method = RequestMethod.GET)
-    public Result findQuestionnaireAnswer(@RequestHeader("Authorization") String token, @RequestParam Integer questionnaireId) {
+    public AjaxResult findQuestionnaireAnswer(@RequestHeader("Authorization") String token, @RequestParam Integer questionnaireId) {
         String userid = userService.getUseridFromToken(token);
         QuestionnaireAnswer questionnaireAnswer = questionnaireAnswerService.getAnswerByUseridAndNaireId(userid,questionnaireId);
         //如果根据问卷id和userid查询不到填写情况
         if(questionnaireAnswer == null){
-            return Result.error("您还没有填写该问卷");
+            return AjaxResult.error("您还没有填写该问卷");
         }
         log.info(questionnaireAnswer.toString());
         QuestionnaireAwswerVO questionnaireAwswerVO = QuestionnaireAwswerVO.builder()
                 .answer(questionnaireAnswer.getAnswer())
                 .build();
-        return Result.success(questionnaireAwswerVO);
+        return AjaxResult.success(questionnaireAwswerVO);
     }
 
 
     @RequestMapping(value = "/useranswer/anssum",method = RequestMethod.GET)
-    public Result AnsSum(@RequestHeader("Authorization") String token, @RequestParam Integer questionnaireId) {
+    public AjaxResult AnsSum(@RequestHeader("Authorization") String token, @RequestParam Integer questionnaireId) {
         AnswerCountDTO answerCountList = questionnaireAnswerService.answerSummery(questionnaireId);
-        return Result.success(answerCountList);
+        return AjaxResult.success(answerCountList);
     }
 }

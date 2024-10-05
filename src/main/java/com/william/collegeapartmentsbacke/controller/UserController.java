@@ -46,7 +46,7 @@ public class UserController {
 
     @NoNeedLogin
     @RequestMapping(value = "loginInnerTest", method = RequestMethod.POST)
-    public Result loginInnerTest(@RequestBody UserLoginDTO userLoginDTO) {
+    public AjaxResult loginInnerTest(@RequestBody UserLoginDTO userLoginDTO) {
         log.info("USER LOGIN DTO: {}", userLoginDTO);
         String currentUsername = userLoginDTO.getUsername();
         String msg = userService.verifyByPwd(currentUsername,userLoginDTO.getPassword());
@@ -54,11 +54,11 @@ public class UserController {
         if(msg != "true"){
             //情况1：登录失败，查无此用户,请注册或联系管理员
             //情况2：登陆失败,账号或密码错误
-            return Result.error(msg);
+            return AjaxResult.error(msg);
         }
         User user = userService.findByUsername(currentUsername);
         if(user == null){
-            return Result.error("测试登录时查无此用户");
+            return AjaxResult.error("测试登录时查无此用户");
         }
         //生成token
         Map<String, Object> claims = new HashMap<String, Object>() {{
@@ -94,7 +94,7 @@ public class UserController {
                 .build();
         //id,token
         log.info("测试登录返回给前端："+userLoginVO.toString());
-        return Result.success(userLoginVO);
+        return AjaxResult.success(userLoginVO);
 
     }
 
@@ -108,7 +108,7 @@ public class UserController {
     //传入账号密码，返回登录状态，用户基本信息
     @NoNeedLogin
     @PostMapping("/login")
-    public Result login(@RequestBody UserLoginDTO userLoginDTO) {
+    public AjaxResult login(@RequestBody UserLoginDTO userLoginDTO) {
 //        1.验证用户名密码
 //        如果不正确，则说明登录失败，需要联系管理员
 //        如果根据username查询不到密码，说明用户不存在 默认username学号，pwd是123456
@@ -119,7 +119,7 @@ public class UserController {
         if(msg != "true"){
             //情况1：登录失败，查无此用户,请注册或联系管理员
             //情况2：登陆失败,账号或密码错误
-            return Result.error(msg);
+            return AjaxResult.error(msg);
         }
         //测试时用,可不校验opid
 //        User  user = userService.findByUsername(userLoginDTO.getUsername());
@@ -127,11 +127,11 @@ public class UserController {
         //情况3：如果到此查询不到数据,则出现未知问题
         //情况4：也有可能是获取不到openid;
         if(user==null){
-            return Result.error("登录失败，请联系管理人员");
+            return AjaxResult.error("登录失败，请联系管理人员");
         }
         //情况4：如果当前用户名和这个微信登录过（绑定）的用户名不同
         if(!currentUsername.equals(user.getUsername())){
-            return Result.error("当前微信已绑定其他账号，请联系登录已绑定的账号，或联系管理员");
+            return AjaxResult.error("当前微信已绑定其他账号，请联系登录已绑定的账号，或联系管理员");
         }
         //生成token
         Map<String, Object> claims = new HashMap<String, Object>() {{
@@ -156,43 +156,43 @@ public class UserController {
                 .build();
         //id,token
         log.info("返回给前端："+userLoginVO.toString());
-        return Result.success(userLoginVO);
+        return AjaxResult.success(userLoginVO);
     }
 
 
 
-    public Result regist(@RequestBody UserLoginDTO userLoginDTO) {
+    public AjaxResult regist(@RequestBody UserLoginDTO userLoginDTO) {
 
         User user = userService.wxLogin(userLoginDTO);
 
-        return Result.success("注册成功");
+        return AjaxResult.success("注册成功");
     }
 
-    public Result getPermission(@RequestHeader("Authorization") String token) {
+    public AjaxResult getPermission(@RequestHeader("Authorization") String token) {
         String userId = userService.getUseridFromToken(token);
         Permission permission = userService.getPermissionByUserid(userId);
-        return Result.success(permission);
+        return AjaxResult.success(permission);
     }
 
     @GetMapping("/findByOpenid")
-    public Result findByOpenid(@RequestHeader("Authorization") String token) {
+    public AjaxResult findByOpenid(@RequestHeader("Authorization") String token) {
         try {
             String openid = JwtUtil.parseJWT(jwtProperties.getSecretKey(), token).get("openid").toString();
             if (openid != null) {
                 User resultUser = userService.findByOpenid(openid);
                 if (resultUser != null) {
-                    return Result.success(userService.findByOpenid(openid));
+                    return AjaxResult.success(userService.findByOpenid(openid));
                 }
             }
 
         } catch (Exception e) {
             log.info("获取openid时遇到问题");
         }
-        return Result.error("请登录");
+        return AjaxResult.error("请登录");
     }
 
     @RequestMapping(value = "/findByUserLevel",method = RequestMethod.GET)
-    public Result findByUserLevel(String userLevel) {
+    public AjaxResult findByUserLevel(String userLevel) {
         List<ContactInfoVO> contactInfoVOs = null;
         try {
             contactInfoVOs = userService.findByUserLevel(userLevel);
@@ -200,11 +200,11 @@ public class UserController {
             throw new RuntimeException(e);
         }
         log.info(contactInfoVOs.toString());
-        return Result.success(contactInfoVOs);
+        return AjaxResult.success(contactInfoVOs);
     }
 
     @RequestMapping(value = "findByUserid",method = RequestMethod.GET)
-    public Result findByUserid(@RequestHeader("Authorization") String token,String userid){
+    public AjaxResult findByUserid(@RequestHeader("Authorization") String token,String userid){
         String userLevel = userService.getUserLevleFromToken(token);
         User user = userService.findByUserid(userid);
         StuClassInfoDTO stuClassInfo = schoolnfoService.getStuClassInfoByUserIdBetter(user.getUserid());
@@ -232,12 +232,12 @@ public class UserController {
             userVO.setUserLevel(user.getUserLevel());
             userVO.setUserPermission(permission);
         }
-        return Result.success(userVO);
+        return AjaxResult.success(userVO);
     }
 
 
    @RequestMapping(value = "/uploadavatar",method = RequestMethod.POST)
-   public Result upLoadAvatar(@RequestHeader("Authorization") String token, MultipartFile avatar, HttpServletRequest request) throws IOException {
+   public AjaxResult upLoadAvatar(@RequestHeader("Authorization") String token, MultipartFile avatar, HttpServletRequest request) throws IOException {
         String userid = userService.getUseridFromToken(token);
         //删除上一次的头像
        User user = userService.findByUserid(userid);
@@ -255,11 +255,11 @@ public class UserController {
         String fileUrl = savaedFile.getPath();
         log.info("fileUrl : {}",fileUrl);
 
-        return Result.success(fileUrl);
+        return AjaxResult.success(fileUrl);
    }
 
    @RequestMapping(value = "/getavatar",method = RequestMethod.GET)
-   public Result getAvatar(@RequestHeader("Authorization") String token, String otherUserid) {
+   public AjaxResult getAvatar(@RequestHeader("Authorization") String token, String otherUserid) {
         log.info("token : {}",token);
         String userid = userService.getUseridFromToken(token);
 
@@ -271,53 +271,53 @@ public class UserController {
         //暂时返回网络头像,其实应该在User表的avatar存一个默认File的id
        if(avatarUrl == null || "".equals(avatarUrl)){
 //            返回默认头像
-           return Result.success(defaultConfig.getAvatarUrl());
+           return AjaxResult.success(defaultConfig.getAvatarUrl());
        }else
        {
            log.info("avatar : {}",avatarUrl);
-           return Result.success(avatarUrl);
+           return AjaxResult.success(avatarUrl);
        }
 
 
    }
 
    @RequestMapping(value = "/updatePasswordByUserid/{userid}",method = RequestMethod.POST)
-   public Result updatePasswordByUserid(@PathVariable String userid, @RequestBody User user) {
+   public AjaxResult updatePasswordByUserid(@PathVariable String userid, @RequestBody User user) {
        if (userid == null) {
-           return Result.error("用户不存在");
+           return AjaxResult.error("用户不存在");
        }
        String newPassword = user.getPassword();
        if (newPassword == null || newPassword.isEmpty()) {
-           return Result.error("密码不能为空");
+           return AjaxResult.error("密码不能为空");
        }
        log.info("要更新的用户ID: " + userid + " 新密码: " + newPassword);
        userService.updatePasswordByUserid(userid, newPassword);
-       return Result.success();
+       return AjaxResult.success();
    }
 
    
    @RequestMapping(value = "/updateLevelByUserid/{userid}",method = RequestMethod.POST)
-    public Result updateLevelByUserid(@PathVariable String userid, @RequestBody User user) {
+    public AjaxResult updateLevelByUserid(@PathVariable String userid, @RequestBody User user) {
         if (userid == null) {
-            return Result.error("用户不存在");
+            return AjaxResult.error("用户不存在");
         }
         String newLevel = user.getUserLevel();
         if (newLevel == null || newLevel.isEmpty()) {
-            return Result.error("等级不能为空");
+            return AjaxResult.error("等级不能为空");
         }
        log.info("要更新的用户ID: " + userid + " 新等级: " + newLevel);
        userService.updateLevelByUserid(userid, newLevel);
-       return Result.success();
+       return AjaxResult.success();
    }
 
 
    @RequestMapping(value = "/initOpenidByUserid/{userid}",method = RequestMethod.POST)
-    public Result intiOpenidByUserid(@PathVariable String userid) {
+    public AjaxResult intiOpenidByUserid(@PathVariable String userid) {
         if (userid == null) {
-            return Result.error("用户不存在");
+            return AjaxResult.error("用户不存在");
         }
         userService.initOpenidByUserid(userid);
-        return Result.success();
+        return AjaxResult.success();
    }
 
 }
