@@ -250,6 +250,7 @@ public class UserController {
 //       log.info("***avatar : {}",avatar.getContentType());
 //       log.info("***avatar : {}",avatar.getBytes());
         Uploadfile savaedFile = fileService.SaveSingleFile(userid,avatar,request);
+        log.info("***savaedFile : {}",savaedFile);
         userService.updateAvatar(userid,savaedFile.getPath());
 
         String fileUrl = savaedFile.getPath();

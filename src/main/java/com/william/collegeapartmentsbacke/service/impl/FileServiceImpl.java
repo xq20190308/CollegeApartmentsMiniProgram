@@ -39,6 +39,7 @@ public class FileServiceImpl implements FileService {
     private String mapFileUrl;
 
     @Override
+    @Transactional
     public Uploadfile SaveSingleFile(String userid, MultipartFile file, HttpServletRequest request) {
             try {
                 // 为每个文件生成一个唯一的ID
@@ -59,19 +60,24 @@ public class FileServiceImpl implements FileService {
                     // 读取文件字节
                     byte[] b = file.getBytes();
                     // 创建文件上传对象
-                    Uploadfile loadFile = new Uploadfile(userid,filename, filetype, Path, b);
+                    log.info("ID: {}", ID);
+                    Uploadfile loadFile = new Uploadfile(ID, userid, filename, filetype, Path, b);
+                    log.info("loadFileUserid: {}", loadFile.getUserId());
+                    log.info("loadFilePath: {}", loadFile.getPath());
+                    log.info("loadFileId: {}", loadFile.getId());
                     // 将文件保存到服务器
                     file.transferTo(new File(localFileUrl + filename));
                     // 保存文件信息到数据库
                     fileMapper.savefile(loadFile);
+                    log.info("返回结果loadFile: {}", loadFile);
                     // 将文件的URL路径添加到结果列表中
-
                     return loadFile;
                 }
             } catch (IOException e) {
+                log.info("IOException: {}", e.getMessage());
                 // 处理异常情况
-                e.printStackTrace();
-                e.getMessage();
+//                e.printStackTrace();
+//                e.getMessage();
                 return null;
             }
             return null;

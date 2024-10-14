@@ -7,14 +7,14 @@ import lombok.Data;
 @AllArgsConstructor
 public class Uploadfile {
     private String id;
-    private String userid;
+    private String userId;
     private String name;
     private String type;
     private String path;
     private byte[] data;
 
     public Uploadfile(String userid, String filename, String filetype, String path, byte[] b) {
-        this.userid = userid;
+        this.userId = userid;
         this.name = filename;
         this.type = filetype;
         this.path = path;
