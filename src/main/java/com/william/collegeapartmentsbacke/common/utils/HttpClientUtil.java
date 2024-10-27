@@ -2,6 +2,7 @@ package com.william.collegeapartmentsbacke.common.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.http.Header;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -73,6 +74,48 @@ public class HttpClientUtil {
         return result;
     }
 
+    public static String doGet(String url, Map<String,String> paramMap, String authHeader){
+        // 创建Httpclient对象
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+
+        String result = "";
+        CloseableHttpResponse response = null;
+
+        try{
+            URIBuilder builder = new URIBuilder(url);
+            if(paramMap != null){
+                for (String key : paramMap.keySet()) {
+                    builder.addParameter(key,paramMap.get(key));
+                }
+            }
+            URI uri = builder.build();
+
+            //创建GET请求
+            HttpGet httpGet = new HttpGet(uri);
+            if(authHeader.contains("Bearer"))
+                httpGet.setHeader("Authorization",authHeader);
+            else
+                 httpGet.setHeader("Cookie",authHeader);
+            //发送请求
+            response = httpClient.execute(httpGet);
+
+            //判断响应状态
+            if(response.getStatusLine().getStatusCode() == 200){
+                result = EntityUtils.toString(response.getEntity(),"UTF-8");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try {
+                response.close();
+                httpClient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
     /**
      * 发送POST方式请求
      * @param url
@@ -157,7 +200,15 @@ public class HttpClientUtil {
 
             // 执行http请求
             response = httpClient.execute(httpPost);
-
+            response = httpClient.execute(httpPost);
+            Header[] headers = response.getAllHeaders();
+            for (Header header : headers) {
+                System.out.println(header.getName() + ": " + header.getValue());
+            }
+            System.out.println(response.getStatusLine());
+            if(response.getStatusLine().getStatusCode()==302) return "302";
+//            String cookies = response.getFirstHeader("Cookies").getValue();
+//            System.out.println(cookies);
             resultString = EntityUtils.toString(response.getEntity(), "UTF-8");
         } catch (Exception e) {
             throw e;
@@ -173,6 +224,34 @@ public class HttpClientUtil {
         return resultString;
     }
 
+    public static String doPost1(String url, Map<String, Object> paramMap) throws IOException {
+        // 创建Httpclient对象
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        CloseableHttpResponse response = null;
+        String resultString = "";
+
+        try {
+            // 创建Http Post请求
+            for(Map.Entry<String, Object> param : paramMap.entrySet())
+                url+=param.getKey() + "='" + param.getValue() + "'&";
+            url = url.substring(0,url.length()-1);
+            HttpPost httpPost = new HttpPost(url);
+            httpPost.setConfig(builderRequestConfig());
+            System.out.println(httpPost);
+            // 执行http请求
+            response = httpClient.execute(httpPost);
+            Header[] headers = response.getAllHeaders();
+            for (Header header : headers) {
+                System.out.println(header.getName() + ": " + header.getValue());
+            }
+            resultString = EntityUtils.toString(response.getEntity(), "UTF-8");
+            System.out.println(resultString);
+            return resultString;
+            }
+        catch (Exception e) {
+            throw e;
+        }
+    }
     public static String doPost(String url, Map<String, Object> paramMap, String authHeader) throws IOException {
         // 创建Httpclient对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -201,7 +280,12 @@ public class HttpClientUtil {
             System.out.println(httpPost);
             // 执行http请求
             response = httpClient.execute(httpPost);
+            Header[] headers = response.getAllHeaders();
+            for (Header header : headers) {
+                System.out.println(header.getName() + ": " + header.getValue());
+            }
             resultString = EntityUtils.toString(response.getEntity(), "UTF-8");
+
         } catch (Exception e) {
             throw e;
         } finally {
@@ -229,7 +313,11 @@ public class HttpClientUtil {
             HttpPost httpPost = new HttpPost(url);
 
             // 设置Authorization header
-            httpPost.setHeader("Authorization", authHeader);
+            if(!authHeader.contains("="))
+                httpPost.setHeader("Cookie", authHeader);
+            else
+                httpPost.setHeader("Authorization", authHeader);
+            System.out.println("authHeader:"+authHeader);
             System.out.println("paramMap:"+ JSON.toJSONString(paramMap));
             if (paramMap != null) {
                 //构造json格式数据
@@ -249,7 +337,6 @@ public class HttpClientUtil {
             httpPost.setConfig(builderRequestConfig());
 
             // 执行http请求
-            response = httpClient.execute(httpPost);
 
             resultString = EntityUtils.toString(response.getEntity(), "UTF-8");
         } catch (Exception e) {
@@ -262,7 +349,7 @@ public class HttpClientUtil {
                 e.printStackTrace();
             }
         }
-        System.out.println("return resultString:"+resultString);
+//        System.out.println("return resultString:"+resultString);
         return resultString;
     }
 

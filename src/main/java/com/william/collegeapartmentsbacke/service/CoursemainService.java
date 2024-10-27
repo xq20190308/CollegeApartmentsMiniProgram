@@ -11,7 +11,7 @@ public interface CoursemainService {
      CoursemainServicelmpl setWeek(String week);
      CoursemainServicelmpl getGrade();
      CoursemainServicelmpl setTerm(String term);
-     CoursemainServicelmpl getClassroom(String idleTime);
+     CoursemainServicelmpl getClassroom(String idleTime,String curTime);
      CoursemainServicelmpl getExamInfo();
      String exec();
     }

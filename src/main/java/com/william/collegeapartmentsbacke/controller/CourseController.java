@@ -1,6 +1,12 @@
 package com.william.collegeapartmentsbacke.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.william.collegeapartmentsbacke.common.annotations.NoNeedLogin;
 import com.william.collegeapartmentsbacke.pojo.entity.AjaxResult;
 import com.william.collegeapartmentsbacke.pojo.entity.Course;
@@ -9,12 +15,20 @@ import com.william.collegeapartmentsbacke.pojo.entity.userInfo.User;
 import com.william.collegeapartmentsbacke.service.CoursemainService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+/**
+ * @author 王
+ */
 @Slf4j
 @RestController
 @RequestMapping("/api")
@@ -150,8 +164,9 @@ public class CourseController {
         {
             return coursemainService.getGrade().setTerm(term).exec();
         }
-        else
+        else {
             return"error";
+        }
     }
 
     @NoNeedLogin
@@ -162,19 +177,73 @@ public class CourseController {
         {
             return AjaxResult.success(coursemainService.getExamInfo().exec());
         }
-        else
+        else {
             return AjaxResult.error("error");
+        }
     }
 
     @NoNeedLogin
-    @RequestMapping("/getClassroom/{idleTime}")
-    public AjaxResult SelectClassroom(@PathVariable("idleTime")String idleTime,@RequestBody User user) {
+    @RequestMapping("/getClassroom/{idleTime}/{weekDay}/{buildingNum}")
+    public  String selectClassroom(@PathVariable("idleTime")String idleTime,@PathVariable("weekDay") String weekDay,@PathVariable("buildingNum") String buildingNum, @RequestBody User user) {
         coursemainService.setAccount(user.getUsername(), user.getPassword());
         if(coursemainService.initialization())
         {
-            return AjaxResult.success(coursemainService.getClassroom(idleTime).exec());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            // 获取当前日期
+            LocalDate currentDate = LocalDate.now();
+            // 计算当前日期是周几
+            DayOfWeek dayOfWeek = currentDate.getDayOfWeek();
+            String dayOfWeekStr = dayOfWeek.name();
+            LocalDate startOfWeek = currentDate.with(DayOfWeek.MONDAY);
+            LocalDate localDate = startOfWeek.plusDays(Integer.parseInt(weekDay)-1);
+            String formattedDate = localDate.format(formatter);
+            System.out.println("Date: " + formattedDate + ", Day of Week: " + localDate.getDayOfWeek().name());
+            String jsonString = coursemainService.getClassroom(idleTime,formattedDate).exec();
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                // 解析JSON字符串为JsonNode对象
+                JsonNode rootNode = objectMapper.readTree(jsonString);
+
+                // 创建一个列表来存储所有的jsmc值
+                List<ObjectNode> jsmcList = new ArrayList<>();
+
+                for (JsonNode node : rootNode) {
+                    JsonNode jxl = node.get("jxl");
+                    JsonNode jsList = node.get("jsList");
+
+                    // 筛选出jxl中含有"青岛校区-"的节点
+                    if (jxl != null && jxl.asText().contains("青岛校区-"+buildingNum) && jsList != null && jsList.isArray()) {
+                        ArrayNode perJsmcArray = objectMapper.createArrayNode();
+                        for (JsonNode jsNode : jsList) {
+                            JsonNode jsmcNode = jsNode.get("jsmc");
+                            if (jsmcNode != null) {
+                                perJsmcArray.add(jsmcNode.asText());
+                            }
+                        }
+
+                        ObjectNode perJsmcObject = objectMapper.createObjectNode();
+                        perJsmcObject.put("jxl", jxl.asText());
+                        perJsmcObject.set("jsmc", perJsmcArray);
+                        jsmcList.add(perJsmcObject);
+                    }
+                }
+
+                // 将jsmcList转换为JSON字符串
+                ArrayNode resultArray = objectMapper.createArrayNode();
+                for (ObjectNode jsmcObject : jsmcList) {
+                    resultArray.add(jsmcObject);
+                }
+
+                return resultArray.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "Error parsing JSON";
+            }
         }
-        else
-            return AjaxResult.error("error");
+        else {
+            return null;
+        }
     }
+
 }

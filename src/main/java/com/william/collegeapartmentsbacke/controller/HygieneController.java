@@ -31,4 +31,6 @@ public class HygieneController {
         log.info(Rank.toString());
         return Result.success(Rank);
     }
+
+
 }

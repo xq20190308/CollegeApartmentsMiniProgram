@@ -53,8 +53,9 @@ public class PuInfoServiceImpl implements PuInfoService {
             System.out.println(Data.getStr("list"));
             return Data.getStr("list");
         }
-        else
+        else {
             return "error";
+        }
     }
 
     @Override

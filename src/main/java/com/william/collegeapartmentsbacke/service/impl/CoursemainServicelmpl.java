@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +41,9 @@ public class CoursemainServicelmpl implements CoursemainService {
                 System.out.println("登录失败");
                 return false;
             }else {
+                for(String key: reqResultArr) {
+                    System.out.println(key);
+                }
                 this.headers.put("token", reqResultArr[2].substring(9, reqResultArr[2].length()-1));
                 return true;
             }
@@ -61,6 +67,7 @@ public class CoursemainServicelmpl implements CoursemainService {
             System.out.println(this.params);
             return this;
         }
+
         @Override
         public CoursemainServicelmpl getTable() {
             this.params.put("method", "getKbcxAzc");
@@ -87,10 +94,10 @@ public class CoursemainServicelmpl implements CoursemainService {
             return this;
         }
         @Override
-        public CoursemainServicelmpl getClassroom(String idleTime) {
+        public CoursemainServicelmpl getClassroom(String idleTime,String curTime) {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             this.params.put("method", "getKxJscx");
-            this.params.put("time", df.format(new Date()));
+            this.params.put("time", curTime);
             this.params.put("idleTime", idleTime);
             return this;
         }
@@ -104,9 +111,8 @@ public class CoursemainServicelmpl implements CoursemainService {
         public String exec(){
             String result = coursehttpService.httpRequest(this.url, this.params, "GET", this.headers);
             this.params.clear();
-            System.out.println(result);
+//            System.out.println(result);
             return result;
         }
-
     }
 
