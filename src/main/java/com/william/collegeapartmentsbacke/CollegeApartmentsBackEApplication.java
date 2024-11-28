@@ -18,6 +18,7 @@ public class CollegeApartmentsBackEApplication {
     private int httpport;
 
     public static void main(String[] args) {
+
         SpringApplication.run(CollegeApartmentsBackEApplication.class, args);
     }
 
